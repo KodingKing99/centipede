@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Centipede</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
+  <link rel = "stylesheet" type = "text/css" href = "styles/style.css">
 </head>
 <body>
-  <div id="mainMenu" class="screen">
-    <ul>
-      <h1>Centipede</h1>
-      <li><button id="new-game">New Game</button></li>
-      <li><button id="customize-controls">Customize Controls</button></li>
-      <li><button id="high-cores">High Scores</button></li>
-      <li><button id="credits">Credits</button></li>
-    </ul>
+  <div id="game">
+    <div id="mainMenu" class="screen">
+      <ul>
+        <h1>Centipede</h1>
+        <li><button id="new-game">New Game</button></li>
+        <li><button id="customize-controls">Customize Controls</button></li>
+        <li><button id="high-cores">High Scores</button></li>
+        <li><button id="credits">Credits</button></li>
+      </ul>
+    </div>
+    <div id="gamePlayScreen" class="screen">
+      <canvas id="canvas" width="1000" height="1000"></canvas>
+    </div>
+    <div id="customizeControlsScreen" class="screen">
+      <ul>
+        <li>
+          <button id="setMoveUpButton">Move Up</button>
+          <h2 id="currentMoveUp"></h2>
+        </li>
+        <li>
+          <button id="setMoveRightButton">Move Right</button>
+          <h2 id="currentMoveRight"></h2>
+        </li>
+        <li>
+          <button id="setMoveDownButton">Move Down</button>
+          <h2 id="currentMoveDown"></h2>
+        </li>
+        <li>
+          <button id="setMoveLeftButton">Move Left</button>
+          <h2 id="currentMoveLeft"></h2>
+        </li>
+        <li>
+          <button id="setShootButton">Shoot</button>
+          <h2 id="currentShoot"></h2>
+        </li>
+      </ul>
+    </div>
   </div>
-	<div id="gamePlayScreen" class="screen">
-		<canvas id="canvas" width="1000" height="1000"></canvas>
-	</div>
-  <div id="customizeControlsScreen" class="screen">
-    <ul>
-      <li>
-        <button id="setMoveUpButton">Move Up</button>
-         <h2 id="currentMoveUp"></h2>
-      </li>
-      <li>
-        <button id="setMoveRightButton">Move Right</button>
-         <h2 id="currentMoveRight"></h2>
-      </li>
-      <li>
-        <button id="setMoveDownButton">Move Down</button>
-         <h2 id="currentMoveDown"></h2>
-      </li>
-      <li>
-        <button id="setMoveLeftButton">Move Left</button>
-         <h2 id="currentMoveLeft"></h2>
-      </li>
-      <li>
-        <button id="setShootButton">Shoot</button>
-         <h2 id="currentShoot"></h2>
-      </li>
-    </ul>
-  </div>
+
 </body>
+
 </html>
