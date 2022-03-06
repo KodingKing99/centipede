@@ -7,8 +7,8 @@ body{
 #game {
     margin: auto;
     display: block;
-    width: 800px;
-    height: 800px;
+    width: 700px;
+    height: 700px;
     border-style: solid;
     border-width: 1px;
     background-color: rgb(239,239,251);
@@ -23,4 +23,8 @@ body{
 
 #game .screen.active {
     display: block;
+}
+#canvas{
+    width: 90%;
+    height: 90%;
 }

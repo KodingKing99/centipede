@@ -8,7 +8,7 @@
   <meta name="description" content="" />
   <link rel = "stylesheet" type = "text/css" href = "styles/style.css">
 </head>
-<body>
+<body onload = "MyGame.game.initialize();">
   <div id="game">
     <div id="mainMenu" class="screen">
       <ul>
@@ -21,6 +21,8 @@
     </div>
     <div id="gamePlayScreen" class="screen">
       <canvas id="canvas" width="1000" height="1000"></canvas>
+      <!-- add a back button for now -->
+      <button id="canvasBack">Main Menu</button>
     </div>
     <div id="customizeControlsScreen" class="screen">
       <ul>
@@ -47,7 +49,13 @@
       </ul>
     </div>
   </div>
-
+  <script>
+  let MyGame = {
+    screens : {}
+  };
+  </script>
+  <script src="./scripts/game.js"></script>
+  <script src="./scripts/mainMenu.js"></script>
+  <script src="./scripts/gamePlay.js"></script>
 </body>
-
 </html>

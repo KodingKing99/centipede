@@ -20,6 +20,7 @@ MyGame.game = (function(screens) {
         for (let screen = 0; screen < active.length; screen++) {
             active[screen].classList.remove('active');
         }
+        console.log(screens)
         //
         // Tell the screen to start actively running
         screens[id].run();
@@ -45,7 +46,7 @@ MyGame.game = (function(screens) {
         
         //
         // Make the main-menu screen the active one
-        showScreen('main-menu');
+        showScreen('mainMenu');
     }
     
     return {
