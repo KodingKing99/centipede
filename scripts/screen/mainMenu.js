@@ -7,7 +7,12 @@ MyGame.screens['mainMenu'] = (function(game) {
         document.getElementById('new-game').addEventListener(
             'click',
             function() {game.showScreen('gamePlayScreen'); });
-        
+        document.getElementById('customize-controls').addEventListener(
+            'click', function(){game.showScreen('customizeControlsScreen')}
+        )
+        document.getElementById('high-scores').addEventListener(
+            'click', () => {game.showScreen('highScoresScreen')}
+        )
         // document.getElementById('id-high-scores').addEventListener(
         //     'click',
         //     function() { game.showScreen('high-scores'); });

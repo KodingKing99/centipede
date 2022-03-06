@@ -7,7 +7,7 @@ body{
 #game {
     margin: auto;
     display: block;
-    width: 700px;
+    width: 60%;
     height: 700px;
     border-style: solid;
     border-width: 1px;
@@ -19,12 +19,23 @@ body{
     width: 100%;
     height: 100%;
     display: none;
+    text-align: center;
+}
+ul{
+    list-style-type: none;
 }
 
 #game .screen.active {
     display: block;
 }
 #canvas{
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
+}
+#game h4{
+    cursor: pointer;
+    font-size: 35px;
+}
+#game h4:hover{
+    color: darkgreen;
 }
