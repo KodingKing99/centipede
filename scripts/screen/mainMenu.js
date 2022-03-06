@@ -13,6 +13,9 @@ MyGame.screens['mainMenu'] = (function(game) {
         document.getElementById('high-scores').addEventListener(
             'click', () => {game.showScreen('highScoresScreen')}
         )
+        document.getElementById('credits').addEventListener(
+            'click', () => {game.showScreen('creditsScreen')}
+        )
         // document.getElementById('id-high-scores').addEventListener(
         //     'click',
         //     function() { game.showScreen('high-scores'); });

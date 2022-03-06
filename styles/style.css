@@ -39,3 +39,6 @@ ul{
 #game h4:hover{
     color: darkgreen;
 }
+#game #creditsScreen{
+    font-size: 24px;
+}
