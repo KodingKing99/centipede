@@ -42,3 +42,12 @@ ul{
 #game #creditsScreen{
     font-size: 24px;
 }
+#game #customizeControlsScreen h4{
+    /* width: 10%; */
+    font-size: 25px;
+    display: inline-block;
+}
+#game .default:hover{
+    color: black;
+    cursor:default;
+}

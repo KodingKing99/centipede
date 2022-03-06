@@ -5,7 +5,7 @@
 //
 // ------------------------------------------------------------------
 
-MyGame.game = (function(screens) {
+MyGame.game = (function(screens, input) {
     'use strict';
     
     //------------------------------------------------------------------
@@ -20,7 +20,7 @@ MyGame.game = (function(screens) {
         for (let screen = 0; screen < active.length; screen++) {
             active[screen].classList.remove('active');
         }
-        console.log(screens)
+        console.log(MyGame)
         //
         // Tell the screen to start actively running
         screens[id].run();
@@ -47,10 +47,11 @@ MyGame.game = (function(screens) {
         //
         // Make the main-menu screen the active one
         showScreen('mainMenu');
+        input.initialize();
     }
     
     return {
         initialize : initialize,
         showScreen : showScreen
     };
-}(MyGame.screens));
+}(MyGame.screens, MyGame.input));
