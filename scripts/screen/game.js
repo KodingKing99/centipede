@@ -5,7 +5,7 @@
 //
 // ------------------------------------------------------------------
 
-MyGame.game = (function(screens, input) {
+MyGame.game = (function(screens, input, objects) {
     'use strict';
     
     //------------------------------------------------------------------
@@ -48,10 +48,11 @@ MyGame.game = (function(screens, input) {
         // Make the main-menu screen the active one
         showScreen('mainMenu');
         input.initialize();
+        objects.gameBoard.initialize();
     }
     
     return {
         initialize : initialize,
         showScreen : showScreen
     };
-}(MyGame.screens, MyGame.input));
+}(MyGame.screens, MyGame.input, MyGame.objects));
