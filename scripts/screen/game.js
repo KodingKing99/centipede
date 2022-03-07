@@ -48,7 +48,9 @@ MyGame.game = (function(screens, input, objects) {
         // Make the main-menu screen the active one
         showScreen('mainMenu');
         input.initialize();
-        objects.gameBoard.initialize();
+        // objects.gameBoard.initialize();
+        // width, height, numcells
+        objects.initialize(1000, 1000, 30);
     }
     
     return {

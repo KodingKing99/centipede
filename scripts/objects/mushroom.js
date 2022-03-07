@@ -27,5 +27,8 @@ MyGame.objects.Mushroom = function(spec){
     that.size = function(){
         return spec.size;
     }
+    that.rotation = function(){
+        return spec.rotation
+    }
     return that;
 }
