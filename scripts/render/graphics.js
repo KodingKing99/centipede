@@ -2,6 +2,7 @@ MyGame.graphics = (function() {
     'use strict';
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
+    context.imageSmoothingEnabled = false;
 
     //------------------------------------------------------------------
     //
