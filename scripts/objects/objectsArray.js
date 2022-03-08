@@ -1,7 +1,7 @@
 MyGame.objects.objectsArray = [];
 MyGame.objects.initialize = function(width, height, numCells){
     let cellSize = Math.floor(width / numCells);
-    for(let i = 0; i < numCells; i++){
+    for(let i = 10; i < numCells; i++){
         for(let j = 0; j < numCells; j++){
             let addMush = Math.random() < 0.05;
             if(addMush){
@@ -14,7 +14,7 @@ MyGame.objects.initialize = function(width, height, numCells){
                     rotation: 0
                 }
                 let mushie = MyGame.objects.Mushroom(spec)
-                MyGame.objects.objectsArray.push({'mushroom': mushie})
+                MyGame.objects.objectsArray.push({type: 'mushroom', object: mushie})
             }
         }
     }

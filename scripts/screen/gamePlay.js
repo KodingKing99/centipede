@@ -1,4 +1,4 @@
-MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input) {
+MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects) {
     let cancelNextRequest = true;
     let lastTimeStamp = performance.now();
     let mushSpec = {
@@ -22,11 +22,20 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input) {
         // do nothing for now, will call game loop stuff at some point
         // game loop code
         lastTimeStamp = performance.now();
-        cancelNextRequest = false;
+        cancelNextRequest = true;
         gameLoop(lastTimeStamp);
     }
     function update(elapsedTime) {
         // do nothing
+    }
+    function renderMushrooms(){
+        console.log(objects.objectsArray)
+        for(let i = 0; i < objects.objectsArray.length; i++){
+            let obj = objects.objectsArray[i];
+            if(obj.type === 'mushroom'){
+                mushieRenderer.render(obj.object);
+            }
+        }
     }
     function render(elapsedTime) {
         // do nothing
@@ -34,6 +43,13 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input) {
 
         // }
         graphics.clear();
+        renderMushrooms();
+        // for(let i = 0; i < objects.objectsArray.length; i++){
+        //     let obj = objectsArray[i];
+        //     if(obj.type === 'mushroom'){
+        //         mushieRenderer.render(obj.object)
+        //     }
+        // }
         // graphics.drawRectangle(rect, "rgb(256, 256, 256)", "rgb(100, 0, 0)");
         // mushieRenderer.render()
         // graphics.clear();
@@ -58,4 +74,4 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input) {
         initialize: initialize,
         run: run
     }
-}(MyGame.game, MyGame.graphics, MyGame.render, MyGame.input));
+}(MyGame.game, MyGame.graphics, MyGame.render, MyGame.input, MyGame.objects));

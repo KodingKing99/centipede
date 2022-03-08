@@ -14,6 +14,7 @@ MyGame.render.MushroomRenderer = function(spec, graphics) {
     console.log(spec)
     let animationTime = 0;
     let subImageIndex = 0;
+    let subImageWidth = 0;
     let subMushroomHeight = 0;
     let subMushroomWidth = 0;
     let offset = 4;
@@ -23,11 +24,13 @@ MyGame.render.MushroomRenderer = function(spec, graphics) {
     // Load he texture to use for the particle system loading and ready for rendering
     image.onload = function() {
         isReady = true;
-        let levelWidth = image.width / 4;
+        let levelWidth = Math.floor(image.width / 4);
         console.log(`levelWidth is : ${levelWidth}`)
-        subMushroomWidth = Math.floor((levelWidth / 10) / 2) // width of a mushroom
-        subMushroomHeight = Math.floor((image.height / 4) / 13); // height of each image
-        console.log(`image is ready. it's width is: ${subMushroomWidth}, height is: ${subMushroomHeight}`)
+        console.log(`image width is : ${image.width}`)
+        subImageWidth = Math.round(levelWidth / 10); // width of a sprite
+        subMushroomWidth = Math.floor(subImageWidth / 2)// width of a mushroom
+        subMushroomHeight = 9 // height of each image
+        console.log(`image is ready. it's width is: ${subMushroomWidth}, height is: ${subMushroomHeight} sprite width is: ${subImageWidth}`)
     }
     image.src = spec.spriteSheet;
 
@@ -59,11 +62,14 @@ MyGame.render.MushroomRenderer = function(spec, graphics) {
     //------------------------------------------------------------------
     function render(model) {
         if (isReady) {
-            let offset = (subMushroomWidth * 8) // there are 4 images before the mushroom that is twice it's width
-            let sx = subMushroomWidth * subImageIndex + offset
+            let offset = Math.floor(subImageWidth * 4) // there are 4 images before the mushroom that is twice it's width
+            let sx = (subMushroomWidth * subImageIndex) + offset
             let sy = subMushroomHeight * 8 // there are 8 images above the mushroom
-            console.log(`sx is: ${sx} sy is: ${sy}`)
-            // graphics.drawSubTexture(image, subImageIndex, subTextureWidth, model.center, model.rotation, model.size);
+            console.log(`sx is: ${sx} sy is: ${sy}, offset is ${offset}, subMushroom width is ${subMushroomWidth}`)
+            // Math.
+            // console.log(model.get)
+            console.log(model.size())
+            graphics.drawSubTexture(image, sx, sy, subMushroomWidth, subMushroomHeight - 1, model.center(), model.rotation(), model.size());
         }
     }
 
