@@ -17,6 +17,7 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     // level: what leve you're on
     // updateBool: condition on which to update
     // halfSize: bool, tells if you should divide by two for a sprite
+    // extraOffset: {x: int, y: int} extra pixel offsets for minor calculation errors
     ////////////////////////////////////////////////////
     // console.log("Hello")
     // console.log(spec)
@@ -87,7 +88,7 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
             // console.log(model.get)
             // console.log(model.size())
             // submushroomheight - 1.5 is for a little bit of clip at the end
-            graphics.drawSubTexture(image, sx, sy, subSpriteWidth, subImageHeight, model.center(), model.rotation(), model.size());
+            graphics.drawSubTexture(image, sx, sy, subSpriteWidth - spec.extraOffset.x, subImageHeight - spec.extraOffset.y, model.center(), model.rotation(), model.size());
         }
     }
 

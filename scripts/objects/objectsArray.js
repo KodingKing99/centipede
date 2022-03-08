@@ -13,7 +13,7 @@ MyGame.objects.initialize = function(width, height, numCells){
                 console.log(`adding mushroom at x: ${x} y: ${y}`)
                 let spec = {
                     center: {x: x, y: y},
-                    size: {x: cellSize, y: cellSize},
+                    size: {x: cellSize * 0.7, y: cellSize},
                     rotation: 0
                 }
                 let mushie = MyGame.objects.Mushroom(spec)

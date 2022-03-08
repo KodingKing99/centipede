@@ -25,6 +25,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         level: 1,
         updateBool: () => {return false},
         halfSize: true,
+        extraOffset: {x: 0, y: 0.5}
     }
     let shipSpec = mushSpec;
     // console.log(renderer)
