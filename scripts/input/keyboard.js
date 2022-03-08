@@ -25,6 +25,9 @@ MyGame.input.Keyboard = (function () {
     };
 
     that.register = function (key, handler, gameControl) {
+        // if(that.handlers[key]){
+        //     delete that.handlers[key]
+        // }
         that.handlers[key] = handler;
         that.currentControls[gameControl] = key;
         if(key === ' '){

@@ -11,31 +11,61 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
         domElement.innerHTML = "";
         domElement.innerHTML += "Press Key to Change Control";
         window.addEventListener(
-            'keypress',
+            'keydown',
             // Register key, do screen run(), remove the event listener
             function changeKey(e) {
+                // console.log(e.key)
                 keyboard.register(e.key, () => { console.log(`${e.key} has been pressed`) }, control);
-                run();
-                window.removeEventListener('keypress', changeKey)
+                window.removeEventListener('keydown', changeKey)
+                render();
             }
         );
     }
-    function run() {
-        // console.log(keyboard)
+    function render() {
         if (keyboard.currentControls['MoveUp']) {
             let myKey = document.getElementById('currentMoveUp');
             // clear innerHTML
             myKey.innerHTML = "";
             myKey.innerHTML += keyboard.currentControls['MoveUp']
-            myKey.addEventListener(
-                'click', () => { changeControl(myKey, 'MoveUp')}
-            )
         }
         if (keyboard.currentControls['MoveRight']) {
             let myKey = document.getElementById('currentMoveRight');
             // clear innerHTML
             myKey.innerHTML = "";
             myKey.innerHTML += keyboard.currentControls['MoveRight']
+        }
+        if (keyboard.currentControls['MoveLeft']) {
+            let myKey = document.getElementById('currentMoveLeft');
+            // clear innerHTML
+            myKey.innerHTML = "";
+            myKey.innerHTML += keyboard.currentControls['MoveLeft']
+        }
+        if (keyboard.currentControls['MoveDown']) {
+            let myKey = document.getElementById('currentMoveDown');
+            // clear innerHTML
+            myKey.innerHTML = "";
+            myKey.innerHTML += keyboard.currentControls['MoveDown']
+        }
+        if (keyboard.currentControls['Shoot']) {
+            let myKey = document.getElementById('currentShoot');
+            // clear innerHTML
+            myKey.innerHTML = "";
+            myKey.innerHTML += keyboard.currentControls['Shoot']
+        }
+    }
+    function run() {
+        // console.log(keyboard)
+        console.log(keyboard.currentControls)
+        render();
+        if (keyboard.currentControls['MoveUp']) {
+            let myKey = document.getElementById('currentMoveUp');
+            myKey.addEventListener(
+                'click', () => { changeControl(myKey, 'MoveUp') }
+            )
+        }
+        if (keyboard.currentControls['MoveRight']) {
+            let myKey = document.getElementById('currentMoveRight');
+            // clear innerHTML
             myKey.addEventListener(
                 'click', () => { changeControl(myKey, 'MoveRight') }
             )
@@ -43,8 +73,6 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
         if (keyboard.currentControls['MoveLeft']) {
             let myKey = document.getElementById('currentMoveLeft');
             // clear innerHTML
-            myKey.innerHTML = "";
-            myKey.innerHTML += keyboard.currentControls['MoveLeft']
             myKey.addEventListener(
                 'click', () => { changeControl(myKey, 'MoveLeft') }
             )
@@ -52,8 +80,6 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
         if (keyboard.currentControls['MoveDown']) {
             let myKey = document.getElementById('currentMoveDown');
             // clear innerHTML
-            myKey.innerHTML = "";
-            myKey.innerHTML += keyboard.currentControls['MoveDown']
             myKey.addEventListener(
                 'click', () => { changeControl(myKey, 'MoveDown') }
             )
@@ -61,8 +87,6 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
         if (keyboard.currentControls['Shoot']) {
             let myKey = document.getElementById('currentShoot');
             // clear innerHTML
-            myKey.innerHTML = "";
-            myKey.innerHTML += keyboard.currentControls['Shoot']
             myKey.addEventListener(
                 'click', () => { changeControl(myKey, 'Shoot') }
             )
