@@ -19,16 +19,11 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     // halfSize: bool, tells if you should divide by two for a sprite
     // extraOffset: {x: int, y: int} extra pixel offsets for minor calculation errors
     ////////////////////////////////////////////////////
-    // console.log("Hello")
     // console.log(spec)
-    console.log(spec)
     let animationTime = 0;
     let subImageIndex = 0;
     let subImageWidth = 0;
     let subImageHeight = 0;
-    let halfImageWidth = 0;
-    // let subMushroomHeight = 0;
-    // let subMushroomWidth = 0;
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
     //
@@ -41,8 +36,6 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
         subImageWidth = Math.round(levelWidth / spec.spriteSheet.spritesPerLevel.x); // width of a sprite
         let levelHeight =  Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
         subImageHeight = Math.round(levelHeight / spec.spriteSheet.spritesPerLevel.y)
-        // subMushroomWidth = Math.floor(subImageWidth / 2)// width of a mushroom
-        // subMushroomHeight = 9 // height of each image
         console.log(`image is ready. it's width is: ${subImageWidth}, height is: ${subImageHeight}`)
     }
     image.src = spec.spriteSheet.url;
@@ -75,20 +68,16 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     //------------------------------------------------------------------
     function render(model) {
         if (isReady) {
-            let sxOffset = Math.floor(subImageWidth * spec.offsetSpriteCount.x) // there are 4 images before the mushroom that is twice it's width
-            let sx = (subImageWidth * subImageIndex) + sxOffset
+            let sxOffset = Math.floor(subImageWidth * spec.offsetSpriteCount.x) // how many pixels to go before your sprite
+            let sx = (subImageWidth * subImageIndex) + sxOffset // where to start clippin
             let subSpriteWidth = subImageWidth;
             if(spec.halfSize){
-                subSpriteWidth = subImageWidth / 2
+                subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
             }
 
-            let sy = subImageHeight * spec.offsetSpriteCount.y// there are 8 images above the mushroom
-            console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}`)
-            // Math.
-            // console.log(model.get)
-            // console.log(model.size())
-            // submushroomheight - 1.5 is for a little bit of clip at the end
-            graphics.drawSubTexture(image, sx, sy, subSpriteWidth - spec.extraOffset.x, subImageHeight - spec.extraOffset.y, model.center(), model.rotation(), model.size());
+            let sy = subImageHeight * spec.offsetSpriteCount.y// # of pixels before your image
+            // console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}`)
+            graphics.drawSubTexture(image, sx, sy, subSpriteWidth - spec.extraOffset.x, subImageHeight - spec.extraOffset.y, model.center, model.rotation, model.size);
         }
     }
 

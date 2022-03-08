@@ -1,7 +1,7 @@
 MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects) {
     let cancelNextRequest = true;
     let lastTimeStamp = performance.now();
-        ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
     // Takes a spec with the following specifications
     // spriteSheet: {
     //                  url: string to find where the image is
@@ -14,22 +14,33 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // updateBool: condition on which to update
     // halfSize: bool, tells if you should divide by two for a sprite
     ////////////////////////////////////////////////////
-    let mushSpec = {
-        spriteSheet: {
+    let spriteSheet = {
             url: 'assets/spritesheet2.png',
-            dimensions: {levelWidth: 2, levelHeight: 7},
-            spritesPerLevel: {x: 7, y: 11},
-        },
-        spriteCount: 4,
-        offsetSpriteCount: {x: 4, y: 0},
-        level: 1,
-        updateBool: () => {return false},
-        halfSize: true,
-        extraOffset: {x: 0, y: 0.5}
+            dimensions: { levelWidth: 2, levelHeight: 7 },
+            spritesPerLevel: { x: 7, y: 11 },
     }
-    let shipSpec = mushSpec;
+    let level = 1;
+    let mushAnimeSpec = {
+        spriteSheet: spriteSheet, 
+        spriteCount: 4,
+        offsetSpriteCount: { x: 4, y: 0 },
+        level: level,
+        updateBool: () => { return false },
+        halfSize: true,
+        extraOffset: { x: 0, y: 0.5 }
+    };
+    let shipAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 1,
+        offsetSpriteCount: { x: 0, y: 10 },
+        level: level,
+        updateBool: () => { return false },
+        halfSize: true,
+        extraOffset: { x: 0, y: 0 }
+    };
     // console.log(renderer)
-    let mushieRenderer = renderer.staticAnimatedRenderer(mushSpec, graphics);
+    let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
+    let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
     // let ShipRenderer = renderer.ShipRenderer(shipSpec, graphics);
     // console.log(graphics)
     function initialize() {
@@ -48,7 +59,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing for now, will call game loop stuff at some point
         // game loop code
         lastTimeStamp = performance.now();
-        cancelNextRequest = true;
+        cancelNextRequest = false;
         gameLoop(lastTimeStamp);
     }
     function update(elapsedTime) {
@@ -62,27 +73,14 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             if (obj.type === 'mushroom') {
                 mushieRenderer.render(obj.object);
             }
-            // else if (obj.type === 'ship') {
-            //     ShipRenderer.render(obj.object)
-            // }
+            else if (obj.type === 'ship') {
+                shipRenderer.render(obj.object)
+            }
         }
     }
     function render(elapsedTime) {
-        // do nothing
-        // let rect = {
-
-        // }
         graphics.clear();
         renderObjects();
-        // for(let i = 0; i < objects.objectsArray.length; i++){
-        //     let obj = objectsArray[i];
-        //     if(obj.type === 'mushroom'){
-        //         mushieRenderer.render(obj.object)
-        //     }
-        // }
-        // graphics.drawRectangle(rect, "rgb(256, 256, 256)", "rgb(100, 0, 0)");
-        // mushieRenderer.render()
-        // graphics.clear();
     }
     function processInput(elapsedTime) {
         // do nothing

@@ -2,18 +2,16 @@ MyGame.objects.objectsArray = [];
 MyGame.objects.initialize = function(width, height, numCells){
     let cellSize = Math.floor(width / numCells);
     console.log(`cell size is ${cellSize}`)
+    let sizeOffset = {x: 0.7, y: 1}
     // i and j are those values because I want to render mushrooms at around
     // 1 - 32 on x and 1 - 24 on y (going from top left corner)
     for(let i = cellSize; i < width - cellSize; i += cellSize){
         for(let j = cellSize; j < height - cellSize; j += cellSize){
             let addMush = Math.random() < 0.05;
             if(addMush){
-                x = i;
-                y = j;
-                console.log(`adding mushroom at x: ${x} y: ${y}`)
                 let spec = {
-                    center: {x: x, y: y},
-                    size: {x: cellSize * 0.7, y: cellSize},
+                    center: {x: i, y: j},
+                    size: {x: cellSize * sizeOffset.x, y: cellSize},
                     rotation: 0
                 }
                 let mushie = MyGame.objects.Mushroom(spec)
@@ -24,7 +22,7 @@ MyGame.objects.initialize = function(width, height, numCells){
     // add ship to bottom middle
     let shipSpec = {
         center: {x: width / 2, y: height - (cellSize * 2)},
-        size: {x: cellSize, y: cellSize},
+        size: {x: cellSize * sizeOffset.x, y: cellSize},
         rotation: 0,
         moveRate: 0.5,
     }
