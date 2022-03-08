@@ -26,7 +26,7 @@ MyGame.objects.initialize = function(width, height, numCells){
         center: {x: width / 2, y: height - (cellSize * 2)},
         size: {x: cellSize, y: cellSize},
         rotation: 0,
-        moveRate: 5
+        moveRate: 0.5,
     }
     let ship = MyGame.objects.Ship(shipSpec);
     MyGame.objects.objectsArray.push({type: 'ship', object: ship})

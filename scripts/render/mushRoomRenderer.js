@@ -65,10 +65,10 @@ MyGame.render.MushroomRenderer = function(spec, graphics) {
             let offset = Math.floor(subImageWidth * 4) // there are 4 images before the mushroom that is twice it's width
             let sx = (subMushroomWidth * subImageIndex) + offset
             let sy = subMushroomHeight * 8// there are 8 images above the mushroom
-            console.log(`sx is: ${sx} sy is: ${sy}, offset is ${offset}, subMushroom width is ${subMushroomWidth}`)
+            // console.log(`sx is: ${sx} sy is: ${sy}, offset is ${offset}, subMushroom width is ${subMushroomWidth}`)
             // Math.
             // console.log(model.get)
-            console.log(model.size())
+            // console.log(model.size())
             // submushroomheight - 1.5 is for a little bit of clip at the end
             graphics.drawSubTexture(image, sx, sy, subMushroomWidth, subMushroomHeight - 1.5, model.center(), model.rotation(), model.size());
         }

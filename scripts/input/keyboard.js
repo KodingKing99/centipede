@@ -34,26 +34,30 @@ MyGame.input.Keyboard = (function () {
             that.currentControls[gameControl] = 'Space';
         }
     };
-
+    that.unregister = function (key) {
+        delete that.handlers[key]
+        // delete that.currentControls
+    }
     window.addEventListener('keydown', keyPress);
     window.addEventListener('keyup', keyRelease);
 
     return that;
 }());
 // input initialize function
-MyGame.input.initialize = function () {
+// takes the ship's functions as a specification
+MyGame.input.initialize = function (spec) {
     // TODO: get registered keys from persisted local storage
     MyGame.input.Keyboard.register(
-        'ArrowUp', function () { console.log('ArrowUp has Been Clicked') }, 'MoveUp'
+        'ArrowUp', spec.moveUp, 'MoveUp'
     );
     MyGame.input.Keyboard.register(
-        'ArrowRight', function () { console.log('ArrowRight has Been Clicked') }, 'MoveRight'
+        'ArrowRight', spec.moveRight, 'MoveRight'
     );
     MyGame.input.Keyboard.register(
-        'ArrowDown', function () { console.log('ArrowDown has Been Clicked') }, 'MoveDown'
+        'ArrowDown', spec.moveDown, 'MoveDown'
     );
     MyGame.input.Keyboard.register(
-        'ArrowLeft', function () { console.log('ArrowLeft has Been Clicked') }, 'MoveLeft'
+        'ArrowLeft', spec.moveLeft, 'MoveLeft'
     );
     MyGame.input.Keyboard.register(
         ' ', function () { console.log('Space has Been Clicked') }, 'Shoot'

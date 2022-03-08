@@ -66,10 +66,10 @@ MyGame.render.ShipRenderer = function(spec, graphics) {
             let offset = Math.floor(subImageWidth * 1) // there are 4 images before the mushroom that is twice it's width
             let sx = (subImageWidth * subImageIndex) + offset
             let sy = subImageHeight// there is one image above 
-            console.log(`sx is: ${sx} sy is: ${sy}, offset is ${offset}`)
+            // console.log(`sx is: ${sx} sy is: ${sy}, offset is ${offset}`)
             // Math.
             // console.log(model.get)
-            console.log(model.size)
+            // console.log(model.size)
             // submushroomheight - 1.5 is for a little bit of clip at the end
             // these magic numbers aren't my fav, but it's kinda dependent on each image. We can maybe refactor all of this to be with a 'static' animated image
             // where it gets updated on a conditional like lives or has shot

@@ -47,10 +47,19 @@ MyGame.game = (function (screens, input, objects) {
         //
         // Make the main-menu screen the active one
         showScreen('mainMenu');
-        input.initialize();
+
         // objects.gameBoard.initialize();
         // width, height, numcells
+        // pass in the ship to intialize controls, TODO - get a better way to access this
         objects.initialize(1000, 1000, 30);
+        let ship = objects.objectsArray[objects.objectsArray.length - 1]
+        let spec = {
+            moveLeft: ship.object.moveLeft,
+            moveRight: ship.object.moveRight,
+            moveUp: ship.object.moveUp,
+            moveDown: ship.object.moveDown,
+        }
+        input.initialize(spec);
         console.log(MyGame)
         window.addEventListener(
             'keydown', function goBack(e) {

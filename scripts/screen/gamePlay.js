@@ -25,14 +25,15 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing for now, will call game loop stuff at some point
         // game loop code
         lastTimeStamp = performance.now();
-        cancelNextRequest = true;
+        cancelNextRequest = false;
         gameLoop(lastTimeStamp);
     }
     function update(elapsedTime) {
         // do nothing
+        input.Keyboard.update(elapsedTime);
     }
     function renderObjects() {
-        console.log(objects.objectsArray)
+        // console.log(objects.objectsArray)
         for (let i = 0; i < objects.objectsArray.length; i++) {
             let obj = objects.objectsArray[i];
             if (obj.type === 'mushroom') {
@@ -68,7 +69,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         lastTimeStamp = time;
 
         processInput(elapsedTime);
-        update();
+        update(elapsedTime);
         render();
 
         if (!cancelNextRequest) {

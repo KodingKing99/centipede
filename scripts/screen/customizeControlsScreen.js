@@ -15,7 +15,9 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
             // Register key, do screen run(), remove the event listener
             function changeKey(e) {
                 // console.log(e.key)
-                keyboard.register(e.key, () => { console.log(`${e.key} has been pressed`) }, control);
+                let currentKey = keyboard.currentControls[control]
+                keyboard.register(e.key, keyboard.handlers[currentKey], control);
+                keyboard.unregister(currentKey)
                 window.removeEventListener('keydown', changeKey)
                 render();
             }
