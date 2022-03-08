@@ -51,6 +51,7 @@ MyGame.game = (function(screens, input, objects) {
         // objects.gameBoard.initialize();
         // width, height, numcells
         objects.initialize(1000, 1000, 30);
+        console.log(MyGame)
     }
     
     return {
