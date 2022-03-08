@@ -1,12 +1,15 @@
 MyGame.objects.objectsArray = [];
 MyGame.objects.initialize = function(width, height, numCells){
     let cellSize = Math.floor(width / numCells);
-    for(let i = 10; i < numCells; i++){
-        for(let j = 0; j < numCells; j++){
+    console.log(`cell size is ${cellSize}`)
+    // i and j are those values because I want to render mushrooms at around
+    // 1 - 32 on x and 1 - 24 on y (going from top left corner)
+    for(let i = cellSize; i < width - cellSize; i += cellSize){
+        for(let j = cellSize; j < height - (8 * cellSize); j += cellSize){
             let addMush = Math.random() < 0.05;
             if(addMush){
-                let x = Math.floor((i * cellSize) / 2);
-                let y = Math.floor((j * cellSize) / 2);
+                x = i;
+                y = j;
                 console.log(`adding mushroom at x: ${x} y: ${y}`)
                 let spec = {
                     center: {x: x, y: y},

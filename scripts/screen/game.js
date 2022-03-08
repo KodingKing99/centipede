@@ -5,9 +5,9 @@
 //
 // ------------------------------------------------------------------
 
-MyGame.game = (function(screens, input, objects) {
+MyGame.game = (function (screens, input, objects) {
     'use strict';
-    
+
     //------------------------------------------------------------------
     //
     // This function is used to change to a new active screen.
@@ -43,7 +43,7 @@ MyGame.game = (function(screens, input, objects) {
                 screens[screen].initialize();
             }
         }
-        
+
         //
         // Make the main-menu screen the active one
         showScreen('mainMenu');
@@ -52,10 +52,19 @@ MyGame.game = (function(screens, input, objects) {
         // width, height, numcells
         objects.initialize(1000, 1000, 30);
         console.log(MyGame)
+        window.addEventListener(
+            'keydown', function goBack(e) {
+                if (e.key === 'Escape') {
+                    showScreen('mainMenu');
+                    // cancelNextRequest = true;
+                }
+
+            }
+        );
     }
-    
+
     return {
-        initialize : initialize,
-        showScreen : showScreen
+        initialize: initialize,
+        showScreen: showScreen
     };
 }(MyGame.screens, MyGame.input, MyGame.objects));
