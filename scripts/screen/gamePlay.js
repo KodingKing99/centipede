@@ -1,13 +1,35 @@
 MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects) {
     let cancelNextRequest = true;
     let lastTimeStamp = performance.now();
+        ////////////////////////////////////////////////////
+    // Takes a spec with the following specifications
+    // spriteSheet: {
+    //                  url: string to find where the image is
+    //                  dimensions: {levelWidth: int, levelHeight: int} # of levels across and wide,
+    //                  spritesPerLevel: {x: int, y: int}, # of sprites across and high
+    //              }
+    // spriteCount: int, # of sprites of the desired sprite
+    // offsetSpriteCount: int, # of sprites before the desired sprite
+    // level: what leve you're on
+    // updateBool: condition on which to update
+    // halfSize: bool, tells if you should divide by two for a sprite
+    ////////////////////////////////////////////////////
     let mushSpec = {
-        spriteSheet: 'assets/spritesheet.png'
+        spriteSheet: {
+            url: 'assets/spritesheet2.png',
+            dimensions: {levelWidth: 2, levelHeight: 7},
+            spritesPerLevel: {x: 7, y: 11},
+        },
+        spriteCount: 4,
+        offsetSpriteCount: {x: 4, y: 0},
+        level: 1,
+        updateBool: () => {return false},
+        halfSize: true,
     }
     let shipSpec = mushSpec;
     // console.log(renderer)
-    let mushieRenderer = renderer.MushroomRenderer(mushSpec, graphics);
-    let ShipRenderer = renderer.ShipRenderer(shipSpec, graphics);
+    let mushieRenderer = renderer.staticAnimatedRenderer(mushSpec, graphics);
+    // let ShipRenderer = renderer.ShipRenderer(shipSpec, graphics);
     // console.log(graphics)
     function initialize() {
         // do nothing for now
@@ -25,7 +47,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing for now, will call game loop stuff at some point
         // game loop code
         lastTimeStamp = performance.now();
-        cancelNextRequest = false;
+        cancelNextRequest = true;
         gameLoop(lastTimeStamp);
     }
     function update(elapsedTime) {
@@ -39,9 +61,9 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             if (obj.type === 'mushroom') {
                 mushieRenderer.render(obj.object);
             }
-            else if (obj.type === 'ship') {
-                ShipRenderer.render(obj.object)
-            }
+            // else if (obj.type === 'ship') {
+            //     ShipRenderer.render(obj.object)
+            // }
         }
     }
     function render(elapsedTime) {
