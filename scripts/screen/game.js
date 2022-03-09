@@ -58,6 +58,7 @@ MyGame.game = (function (screens, input, objects) {
             moveRight: ship.object.moveRight,
             moveUp: ship.object.moveUp,
             moveDown: ship.object.moveDown,
+            shoot: ship.object.shoot,
         }
         input.initialize(spec);
         console.log(MyGame)

@@ -76,7 +76,10 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
             }
 
             let sy = subImageHeight * spec.offsetSpriteCount.y// # of pixels before your image
-            // console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}`)
+            if(spec.log){
+                console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
+                spec.log = false;
+            }
             graphics.drawSubTexture(image, sx, sy, subSpriteWidth - spec.extraOffset.x, subImageHeight - spec.extraOffset.y, model.center, model.rotation, model.size);
         }
     }

@@ -2,7 +2,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     let cancelNextRequest = true;
     let lastTimeStamp = performance.now();
     ////////////////////////////////////////////////////
-    // Takes a spec with the following specifications
+    // static renderer -- Takes a spec with the following specifications
     // spriteSheet: {
     //                  url: string to find where the image is
     //                  dimensions: {levelWidth: int, levelHeight: int} # of levels across and wide,
@@ -38,11 +38,19 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         halfSize: true,
         extraOffset: { x: 0, y: 0 }
     };
-    // console.log(renderer)
+    let beamAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 1,
+        offsetSpriteCount: {x: 0.5, y: 10},
+        level: level,
+        updateBool: () => { return false },
+        halfSize: true,
+        extraOffset: { x: 0, y: 0 },
+        log: true
+    }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
     let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
-    // let ShipRenderer = renderer.ShipRenderer(shipSpec, graphics);
-    // console.log(graphics)
+    let beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
     function initialize() {
         // do nothing for now
 
@@ -65,6 +73,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     function update(elapsedTime) {
         // do nothing
         input.Keyboard.update(elapsedTime);
+        objects.update(elapsedTime);
     }
     function renderObjects() {
         // console.log(objects.objectsArray)
@@ -75,6 +84,9 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             }
             else if (obj.type === 'ship') {
                 shipRenderer.render(obj.object)
+            }
+            else if (obj.type === 'beam'){
+                beamRenderer.render(obj.object);
             }
         }
     }

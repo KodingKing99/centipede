@@ -10,6 +10,7 @@
 ///////////////////////
 MyGame.objects.Ship = function(spec){
     let lives = 3;
+    let hasShot = false;
     function subLife(){
         lives--;
     }
@@ -31,14 +32,24 @@ MyGame.objects.Ship = function(spec){
     function moveDown(elapsedTime) {
         spec.center.y += (spec.moveRate * elapsedTime);
     }
+    function shoot(elapsedTime) {
+        hasShot = true;
+    }
+    function setHasShotFalse() {
+        hasShot = false;
+    }
+
     // functio
     let api = {
         get center() {return spec.center;},
         get size() {return spec.size;},
         get rotation() {return spec.rotation},
         get lives() {return lives;},
+        get hasShot() {return hasShot},
+        setHasShotFalse: setHasShotFalse,
         subLife: subLife,
         isDead: isDead,
+        shoot: shoot,
         moveLeft: moveLeft,
         moveRight: moveRight,
         moveDown: moveDown,

@@ -30,3 +30,40 @@ MyGame.objects.initialize = function(width, height, numCells){
     MyGame.objects.objectsArray.push({type: 'ship', object: ship})
     console.log(MyGame.objects.objectsArray)
 }
+let toDelete = {}
+MyGame.objects.update = function(elapsedTime){
+    
+    
+    for(let i = 0; i < this.objectsArray.length; i++){
+        if(this.objectsArray[i].type === 'ship'){
+            let ship = this.objectsArray[i];
+            if(ship.object.hasShot){
+                ship.object.setHasShotFalse();
+                // add a beam to the objects array
+                let beamSpec = {
+                    center: {x: ship.object.center.x, y: ship.object.center.y - 5},
+                    size: {x: ship.object.size.x, y: ship.object.size.y },
+                    rotation: 0,
+                    moveRate: 1
+                }
+                let beam = MyGame.objects.Beam(beamSpec);
+                this.objectsArray.push({type: 'beam', object: beam});
+                // console.log(beam.center)
+                // console.log(beam.size)
+            }
+        }
+        if(this.objectsArray[i].type === 'beam'){
+            this.objectsArray[i].object.moveUp(elapsedTime);
+            // if the object went too high
+            if(this.objectsArray[i].object.center.y < 0){
+                // console.log(i)
+                toDelete[i] = i;
+            }
+        }
+    }
+    // console.log()
+   for(let i in toDelete){
+       this.objectsArray.splice(i, 1);
+   }
+   toDelete = {};
+}

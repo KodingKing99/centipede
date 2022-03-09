@@ -47,6 +47,7 @@ MyGame.input.Keyboard = (function () {
 // takes the ship's functions as a specification
 MyGame.input.initialize = function (spec) {
     // TODO: get registered keys from persisted local storage
+    // console.log(spec)
     MyGame.input.Keyboard.register(
         'ArrowUp', spec.moveUp, 'MoveUp'
     );
@@ -60,6 +61,6 @@ MyGame.input.initialize = function (spec) {
         'ArrowLeft', spec.moveLeft, 'MoveLeft'
     );
     MyGame.input.Keyboard.register(
-        ' ', function () { console.log('Space has Been Clicked') }, 'Shoot'
+        ' ', spec.shoot, 'Shoot'
     );
 };
