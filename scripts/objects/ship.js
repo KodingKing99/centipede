@@ -13,6 +13,7 @@ MyGame.objects.Ship = function(spec){
     let hasShot = false;
     // let hasPresse
     let refractory = 0;
+    let isPressed = false;
     function subLife(){
         lives--;
     }
@@ -35,21 +36,28 @@ MyGame.objects.Ship = function(spec){
         spec.center.y += (spec.moveRate * elapsedTime);
     }
     function shoot(elapsedTime) {
-        hasShot = true;
+        if(!isPressed){
+            hasShot = true;
+            isPressed = true;
+        }
+
     }
     function setHasShotFalse() {
         hasShot = false;
     }
-    function canShoot(elapsedTime){
-        refractory -= elapsedTime;
-        if(refractory < 0){
-            refractory = 100;
-            return true;
-        }
+    // function canShoot(elapsedTime){
+    //     // refractory -= elapsedTime;
+    //     // if(refractory < 0){
+    //     //     refractory = 10;
+    //     //     return true;
+    //     // }
         
-        return false;
+    //     return true;
+    // }
+    function setIsPressedFalse(){
+        isPressed = false;
     }
-
+    // window.addEventListener('keyup', () => {isPressed = false;});
     // functio
     let api = {
         get center() {return spec.center;},
@@ -65,7 +73,8 @@ MyGame.objects.Ship = function(spec){
         moveRight: moveRight,
         moveDown: moveDown,
         moveUp: moveUp,
-        canShoot: canShoot,
+        setIsPressedFalse: setIsPressedFalse,
+        // canShoot: canShoot,
 
     }
     return api;

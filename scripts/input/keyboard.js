@@ -67,4 +67,6 @@ MyGame.input.initialize = function (spec) {
     MyGame.input.Keyboard.register(
         ' ', spec.shoot, 'Shoot'
     );
+    // for the ship only shooting once. Not the best notation but at least it's in the keyboard 
+    window.addEventListener('keyup', spec.setIsPressedFalse);
 };

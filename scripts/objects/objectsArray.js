@@ -38,22 +38,22 @@ MyGame.objects.update = function (elapsedTime) {
         if (this.objectsArray[i].type === 'ship') {
             let ship = this.objectsArray[i];
             if (ship.object.hasShot) {
-                if (ship.object.canShoot(elapsedTime)) {
-                    ship.object.setHasShotFalse();
-                    // add a beam to the objects array
-                    let beamSpec = {
-                        center: { x: ship.object.center.x, y: ship.object.center.y - 5 },
-                        size: { x: ship.object.size.x, y: ship.object.size.y },
-                        rotation: 0,
-                        moveRate: 1
-                    }
-                    let beam = MyGame.objects.Beam(beamSpec);
-                    this.objectsArray.push({ type: 'beam', object: beam });
+                // if (ship.object.canShoot(elapsedTime)) {
+                ship.object.setHasShotFalse();
+                // add a beam to the objects array
+                let beamSpec = {
+                    center: { x: ship.object.center.x, y: ship.object.center.y - 5 },
+                    size: { x: ship.object.size.x, y: ship.object.size.y },
+                    rotation: 0,
+                    moveRate: 1
+                }
+                let beam = MyGame.objects.Beam(beamSpec);
+                this.objectsArray.push({ type: 'beam', object: beam });
 
-                }
-                else{
-                    ship.object.setHasShotFalse();
-                }
+                // }
+                // else{
+                //     ship.object.setHasShotFalse();
+                // }
                 // console.log(beam.center)
                 // console.log(beam.size)
             }
