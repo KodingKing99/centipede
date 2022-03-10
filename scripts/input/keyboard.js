@@ -5,18 +5,22 @@ MyGame.input.Keyboard = (function () {
         handlers: {},
         currentControls: {},
     };
+    // let hasPressed = false;
 
     function keyPress(e) {
         that.keys[e.key] = e.timeStamp;
+        // hasPressed = true;
     }
 
     function keyRelease(e) {
         delete that.keys[e.key];
+        // hasPressed = false;
     }
 
     that.update = function (elapsedTime) {
         for (let key in that.keys) {
             if (that.keys.hasOwnProperty(key)) {
+                // if()
                 if (that.handlers[key]) {
                     that.handlers[key](elapsedTime);
                 }

@@ -11,6 +11,8 @@
 MyGame.objects.Ship = function(spec){
     let lives = 3;
     let hasShot = false;
+    // let hasPresse
+    let refractory = 0;
     function subLife(){
         lives--;
     }
@@ -38,6 +40,15 @@ MyGame.objects.Ship = function(spec){
     function setHasShotFalse() {
         hasShot = false;
     }
+    function canShoot(elapsedTime){
+        refractory -= elapsedTime;
+        if(refractory < 0){
+            refractory = 100;
+            return true;
+        }
+        
+        return false;
+    }
 
     // functio
     let api = {
@@ -54,6 +65,7 @@ MyGame.objects.Ship = function(spec){
         moveRight: moveRight,
         moveDown: moveDown,
         moveUp: moveUp,
+        canShoot: canShoot,
 
     }
     return api;
