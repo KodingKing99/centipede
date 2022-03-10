@@ -60,7 +60,14 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
                 cancelNextRequest = true;
             }
         );
-
+        // escape should stop updating
+        window.addEventListener(
+            'keypress', (e) => {
+                if(e.key === 'Escape'){
+                    cancelNextRequest = true;
+                }
+            }
+        );
         // input.Keyboard.register()
     }
     function run() {

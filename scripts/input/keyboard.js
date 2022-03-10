@@ -8,6 +8,7 @@ MyGame.input.Keyboard = (function () {
     // let hasPressed = false;
 
     function keyPress(e) {
+        e.preventDefault();
         that.keys[e.key] = e.timeStamp;
         // hasPressed = true;
     }

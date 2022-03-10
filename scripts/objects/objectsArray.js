@@ -49,20 +49,12 @@ MyGame.objects.update = function (elapsedTime) {
                 }
                 let beam = MyGame.objects.Beam(beamSpec);
                 this.objectsArray.push({ type: 'beam', object: beam });
-
-                // }
-                // else{
-                //     ship.object.setHasShotFalse();
-                // }
-                // console.log(beam.center)
-                // console.log(beam.size)
             }
         }
         if (this.objectsArray[i].type === 'beam') {
             this.objectsArray[i].object.moveUp(elapsedTime);
             // if the object went too high
             if (this.objectsArray[i].object.center.y < 0) {
-                // console.log(i)
                 toDelete[i] = i;
             }
         }
