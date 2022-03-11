@@ -5,17 +5,14 @@ MyGame.input.Keyboard = (function () {
         handlers: {},
         currentControls: {},
     };
-    // let hasPressed = false;
 
     function keyPress(e) {
         e.preventDefault();
         that.keys[e.key] = e.timeStamp;
-        // hasPressed = true;
     }
 
     function keyRelease(e) {
         delete that.keys[e.key];
-        // hasPressed = false;
     }
 
     that.update = function (elapsedTime) {
@@ -30,9 +27,6 @@ MyGame.input.Keyboard = (function () {
     };
 
     that.register = function (key, handler, gameControl) {
-        // if(that.handlers[key]){
-        //     delete that.handlers[key]
-        // }
         that.handlers[key] = handler;
         that.currentControls[gameControl] = key;
         if(key === ' '){
@@ -41,7 +35,6 @@ MyGame.input.Keyboard = (function () {
     };
     that.unregister = function (key) {
         delete that.handlers[key]
-        // delete that.currentControls
     }
     window.addEventListener('keydown', keyPress);
     window.addEventListener('keyup', keyRelease);

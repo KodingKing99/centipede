@@ -3,6 +3,7 @@ MyGame.objects.Mushroom = function(spec){
     // let that = {};
     let lives = 4;
     function subLife() { lives--;};
+    
     return {
         get center(){ return spec.center; },
         get size() { return spec.size; },
@@ -11,4 +12,6 @@ MyGame.objects.Mushroom = function(spec){
         get isDead() { return lives === 0},
         subLife: subLife
     };
+    // api.sphere = {radius: spec.size.y / 2};
+    // return api;
 }
