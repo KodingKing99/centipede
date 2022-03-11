@@ -36,11 +36,20 @@ MyGame.input.Keyboard = (function () {
     that.unregister = function (key) {
         delete that.handlers[key]
     }
+    that.registerKeyUp = function(handler, key){
+        window.addEventListener('keyup', (e) => {
+            if(e.key === key || (e.key === ' ' && key === 'Space')){
+                // if the key is what you want, perform it's action
+                handler();
+            }
+        })
+    }
     window.addEventListener('keydown', keyPress);
     window.addEventListener('keyup', keyRelease);
 
     return that;
 }());
+// MyGame.input.
 // input initialize function
 // takes the ship's functions as a specification
 MyGame.input.initialize = function (spec) {
@@ -62,5 +71,8 @@ MyGame.input.initialize = function (spec) {
         ' ', spec.shoot, 'Shoot'
     );
     // for the ship only shooting once. Not the best notation but at least it's in the keyboard 
-    window.addEventListener('keyup', spec.setIsPressedFalse);
+    // window.addEventListener('keyup', (e) => {
+    //     if()
+    // });
+    MyGame.input.Keyboard.registerKeyUp(spec.setIsPressedFalse, MyGame.input.Keyboard.currentControls['Shoot']);
 };

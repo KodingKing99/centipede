@@ -1,6 +1,6 @@
 MyGame.objects.objectsArray = [];
-function getSphere(radius, center){
-    return {radius: radius, center: center};
+function getSphere(radius, center) {
+    return { radius: radius, center: center };
 }
 MyGame.objects.initialize = function (width, height, numCells) {
     let cellSize = Math.floor(width / numCells);
@@ -36,31 +36,29 @@ MyGame.objects.initialize = function (width, height, numCells) {
     console.log(MyGame.objects.objectsArray)
 }
 let toDelete = {};
-function theyCollide(sphere1, sphere2){
+function theyCollide(sphere1, sphere2) {
     let radi1 = sphere1.radius ** 2;
     let radi2 = sphere2.radius ** 2;
     let distance = (sphere1.center.x - sphere2.center.x) ** 2 + (sphere1.center.y - sphere2.center.y) ** 2;
-    if(distance <= radi1 + radi2){
+    if (distance <= radi1 + radi2) {
         return true;
     }
     return false;
 }
-MyGame.objects.collisionDetection = function() {
+MyGame.objects.collisionDetection = function () {
     let colissions = [];
-    for(let i = 0; i < this.objectsArray.length; i ++){
-        for(let j = 0; j < this.objectsArray.length; j++){
-            if(i != j ){
-                if(theyCollide(this.objectsArray[i].object.sphere, this.objectsArray[j].object.sphere)){
-                    colissions.push({'first': this.objectsArray[i], 'second': this.objectsArray[j]})
+    for (let i = 0; i < this.objectsArray.length; i++) {
+        for (let j = 0; j < this.objectsArray.length; j++) {
+            if (i != j) {
+                if (theyCollide(this.objectsArray[i].object.sphere, this.objectsArray[j].object.sphere)) {
+                    colissions.push({ 'first': this.objectsArray[i], 'second': this.objectsArray[j] })
                 }
             }
         }
     }
     return colissions;
 };
-MyGame.objects.update = function (elapsedTime) {
-
-
+MyGame.objects.handleUpdate = function (elapsedTime) {
     for (let i = 0; i < this.objectsArray.length; i++) {
         if (this.objectsArray[i].type === 'ship') {
             let ship = this.objectsArray[i];
@@ -87,8 +85,26 @@ MyGame.objects.update = function (elapsedTime) {
             }
         }
     }
-    let collisions = this.collisionDetection();
-    console.log(collisions)
+}
+MyGame.objects.handleCollisions = function (collisions){
+    // console.log(collisions);
+    // for(let i = 0; i < collisions.length; i++){
+    //     let obj = collisions[i];
+    //     // console.log(obj);
+    //     if(obj.first.type === 'ship'){
+    //         // console.log(obj.first)
+    //         let ship = obj.first.object;
+    //         ship.
+    //     }
+    //     else if (obj.second.type === 'ship'){
+    //         console.log(obj.second);
+    //     }
+    // }
+}
+MyGame.objects.update = function (elapsedTime) {
+    this.handleUpdate(elapsedTime)
+    this.handleCollisions(this.collisionDetection());
+    // console.log(collisions)
     for (let i in toDelete) {
         this.objectsArray.splice(i, 1);
     }

@@ -14,6 +14,13 @@ MyGame.objects.Ship = function(spec){
     // let hasPresse
     let refractory = 0;
     let isPressed = false;
+    // says what direction the ship is moving, for object detection
+    let direction = {
+        up: false,
+        left: false,
+        down: false,
+        right: false
+    }
     function subLife(){
         lives--;
     }
@@ -22,18 +29,25 @@ MyGame.objects.Ship = function(spec){
     }
     function moveLeft(elapsedTime) {
         spec.center.x -= (spec.moveRate * elapsedTime);
+        direction.left = true;
     }
 
     function moveRight(elapsedTime) {
         spec.center.x += (spec.moveRate * elapsedTime);
+        direction.right = true;
     }
 
     function moveUp(elapsedTime) {
         spec.center.y -= (spec.moveRate * elapsedTime);
+        direction.up = true;
     }
 
     function moveDown(elapsedTime) {
         spec.center.y += (spec.moveRate * elapsedTime);
+        direction.down = false;
+    }
+    function setDirectionFalse(dir){
+        direction.dir = false;
     }
     function shoot(elapsedTime) {
         if(!isPressed){
@@ -74,6 +88,8 @@ MyGame.objects.Ship = function(spec){
         moveDown: moveDown,
         moveUp: moveUp,
         setIsPressedFalse: setIsPressedFalse,
+        direction: direction,
+        setDirectionFalse: setDirectionFalse,
         // canShoot: canShoot,
 
     }
