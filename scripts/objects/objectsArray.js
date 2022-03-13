@@ -18,7 +18,7 @@ MyGame.objects.initialize = function (width, height, numCells) {
                     rotation: 0
                 }
                 let mushie = MyGame.objects.Mushroom(spec);
-                mushie.sphere = getSphere(mushie.size.y / 2, mushie.center); // for collision detection
+                mushie.sphere = getSphere(((Math.sqrt(mushie.size.y ** 2 + mushie.size.x ** 2)) / 2), mushie.center); // for collision detection
                 MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
             }
         }
@@ -31,7 +31,7 @@ MyGame.objects.initialize = function (width, height, numCells) {
         moveRate: 0.5,
     }
     let ship = MyGame.objects.Ship(shipSpec);
-    ship.sphere = getSphere(ship.size.y / 2, ship.center); // for collision detection
+    ship.sphere = getSphere(((Math.sqrt(ship.size.y ** 2 + ship.size.x ** 2)) / 2), ship.center); // for collision detection
     MyGame.objects.objectsArray.push({ type: 'ship', object: ship })
     console.log(MyGame.objects.objectsArray)
 }
