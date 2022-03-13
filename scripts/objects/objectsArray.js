@@ -62,6 +62,7 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
     for (let i = 0; i < this.objectsArray.length; i++) {
         if (this.objectsArray[i].type === 'ship') {
             let ship = this.objectsArray[i];
+            ship.object.setAllDirShouldMove();
             if (ship.object.hasShot) {
                 // if (ship.object.canShoot(elapsedTime)) {
                 ship.object.setHasShotFalse();
@@ -99,6 +100,24 @@ let handleShipCollisions = function (ship){
     }
     else{
         ship.setShouldMove('down', true)
+    }
+    if(ship.direction.up){
+        ship.setShouldMove('up', false)
+    }
+    else{
+        ship.setShouldMove('up', true)
+    }
+    if(ship.direction.right){
+        ship.setShouldMove('right', false)
+    }
+    else{
+        ship.setShouldMove('right', true)
+    }
+    if(ship.direction.left){
+        ship.setShouldMove('left', false)
+    }
+    else{
+        ship.setShouldMove('left', true)
     }
     // if(ship.direction.left){
     //     ship.moveRight();

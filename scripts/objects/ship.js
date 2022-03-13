@@ -70,6 +70,12 @@ MyGame.objects.Ship = function (spec) {
     function setShouldMove(dir, bool) {
         shouldMove[dir] = bool;
     }
+    function setAllDirShouldMove(){
+        for(let mKey in shouldMove){
+            shouldMove[mKey] = true;
+        }
+        // console.log(sh)
+    }
     function shoot(elapsedTime) {
         if (!isPressed) {
             hasShot = true;
@@ -111,7 +117,8 @@ MyGame.objects.Ship = function (spec) {
         moveUp: moveUp,
         setIsPressedFalse: setIsPressedFalse,
         setDirectionFalse: setDirectionFalse,
-        setShouldMove: setShouldMove
+        setShouldMove: setShouldMove,
+        setAllDirShouldMove: setAllDirShouldMove
         // canShoot: canShoot,
 
     }
