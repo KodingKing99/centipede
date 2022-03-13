@@ -60,6 +60,7 @@ MyGame.game = (function (screens, input, objects) {
             moveDown: ship.object.moveDown,
             shoot: ship.object.shoot,
             setIsPressedFalse: ship.object.setIsPressedFalse,
+            setDirectionFalse: ship.object.setDirectionFalse,
         }
         input.initialize(spec);
         console.log(MyGame)

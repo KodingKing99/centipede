@@ -86,20 +86,43 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
         }
     }
 }
+let handleShipCollisions = function (ship){
+    console.log(ship.direction)
+    // if(ship.direction.up){
+    //     ship.setShouldMove('up', false);
+    // }
+    // else{
+    //     ship.setShouldMove('up', true)
+    // }
+    if(ship.direction.down){
+        ship.setShouldMove('down', false)
+    }
+    else{
+        ship.setShouldMove('down', true)
+    }
+    // if(ship.direction.left){
+    //     ship.moveRight();
+    // }
+    // if(ship.direction.right){
+    //     ship.moveLeft();
+    // }
+}
 MyGame.objects.handleCollisions = function (collisions){
     // console.log(collisions);
-    // for(let i = 0; i < collisions.length; i++){
-    //     let obj = collisions[i];
-    //     // console.log(obj);
-    //     if(obj.first.type === 'ship'){
-    //         // console.log(obj.first)
-    //         let ship = obj.first.object;
-    //         ship.
-    //     }
-    //     else if (obj.second.type === 'ship'){
-    //         console.log(obj.second);
-    //     }
-    // }
+    for(let i = 0; i < collisions.length; i++){
+        let obj = collisions[i];
+        // console.log(obj);
+        if(obj.first.type === 'ship'){
+            // console.log(obj.first)
+            let ship = obj.first.object;
+            handleShipCollisions(ship)
+            // console.log(ship.direction)
+            
+        }
+        else if (obj.second.type === 'ship'){
+            console.log(obj.second);
+        }
+    }
 }
 MyGame.objects.update = function (elapsedTime) {
     this.handleUpdate(elapsedTime)

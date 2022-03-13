@@ -70,9 +70,11 @@ MyGame.input.initialize = function (spec) {
     MyGame.input.Keyboard.register(
         ' ', spec.shoot, 'Shoot'
     );
-    // for the ship only shooting once. Not the best notation but at least it's in the keyboard 
-    // window.addEventListener('keyup', (e) => {
-    //     if()
-    // });
+    // register keyups for shooting logic
     MyGame.input.Keyboard.registerKeyUp(spec.setIsPressedFalse, MyGame.input.Keyboard.currentControls['Shoot']);
+    // Register keyups for all directions. This is for collision detections
+    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('up')}, this.Keyboard.currentControls['MoveUp']);
+    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('right')}, this.Keyboard.currentControls['MoveRight']);
+    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('left')}, this.Keyboard.currentControls['MoveLeft']);
+    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('down')}, this.Keyboard.currentControls['MoveDown']);
 };

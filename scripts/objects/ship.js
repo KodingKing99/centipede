@@ -8,7 +8,7 @@
 //      moveRate: float
 // }
 ///////////////////////
-MyGame.objects.Ship = function(spec){
+MyGame.objects.Ship = function (spec) {
     let lives = 3;
     let hasShot = false;
     // let hasPresse
@@ -21,36 +21,57 @@ MyGame.objects.Ship = function(spec){
         down: false,
         right: false
     }
-    function subLife(){
+    let shouldMove = {
+        up: true,
+        left: true,
+        down: true,
+        right: true 
+    }
+    function subLife() {
         lives--;
     }
-    function isDead(){
+    function isDead() {
         return lives === 0;
     }
     function moveLeft(elapsedTime) {
-        spec.center.x -= (spec.moveRate * elapsedTime);
-        direction.left = true;
+        if (shouldMove.left) {
+            spec.center.x -= (spec.moveRate * elapsedTime);
+            direction.left = true;
+        }
+
     }
 
     function moveRight(elapsedTime) {
-        spec.center.x += (spec.moveRate * elapsedTime);
-        direction.right = true;
+        if (shouldMove.right) {
+            spec.center.x += (spec.moveRate * elapsedTime);
+            direction.right = true;
+        }
+
     }
 
     function moveUp(elapsedTime) {
-        spec.center.y -= (spec.moveRate * elapsedTime);
-        direction.up = true;
+        if (shouldMove.up) {
+            spec.center.y -= (spec.moveRate * elapsedTime);
+            direction.up = true;
+        }
+
     }
 
     function moveDown(elapsedTime) {
-        spec.center.y += (spec.moveRate * elapsedTime);
-        direction.down = false;
+        if (shouldMove.down) {
+            spec.center.y += (spec.moveRate * elapsedTime);
+            direction.down = true;
+        }
+
     }
-    function setDirectionFalse(dir){
-        direction.dir = false;
+    function setDirectionFalse(dir) {
+        direction[dir] = false;
+    }
+    function setShouldMove(dir, bool) {
+        shouldMove[dir] = bool;
     }
     function shoot(elapsedTime) {
-        if(!isPressed){
+        if (!isPressed) {
             hasShot = true;
             isPressed = true;
         }
@@ -65,20 +86,21 @@ MyGame.objects.Ship = function(spec){
     //     //     refractory = 10;
     //     //     return true;
     //     // }
-        
+
     //     return true;
     // }
-    function setIsPressedFalse(){
+    function setIsPressedFalse() {
         isPressed = false;
     }
     // window.addEventListener('keyup', () => {isPressed = false;});
     // functio
     let api = {
-        get center() {return spec.center;},
-        get size() {return spec.size;},
-        get rotation() {return spec.rotation},
-        get lives() {return lives;},
-        get hasShot() {return hasShot},
+        get center() { return spec.center; },
+        get size() { return spec.size; },
+        get rotation() { return spec.rotation },
+        get lives() { return lives; },
+        get hasShot() { return hasShot },
+        get direction() { return direction },
         setHasShotFalse: setHasShotFalse,
         subLife: subLife,
         isDead: isDead,
@@ -88,8 +110,8 @@ MyGame.objects.Ship = function(spec){
         moveDown: moveDown,
         moveUp: moveUp,
         setIsPressedFalse: setIsPressedFalse,
-        direction: direction,
         setDirectionFalse: setDirectionFalse,
+        setShouldMove: setShouldMove
         // canShoot: canShoot,
 
     }
