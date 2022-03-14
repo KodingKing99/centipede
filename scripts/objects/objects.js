@@ -19,7 +19,8 @@ MyGame.objects.initialize = function (width, height, numCells) {
                     rotation: 0
                 }
                 let mushie = MyGame.objects.Mushroom(spec);
-                mushie.sphere = getSphere(((Math.sqrt(mushie.size.y ** 2 + mushie.size.x ** 2)) / 2), mushie.center); // for collision detection
+                // mushie.sphere = getSphere(((Math.sqrt(mushie.size.y ** 2 + mushie.size.x ** 2)) / 2), mushie.center); // for collision detection
+                mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
                 MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
             }
         }
