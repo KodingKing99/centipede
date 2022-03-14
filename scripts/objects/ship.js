@@ -62,7 +62,18 @@ MyGame.objects.Ship = function (spec) {
             spec.center.y += (spec.moveRate * elapsedTime);
             direction.down = true;
         }
-
+    }
+    // returns what the ships center would be if the ship moved
+    function predMoves(elapsedTime){
+        let center = spec.center;
+        let moveRate = spec.moveRate;
+        let moves = {
+            moveUp : {x: center.x, y: (center.y - moveRate)},
+            moveDown : {x: center.x, y: (center.y + moveRate)},
+            moveLeft : {x: spec.center.x - (spec.moveRate), y: spec.center.y},
+            moveRight : {x: spec.center.x + (spec.moveRate), y: spec.center.y},
+        }
+        return moves;
     }
     function setDirectionFalse(dir) {
         direction[dir] = false;
@@ -118,7 +129,8 @@ MyGame.objects.Ship = function (spec) {
         setIsPressedFalse: setIsPressedFalse,
         setDirectionFalse: setDirectionFalse,
         setShouldMove: setShouldMove,
-        setAllDirShouldMove: setAllDirShouldMove
+        setAllDirShouldMove: setAllDirShouldMove,
+        predMoves: predMoves,
         // canShoot: canShoot,
 
     }

@@ -36,10 +36,13 @@ MyGame.objects.initialize = function (width, height, numCells) {
     console.log(MyGame.objects.objectsArray)
 }
 let toDelete = {};
+function getDistance(center1, center2) {
+    return (center1.x - center2.x) ** 2 + (center1.y - center2.y) ** 2;
+}
 function theyCollide(sphere1, sphere2) {
     let radi1 = sphere1.radius ** 2;
     let radi2 = sphere2.radius ** 2;
-    let distance = (sphere1.center.x - sphere2.center.x) ** 2 + (sphere1.center.y - sphere2.center.y) ** 2;
+    let distance = getDistance(sphere1.center, sphere2.center);
     if (distance <= radi1 + radi2) {
         return true;
     }
@@ -87,59 +90,65 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
         }
     }
 }
-let handleShipCollisions = function (ship){
-    console.log(ship.direction)
+let handleShipCollisions = function (ship, secondCenter) {
+    // console.log(ship.direction)
     // if(ship.direction.up){
     //     ship.setShouldMove('up', false);
     // }
     // else{
     //     ship.setShouldMove('up', true)
-    // }
-    if(ship.direction.down){
+    // 
+    let predMoves = ship.predMoves();
+    // if the predicted move moves you closer to the object, you can't move that way
+    // console.log(predMoves)
+    // console.log(secondCenter)
+    let currentDistance = getDistance(ship.center, secondCenter)
+    if (getDistance(predMoves.moveDown, secondCenter) < currentDistance) {
         ship.setShouldMove('down', false)
     }
-    else{
+    else {
         ship.setShouldMove('down', true)
     }
-    if(ship.direction.up){
+    if (getDistance(predMoves.moveUp, secondCenter) < currentDistance) {
         ship.setShouldMove('up', false)
     }
-    else{
+    else {
         ship.setShouldMove('up', true)
     }
-    if(ship.direction.right){
-        ship.setShouldMove('right', false)
-    }
-    else{
-        ship.setShouldMove('right', true)
-    }
-    if(ship.direction.left){
+    if (getDistance(predMoves.moveLeft, secondCenter) < currentDistance) {
         ship.setShouldMove('left', false)
     }
-    else{
+    else {
         ship.setShouldMove('left', true)
     }
-    // if(ship.direction.left){
-    //     ship.moveRight();
-    // }
-    // if(ship.direction.right){
-    //     ship.moveLeft();
-    // }
+    if (getDistance(predMoves.moveRight, secondCenter) < currentDistance) {
+        ship.setShouldMove('right', false)
+    }
+    else {
+        ship.setShouldMove('right', true)
+    }
 }
-MyGame.objects.handleCollisions = function (collisions){
+MyGame.objects.handleCollisions = function (collisions) {
     // console.log(collisions);
-    for(let i = 0; i < collisions.length; i++){
+    for (let i = 0; i < collisions.length; i++) {
         let obj = collisions[i];
         // console.log(obj);
-        if(obj.first.type === 'ship'){
-            // console.log(obj.first)
-            let ship = obj.first.object;
-            handleShipCollisions(ship)
-            // console.log(ship.direction)
-            
+        if (obj.first.type === 'ship') {
+            if (obj.second.type === 'mushroom') {
+                let ship = obj.first.object;
+                let second = obj.second;
+                handleShipCollisions(ship, second.object.center)
+            }
+
+
         }
-        else if (obj.second.type === 'ship'){
-            console.log(obj.second);
+        else if (obj.second.type === 'ship') {
+            if (obj.first.type === 'mushroom') {
+                let ship = obj.second.object;
+                let second = obj.first;
+                handleShipCollisions(ship, second.object.center)
+            }
+
         }
     }
 }
