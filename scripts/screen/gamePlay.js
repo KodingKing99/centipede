@@ -15,13 +15,13 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // halfSize: bool, tells if you should divide by two for a sprite
     ////////////////////////////////////////////////////
     let spriteSheet = {
-            url: 'assets/spritesheet2.png',
-            dimensions: { levelWidth: 2, levelHeight: 7 },
-            spritesPerLevel: { x: 7, y: 11 },
+        url: 'assets/spritesheet2.png',
+        dimensions: { levelWidth: 2, levelHeight: 7 },
+        spritesPerLevel: { x: 7, y: 11 },
     }
     let level = 1;
     let mushAnimeSpec = {
-        spriteSheet: spriteSheet, 
+        spriteSheet: spriteSheet,
         spriteCount: 4,
         offsetSpriteCount: { x: 4, y: 0 },
         level: level,
@@ -41,7 +41,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     let beamAnimeSpec = {
         spriteSheet: spriteSheet,
         spriteCount: 1,
-        offsetSpriteCount: {x: 0.5, y: 10},
+        offsetSpriteCount: { x: 0.5, y: 10 },
         level: level,
         updateBool: () => { return false },
         halfSize: true,
@@ -71,6 +71,22 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // );
         // input.Keyboard.register()
     }
+    // function updateStaticRenderers() {
+    //     for (let i = 0; i < objects.objectsArray.length; i++) {
+    //         let obj = objects.objectsArray[i];
+    //         // if (obj.type === 'mushroom') {
+    //         //     // console.log(obj.object.lives);
+    //         //     mushieRenderer.update(obj.object.getRenderIndex());
+    //         //     // console.log(obj.object.getRenderIndex());
+    //         // }
+    //         // else if (obj.type === 'ship') {
+    //         //     shipRenderer.render(obj.object)
+    //         // }
+    //         // else if (obj.type === 'beam') {
+    //         //     beamRenderer.render(obj.object);
+    //         // }
+    //     }
+    // }
     function run() {
         // do nothing for now, will call game loop stuff at some point
         // game loop code
@@ -82,6 +98,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing
         input.Keyboard.update(elapsedTime);
         objects.update(elapsedTime);
+        // updateStaticRenderers();
     }
     function renderObjects() {
         // console.log(objects.objectsArray)
@@ -93,7 +110,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             else if (obj.type === 'ship') {
                 shipRenderer.render(obj.object)
             }
-            else if (obj.type === 'beam'){
+            else if (obj.type === 'beam') {
                 beamRenderer.render(obj.object);
             }
         }

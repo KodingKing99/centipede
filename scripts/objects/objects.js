@@ -173,13 +173,14 @@ MyGame.objects.handleCollisions = function (collisions) {
             if (obj.second.type === 'mushroom') {
                 obj.second.object.subLife();
                 obj.first.object.setHasCollided();
-                console.log(obj.second.object.lives)
+                // console.log(obj.second.object.getRenderIndex())
             }
         }
         else if (obj.second.type === 'beam') {
             if (obj.first.type === 'mushroom') {
                 obj.first.object.subLife();
                 obj.second.object.setHasCollided();
+                // console.log(obj.first.object.getRenderIndex())
             }
         }
     }

@@ -3,7 +3,7 @@
 // Renders a static mushroom. The logic is different for update on mushrooms and other objects so they are in sperate files
 //
 // --------------------------------------------------------------
-MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
+MyGame.render.staticAnimatedRenderer = function (spec, graphics) {
     'use strict';
     ////////////////////////////////////////////////////
     // Takes a spec with the following specifications
@@ -28,13 +28,13 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     let isReady = false;  // Can't render until the texture is loaded
     //
     // Load he texture to use for the particle system loading and ready for rendering
-    image.onload = function() {
+    image.onload = function () {
         isReady = true;
         let levelWidth = Math.floor(image.width / spec.spriteSheet.dimensions.levelWidth);
         console.log(`levelWidth is : ${levelWidth}`)
         console.log(`image width is : ${image.width}`)
         subImageWidth = Math.round(levelWidth / spec.spriteSheet.spritesPerLevel.x); // width of a sprite
-        let levelHeight =  Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
+        let levelHeight = Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
         subImageHeight = Math.round(levelHeight / spec.spriteSheet.spritesPerLevel.y)
         console.log(`image is ready. it's width is: ${subImageWidth}, height is: ${subImageHeight}`)
     }
@@ -43,9 +43,11 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     //------------------------------------------------------------------
     //
     // Update the state of the animation
+    // since this is the static renderer, the update logic will be based on a function
+    // of the model's.
     //
     //------------------------------------------------------------------
-    function update(elapsedTime) {
+    function update(index) {
         // animationTime += elapsedTime;
         // //
         // // Check to see if we should update the animation frame
@@ -59,6 +61,13 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
         //     // Wrap around from the last back to the first sprite as needed
         //     subImageIndex = subImageIndex % spec.spriteCount;
         // }
+        subImageIndex = index;
+        // if(index !== 0){
+
+        //     console.log(index)
+        // }
+        // console.log(model.getRenderIndex());
+        // console.log(subImageIndex)
     }
 
     //------------------------------------------------------------------
@@ -68,15 +77,20 @@ MyGame.render.staticAnimatedRenderer = function(spec, graphics) {
     //------------------------------------------------------------------
     function render(model) {
         if (isReady) {
+            if (model.getRenderIndex) {
+                subImageIndex = model.getRenderIndex();
+                // console.log(subImageIndex)
+            }
             let sxOffset = Math.floor(subImageWidth * spec.offsetSpriteCount.x) // how many pixels to go before your sprite
-            let sx = (subImageWidth * subImageIndex) + sxOffset // where to start clippin
             let subSpriteWidth = subImageWidth;
-            if(spec.halfSize){
+            if (spec.halfSize) {
                 subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
             }
+            let sx = (subSpriteWidth * subImageIndex) + sxOffset // where to start clippin
+
 
             let sy = subImageHeight * spec.offsetSpriteCount.y// # of pixels before your image
-            if(spec.log){
+            if (spec.log) {
                 console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
                 spec.log = false;
             }
