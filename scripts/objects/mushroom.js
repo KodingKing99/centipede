@@ -1,8 +1,11 @@
 MyGame.objects.Mushroom = function(spec){
     'use strict';
     // let that = {};
-    let lives = 4;
-    function subLife() { lives--;};
+    let lives = 16;
+    // let refractory = 50;
+    function subLife() { 
+        lives--;
+    };
     
     return {
         get center(){ return spec.center; },

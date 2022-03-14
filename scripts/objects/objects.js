@@ -3,7 +3,7 @@ function getSphere(radius, center) {
     return { radius: radius, center: center };
 }
 MyGame.objects.initialize = function (width, height, numCells) {
-    MyGame.objects.board = {width: width, height: height};
+    MyGame.objects.board = { width: width, height: height };
     let cellSize = Math.floor(width / numCells);
     console.log(`cell size is ${cellSize}`)
     let sizeOffset = { x: 0.7, y: 1 }
@@ -49,17 +49,17 @@ function theyCollide(sphere1, sphere2) {
     }
     return false;
 }
-function handleEdges(obj){
-    if(obj.center.x - (obj.size.x / 2) < 0 ){
+function handleEdges(obj) {
+    if (obj.center.x - (obj.size.x / 2) < 0) {
         obj.setShouldMove('left', false);
     }
-    if(obj.center.x + (obj.size.x / 2) > MyGame.objects.board.width ){
+    if (obj.center.x + (obj.size.x / 2) > MyGame.objects.board.width) {
         obj.setShouldMove('right', false);
     }
-    if(obj.center.y - (obj.size.y / 2) < 0 ){
+    if (obj.center.y - (obj.size.y / 2) < 0) {
         obj.setShouldMove('up', false);
-    }    
-    if(obj.center.y + (obj.size.y / 2) > MyGame.objects.board.height ){
+    }
+    if (obj.center.y + (obj.size.y / 2) > MyGame.objects.board.height) {
         obj.setShouldMove('down', false);
     }
 }
@@ -100,27 +100,24 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
 
 
         }
+        /////////////
+
         if (this.objectsArray[i].type === 'beam') {
-            this.objectsArray[i].object.moveUp(elapsedTime);
+            let beam = this.objectsArray[i];
+            beam.object.moveUp(elapsedTime);
             // if the object went too high
-            if (this.objectsArray[i].object.center.y < 0) {
+            if (beam.object.center.y < 0 || beam.object.hasCollided) {
                 toDelete[i] = i;
             }
         }
     }
 }
 let handleShipCollisions = function (ship, secondCenter) {
-    // console.log(ship.direction)
-    // if(ship.direction.up){
-    //     ship.setShouldMove('up', false);
-    // }
-    // else{
-    //     ship.setShouldMove('up', true)
-    // 
+    //////////////
+    // These are for mushroom collisions
+    //////////////
     let predMoves = ship.predMoves();
     // if the predicted move moves you closer to the object, you can't move that way
-    // console.log(predMoves)
-    // console.log(secondCenter)
     let currentDistance = getDistance(ship.center, secondCenter)
     if (getDistance(predMoves.moveDown, secondCenter) < currentDistance) {
         ship.setShouldMove('down', false)
@@ -148,26 +145,42 @@ let handleShipCollisions = function (ship, secondCenter) {
     }
 }
 MyGame.objects.handleCollisions = function (collisions) {
-    // console.log(collisions);
     for (let i = 0; i < collisions.length; i++) {
         let obj = collisions[i];
-        // console.log(obj);
+        /////////////
+        // ship collisions
+        /////////////
         if (obj.first.type === 'ship') {
-            if (obj.second.type === 'mushroom') {
+            if (obj.second.type !== 'beam') { // ship can't collide with it's beam
                 let ship = obj.first.object;
                 let second = obj.second;
                 handleShipCollisions(ship, second.object.center)
             }
-
-
         }
+
         else if (obj.second.type === 'ship') {
-            if (obj.first.type === 'mushroom') {
+            if (obj.first.type != 'beam') {
                 let ship = obj.second.object;
                 let second = obj.first;
                 handleShipCollisions(ship, second.object.center)
             }
 
+        }
+        /////////////
+        // beam collisions
+        /////////////
+        if (obj.first.type === 'beam') {
+            if (obj.second.type === 'mushroom') {
+                obj.second.object.subLife();
+                obj.first.object.setHasCollided();
+                console.log(obj.second.object.lives)
+            }
+        }
+        else if (obj.second.type === 'beam') {
+            if (obj.first.type === 'mushroom') {
+                obj.first.object.subLife();
+                obj.second.object.setHasCollided();
+            }
         }
     }
 }
