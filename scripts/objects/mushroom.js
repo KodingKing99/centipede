@@ -7,16 +7,16 @@ MyGame.objects.Mushroom = function(spec){
         lives--;
     };
     function getRenderIndex() {
-        if(lives >= 12 ){
+        if(lives > 12 ){
             return 0;
         }
-        else if(lives >= 8 && lives < 12 ){
+        else if(lives > 8 && lives <= 12 ){
             return 1;
         }
-        else if(lives >= 4 && lives < 8){
+        else if(lives > 4 && lives <= 8){
             return 2;
         }
-        else if(lives >= 0 && lives < 4){
+        else if(lives <= 4){
             return 3;
         }
     }

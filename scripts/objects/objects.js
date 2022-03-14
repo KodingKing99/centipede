@@ -101,12 +101,18 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
 
         }
         /////////////
-
+        // deletions
+        ////////////
         if (this.objectsArray[i].type === 'beam') {
             let beam = this.objectsArray[i];
             beam.object.moveUp(elapsedTime);
             // if the object went too high
             if (beam.object.center.y < 0 || beam.object.hasCollided) {
+                toDelete[i] = i;
+            }
+        }
+        else if (this.objectsArray[i].type === 'mushroom'){
+            if(this.objectsArray[i].object.isDead){
                 toDelete[i] = i;
             }
         }
