@@ -3,6 +3,7 @@ function getSphere(radius, center) {
     return { radius: radius, center: center };
 }
 MyGame.objects.initialize = function (width, height, numCells) {
+    MyGame.objects.board = {width: width, height: height};
     let cellSize = Math.floor(width / numCells);
     console.log(`cell size is ${cellSize}`)
     let sizeOffset = { x: 0.7, y: 1 }
@@ -48,6 +49,20 @@ function theyCollide(sphere1, sphere2) {
     }
     return false;
 }
+function handleEdges(obj){
+    if(obj.center.x - (obj.size.x / 2) < 0 ){
+        obj.setShouldMove('left', false);
+    }
+    if(obj.center.x + (obj.size.x / 2) > MyGame.objects.board.width ){
+        obj.setShouldMove('right', false);
+    }
+    if(obj.center.y - (obj.size.y / 2) < 0 ){
+        obj.setShouldMove('up', false);
+    }    
+    if(obj.center.y + (obj.size.y / 2) > MyGame.objects.board.height ){
+        obj.setShouldMove('down', false);
+    }
+}
 MyGame.objects.collisionDetection = function () {
     let colissions = [];
     for (let i = 0; i < this.objectsArray.length; i++) {
@@ -66,6 +81,8 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
         if (this.objectsArray[i].type === 'ship') {
             let ship = this.objectsArray[i];
             ship.object.setAllDirShouldMove();
+            // handle edges of screen for ship movement
+            handleEdges(ship.object);
             if (ship.object.hasShot) {
                 // if (ship.object.canShoot(elapsedTime)) {
                 ship.object.setHasShotFalse();
@@ -80,6 +97,8 @@ MyGame.objects.handleUpdate = function (elapsedTime) {
                 beam.sphere = getSphere(beam.size.y / 2, beam.center);
                 this.objectsArray.push({ type: 'beam', object: beam });
             }
+
+
         }
         if (this.objectsArray[i].type === 'beam') {
             this.objectsArray[i].object.moveUp(elapsedTime);
