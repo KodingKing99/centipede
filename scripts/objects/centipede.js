@@ -10,33 +10,57 @@
     MyGame.objects.CentipedeSegment = function(mSpec) {
         let lives = 4;
         let isHead = false;
+        let direction = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        }
+        let cellDuration = 150;
         function setAsHead() { isHead = true; }
         function subLife() { lives-- };
-        function moveUp(elapsedTime) {
-            mSpec.center.y -= (elapsedTime * mSpec.moveRate);
+        function moveDirection(elapsedTime){
+            if(direction.up){
+                mSpec.center.y -= (elapsedTime * mSpec.moveRate);
+            }
+            if(direction.down){
+                mSpec.center.y += (elapsedTime * mSpec.moveRate);
+            }
+            if(direction.left){
+                mSpec.center.x -= (elapsedTime * mSpec.moveRate);
+            }
+            if(direction.right){
+                mSpec.center.x += (elapsedTime * mSpec.moveRate);
+            }
         }
-        function moveDown(elapsedTime) {
-            mSpec.center.y += (elapsedTime * mSpec.moveRate);
+        function setDirection(dir){
+            for(let mDir in direction){
+                direction[mDir] = false;
+            }
+            direction[dir] = true;
+            // console.log(direction)
         }
-        function moveRight(elapsedTime) {
-            mSpec.center.x += (elapsedTime * mSpec.moveRate);
+        function subCellDuration(ammount){
+            cellDuration -= ammount;
         }
-        function moveLeft(elapsedTime) {
-            mSpec.center.x -= (elapsedTime * mSpec.moveRate);
+        function resetCellDuration() {
+            cellDuration = 150;
         }
-
+        // function setCellDuration(){}
         return {
             get center() { return mSpec.center; },
             get size() { return mSpec.size; },
             get rotation() { return mSpec.rotation; },
+            get cellDuration() { return cellDuration},
+            get direction() {return direction },
             get isDead() { return lives === 0; },
             get isHead() { return isHead; },
             subLife: subLife,
-            moveUp: moveUp,
-            moveDown: moveDown,
-            moveRight: moveRight,
-            moveLeft: moveLeft,
+            setDirection: setDirection,
+            moveDirection: moveDirection,
+            subCellDuration: subCellDuration,
             setAsHead: setAsHead,
+            resetCellDuration: resetCellDuration,
         }
     }
     // MyGame.objects.Centipede = function (spec) {

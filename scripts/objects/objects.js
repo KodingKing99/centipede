@@ -37,31 +37,23 @@
         MyGame.objects.objectsArray.push({ type: 'ship', object: ship })
 
         // add centipede to top right
-        let firstCenter = {x: width * 0.7, y: cellSize};
+        let firstCenter = { x: width * 0.7, y: cellSize };
         for (let i = 0; i < 4; i++) {
             let segmentSpec = {
                 size: { x: cellSize * sizeOffset.x, y: cellSize },
                 rotation: 0,
                 moveRate: 0.4,
+                cellDuration: 33
             }
-            segmentSpec.center = {x: firstCenter.x + (i * segmentSpec.size.x), y: firstCenter.y};
+            segmentSpec.center = { x: firstCenter.x + (i * segmentSpec.size.x), y: firstCenter.y };
             let segment = MyGame.objects.CentipedeSegment(segmentSpec);
+            segment.setDirection('left');
             segment.sphere = getSphere((segment.size.x / 2), segment.center);
-            if(i === 0){
+            if (i === 0) {
                 segment.setAsHead();
             }
-            MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment})
+            MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment })
         }
-        // let centipede = MyGame.objects.Centipede(centipedeSpec);
-        // for (let i = 0; i < centipede.segmentList.length; i++) {
-        //     centipede.segmentList[i].sphere = getSphere(centipede.segmentList[i].size.x / 2,
-        //         centipede.segmentList[i].center)
-        // }
-        // console.log(centipede.segmentList)
-        // MyGame.objects.objectsArray.push({ type: 'centipede', object: centipede });
-        // for (let i = 0; i < centipede.segments.length; i++) {
-
-        // }
         console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
@@ -77,18 +69,82 @@
         }
         return false;
     }
-    function handleEdges(obj) {
+    function atEdges(obj) {
+        let edges = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        }
         if (obj.center.x - (obj.size.x / 2) < 0) {
-            obj.setShouldMove('left', false);
+            edges.left = true;
         }
         if (obj.center.x + (obj.size.x / 2) > MyGame.objects.board.width) {
-            obj.setShouldMove('right', false);
+            edges.right = true;
         }
         if (obj.center.y - (obj.size.y / 2) < 0) {
-            obj.setShouldMove('up', false);
+            edges.up = true;
         }
         if (obj.center.y + (obj.size.y / 2) > MyGame.objects.board.height) {
-            obj.setShouldMove('down', false);
+            edges.down = true;
+        }
+        return edges;
+    }
+    function handleEdges(obj) {
+        let atEdge = atEdges(obj.object);
+        if (obj.type === 'ship') {
+            if (atEdge.left) {
+                obj.object.setShouldMove('left', false);
+            }
+            if (atEdge.right) {
+                obj.object.setShouldMove('right', false);
+            }
+            if (atEdge.up) {
+                obj.object.setShouldMove('up', false);
+            }
+            if (atEdge.down) {
+                obj.object.setShouldMove('down', false);
+            }
+            return atEdge;
+        }
+        else if(obj.type === 'centipedeSegment'){
+            // let duration = 
+            if (atEdge.left) {
+                obj.object.setDirection('down');
+            }
+            if (atEdge.right) {
+                obj.object.setDirection('down');
+            }
+            if (atEdge.up) {
+                obj.object.setDirection('down');
+            }
+            if (atEdge.down) {
+                obj.object.setDirection('up');
+            }
+            return atEdge;
+        }
+    }
+    function handleCentipedeMovement(centSeg, atEdge, elapsedTime){
+        // if the centipede is moving down for a certian time
+        if(centSeg.object.direction.down){
+            centSeg.object.subCellDuration(elapsedTime);
+            if(centSeg.object.cellDuration < 0){
+                centSeg.object.resetCellDuration();
+                if(atEdge.left){
+                    centSeg.object.setDirection('right');
+                }
+                if(atEdge.right){
+                    centSeg.object.setDirection('left');
+                }
+                // if(atEdge.left){
+                //     centSeg.object.setDirection('right');
+                // }
+                // if(atEdge.left){
+                //     centSeg.object.setDirection('right');
+                // }
+
+            }
+            
         }
     }
     MyGame.objects.collisionDetection = function () {
@@ -101,24 +157,6 @@
                             colissions.push({ 'first': this.objectsArray[i], 'second': this.objectsArray[j] })
                         }
                     }
-                    //////////////
-                    // Collision detection for centipede segments
-                    //////////////
-                    // if (this.objectsArray[i].type === 'centipede') {
-                    //     for (let k = this.objectsArray[i].object.segmentList; k < this.objectsArray[i].object.segmentList.length; k++) {
-                    //         if (theyCollide(this.objectsArray[i][k].object.sphere, this.objectsArray[j].object.sphere)) {
-                    //             colissions.push({ 'first': this.objectsArray[i][k], 'second': this.objectsArray[j] })
-                    //         }
-                    //     }
-                    // }
-                    // else if (this.objectsArray[j].type === 'centipede') {
-                    //     for (let k = this.objectsArray[j].object.segmentList; k < this.objectsArray[j].object.segmentList.length; k++) {
-                    //         if (theyCollide(this.objectsArray[i].object.sphere, this.objectsArray[j][j].object.sphere)) {
-                    //             colissions.push({ 'first': this.objectsArray[i], 'second': this.objectsArray[j][k] })
-                    //         }
-                    //     }
-                    // }
-
                 }
             }
         }
@@ -130,7 +168,7 @@
                 let ship = this.objectsArray[i];
                 ship.object.setAllDirShouldMove();
                 // handle edges of screen for ship movement
-                handleEdges(ship.object);
+                handleEdges(ship);
                 if (ship.object.hasShot) {
                     // if (ship.object.canShoot(elapsedTime)) {
                     ship.object.setHasShotFalse();
@@ -147,6 +185,13 @@
                 }
 
 
+            }
+            if (this.objectsArray[i].type === 'centipedeSegment') {
+                let seg = this.objectsArray[i];
+                let atEdge = handleEdges(seg);
+                handleCentipedeMovement(seg, atEdge, elapsedTime);
+                // if(seg.object.cellDuration )
+                seg.object.moveDirection(elapsedTime);
             }
             /////////////
             // deletions
@@ -242,7 +287,9 @@
     MyGame.objects.update = function (elapsedTime) {
         this.handleUpdate(elapsedTime)
         this.handleCollisions(this.collisionDetection());
-        // console.log(collisions)
+        /////////
+        // Deletions
+        /////////
         for (let i in toDelete) {
             this.objectsArray.splice(i, 1);
         }
