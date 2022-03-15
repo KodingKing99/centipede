@@ -44,8 +44,13 @@
             moveRate: 0.4,
             segments: 4,
         }
-        // let centipede = MyGame.objects.Centipede(centipedeSpec);
-        // MyGame.objects.objectsArray.push({ type: 'centipede', object: centipede });
+        let centipede = MyGame.objects.Centipede(centipedeSpec);
+        for (let i = 0; i < centipede.segmentList.length; i++) {
+            centipede.segmentList[i].sphere = getSphere(centipede.segmentList[i].size.x / 2,
+                centipede.segmentList[i].center)
+        }
+        console.log(centipede.segmentList)
+        MyGame.objects.objectsArray.push({ type: 'centipede', object: centipede });
         // for (let i = 0; i < centipede.segments.length; i++) {
 
         // }
@@ -86,6 +91,23 @@
                     if (this.objectsArray[i].object.sphere && this.objectsArray[j].object.sphere) {
                         if (theyCollide(this.objectsArray[i].object.sphere, this.objectsArray[j].object.sphere)) {
                             colissions.push({ 'first': this.objectsArray[i], 'second': this.objectsArray[j] })
+                        }
+                    }
+                    //////////////
+                    // Collision detection for centipede segments
+                    //////////////
+                    if (this.objectsArray[i].type === 'centipede') {
+                        for (let k = this.objectsArray[i].object.segmentList; k < this.objectsArray[i].object.segmentList.length; k++) {
+                            if (theyCollide(this.objectsArray[i][k].object.sphere, this.objectsArray[j].object.sphere)) {
+                                colissions.push({ 'first': this.objectsArray[i][k], 'second': this.objectsArray[j] })
+                            }
+                        }
+                    }
+                    else if (this.objectsArray[j].type === 'centipede') {
+                        for (let k = this.objectsArray[j].object.segmentList; k < this.objectsArray[j].object.segmentList.length; k++) {
+                            if (theyCollide(this.objectsArray[i].object.sphere, this.objectsArray[j][j].object.sphere)) {
+                                colissions.push({ 'first': this.objectsArray[i], 'second': this.objectsArray[j][k] })
+                            }
                         }
                     }
 

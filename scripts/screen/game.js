@@ -52,7 +52,12 @@ MyGame.game = (function (screens, input, objects) {
         // width, height, numcells
         // pass in the ship to intialize controls, TODO - get a better way to access this
         objects.initialize(1000, 1000, 30);
-        let ship = objects.objectsArray[objects.objectsArray.length - 1]
+        let ship = {};
+        for(let i = 0; i < objects.objectsArray.length; i++){
+            if(objects.objectsArray[i].type === 'ship'){
+                ship = objects.objectsArray[i];
+            }
+        } 
         let spec = {
             moveLeft: ship.object.moveLeft,
             moveRight: ship.object.moveRight,
