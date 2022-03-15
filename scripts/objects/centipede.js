@@ -8,7 +8,6 @@
 //---------------------------------------
 {
     MyGame.objects.CentipedeSegment = function(mSpec) {
-        console.log('hello')
         let lives = 4;
         let isHead = false;
         function setAsHead() { isHead = true; }

@@ -48,9 +48,27 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         extraOffset: { x: 0, y: 0 },
         log: true
     }
+    let centipedeSegmentAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 1,
+        offsetSpriteCount: {x: 0, y: 2},
+        level: level,
+        halfSize: true,
+        extraOffset: {x: 0, y: 0}
+    }
+    let centipedeHeadAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 1,
+        offsetSpriteCount: {x: 0, y: 0},
+        level: level,
+        halfSize: true,
+        extraOffset: {x: 0, y: 0}
+    }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
     let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
     let beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
+    let centipedeSegmentRenderer = renderer.AnimatedRenderer(centipedeSegmentAnimeSpec, graphics);
+    let centipedeHeadRenderer = renderer.AnimatedRenderer(centipedeHeadAnimeSpec, graphics);
     function initialize() {
         // do nothing for now
 
@@ -112,6 +130,14 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             }
             else if (obj.type === 'beam') {
                 beamRenderer.render(obj.object);
+            }
+            else if(obj.type === 'centipedeSegment'){
+                if(obj.object.isHead){
+                    centipedeHeadRenderer.render(obj.object);
+                }
+                else{
+                    centipedeSegmentRenderer.render(obj.object);
+                }
             }
         }
     }
