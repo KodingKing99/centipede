@@ -16,7 +16,8 @@
             up: false,
             down: false
         }
-        let cellDuration = 150;
+        let duration = mSpec.size.y * 3;
+        let cellDuration = duration;
         function setAsHead() { isHead = true; }
         function subLife() { lives-- };
         function moveDirection(elapsedTime){
@@ -44,7 +45,7 @@
             cellDuration -= ammount;
         }
         function resetCellDuration() {
-            cellDuration = 150;
+            cellDuration = duration;
         }
         // function setCellDuration(){}
         return {

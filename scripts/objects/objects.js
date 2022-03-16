@@ -42,8 +42,8 @@
             let segmentSpec = {
                 size: { x: cellSize * sizeOffset.x, y: cellSize },
                 rotation: 0,
-                moveRate: 0.4,
-                cellDuration: 33
+                moveRate: 0.3,
+                cellSize: 33
             }
             segmentSpec.center = { x: firstCenter.x + (i * segmentSpec.size.x), y: firstCenter.y };
             let segment = MyGame.objects.CentipedeSegment(segmentSpec);
