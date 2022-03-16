@@ -113,12 +113,14 @@
         else if (obj.type === 'centipedeSegment') {
             // let duration = 
             if (atEdge.left) {
-                obj.object.moveDownRight()
+                // obj.object.moveDownRight()
+
+                obj.object.setDirection('down');
                 // obj.object.moveDown();
                 // obj.object.setDirection('right');
             }
             if (atEdge.right) {
-                obj.object.moveDownLeft();
+                obj.object.setDirection('down');
                 // obj.object.moveDown();
                 // obj.object.setDirection('left');
             }
@@ -279,29 +281,26 @@
             /////////////
             // Centipede detection
             /////////////
-            // if (obj.first.type === 'centipedeSegment') {
-            //     if (obj.second.type === 'mushroom') {
-            //         if (obj.first.object.direction.left) {
-            //             obj.first.object.moveDownRight();
-            //             continue;
-            //         }
-            //         else if (obj.first.object.direction.right) {
-            //             obj.first.object.moveDownLeft();
-            //             continue;
-            //         }
-            //         // console.log(obj.second.object.getRenderIndex())
-            //     }
-            // }
+            if (obj.first.type === 'centipedeSegment') {
+                if (obj.second.type === 'mushroom') {
+                    if (obj.first.object.direction.left || obj.first.object.direction.down) {
+                        // console.log()
+                        obj.first.object.setDirection('down');
+                    }
+                    else if (obj.first.object.direction.right) {
+                        obj.first.object.setDirection('down');
+                    }
+                    // console.log(obj.second.object.getRenderIndex())
+                }
+            }
             // else if (obj.second.type === 'centipedeSegment') {
             //     if (obj.first.type === 'mushroom') {
             //         if (obj.second.object.direction.left) {
             //             obj.second.object.moveDownRight();
-            //             continue
             //         }
-            //         // else if (obj.second.object.direction.right) {
-            //         //     obj.second.object.moveDownLeft();
-            //         //     continue;
-            //         // }
+            //         else if (obj.second.object.direction.right) {
+            //             obj.second.object.moveDownLeft();
+            //         }
 
             //     }
             // }

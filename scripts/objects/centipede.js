@@ -28,8 +28,8 @@
             // setDirection()
         }
         function moveDownLeft(){
-            setDirection('down');
-            moveDown();
+            // setDirection('down');
+            // moveDown();
             ammount -= downRate;
             if(ammount <= 0){
                 setDirection('left')
@@ -37,9 +37,11 @@
             }
         }
         function moveDownRight(){
-            setDirection('down');
-            moveDown();
+            // setDirection('down');
+            // moveDown();
             ammount -= downRate;
+            // console.log(ammount)
+            // console.log(downRate)
             if(ammount <= 0){
                 setDirection('right')
                 ammount = mSpec.size.y;
@@ -50,9 +52,11 @@
             // if(direction.up){
             //     mSpec.center.y -= (elapsedTime * mSpec.moveRate);
             // }
-            // if(direction.down){
-            //     // mSpec.center.y += (elapsedTime * mSpec.moveRate);
-            // }
+            if(direction.down){
+                moveDownRight();
+                mSpec.center.y += downRate;
+                // mSpec.center.y += (elapsedTime * mSpec.moveRate);
+            }
             if(direction.left){
                 // mSpec.center.x -= (elapsedTime * mSpec.moveRate);
                 mSpec.center.x -= mSpec.size.y / 10;
