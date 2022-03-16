@@ -115,11 +115,14 @@
             if (atEdge.left) {
                 // obj.object.moveDownRight()
 
+                // obj.object.setPreviousDirection()
+                obj.object.setPrevDirection('left')
                 obj.object.setDirection('down');
                 // obj.object.moveDown();
                 // obj.object.setDirection('right');
             }
             if (atEdge.right) {
+                obj.object.setPrevDirection('right')
                 obj.object.setDirection('down');
                 // obj.object.moveDown();
                 // obj.object.setDirection('left');
@@ -280,14 +283,16 @@
             }
             /////////////
             // Centipede detection
-            /////////////
+            // /////////////
             if (obj.first.type === 'centipedeSegment') {
                 if (obj.second.type === 'mushroom') {
-                    if (obj.first.object.direction.left || obj.first.object.direction.down) {
+                    if (obj.first.object.direction.left) {
                         // console.log()
+                        obj.first.object.setPrevDirection('left')
                         obj.first.object.setDirection('down');
                     }
                     else if (obj.first.object.direction.right) {
+                        obj.first.object.setPrevDirection('right')
                         obj.first.object.setDirection('down');
                     }
                     // console.log(obj.second.object.getRenderIndex())

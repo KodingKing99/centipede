@@ -16,6 +16,12 @@
             up: false,
             down: false
         }
+        let prevDirection = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        }
         let duration = 500;
         let cellDuration = duration;
         let downRate = mSpec.size.y / 10;
@@ -36,14 +42,20 @@
                 ammount = mSpec.size.y;
             }
         }
-        function moveDownRight(){
+        function moveDownDir(){
             // setDirection('down');
             // moveDown();
             ammount -= downRate;
             // console.log(ammount)
             // console.log(downRate)
             if(ammount <= 0){
-                setDirection('right')
+                if(prevDirection.left){
+                    setDirection('right')
+                }
+                else if(prevDirection.right){
+
+                    setDirection('left')
+                }
                 ammount = mSpec.size.y;
             }
         }
@@ -53,7 +65,7 @@
             //     mSpec.center.y -= (elapsedTime * mSpec.moveRate);
             // }
             if(direction.down){
-                moveDownRight();
+                moveDownDir();
                 mSpec.center.y += downRate;
                 // mSpec.center.y += (elapsedTime * mSpec.moveRate);
             }
@@ -67,10 +79,19 @@
             }
         }
         function setDirection(dir){
+            // console.log(direction)
             for(let mDir in direction){
                 direction[mDir] = false;
             }
             direction[dir] = true;
+            // console.log(direction)
+        }
+        function setPrevDirection(dir){
+            // console.log(direction)
+            for(let mDir in prevDirection){
+                prevDirection[mDir] = false;
+            }
+            prevDirection[dir] = true;
             // console.log(direction)
         }
         function subCellDuration(ammount){
@@ -92,13 +113,14 @@
             get isHead() { return isHead; },
             subLife: subLife,
             setDirection: setDirection,
+            setPrevDirection: setPrevDirection,
             moveDirection: moveDirection,
             subCellDuration: subCellDuration,
             setAsHead: setAsHead,
             resetCellDuration: resetCellDuration,
             moveDown: moveDown,
             moveDownLeft: moveDownLeft,
-            moveDownRight: moveDownRight,
+            // moveDownRight: moveDownRight,
         }
     }
     // MyGame.objects.Centipede = function (spec) {
