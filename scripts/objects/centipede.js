@@ -18,13 +18,34 @@
         }
         let duration = 500;
         let cellDuration = duration;
+        let downRate = mSpec.size.y / 10;
+        let ammount = mSpec.size.y;
         function setAsHead() { isHead = true; }
         function subLife() { lives-- };
-        function moveDown(elapsedTime){
+        function moveDown(){
             // while()
-            mSpec.center.y += mSpec.size.y;
+            mSpec.center.y += downRate;
             // setDirection()
         }
+        function moveDownLeft(){
+            setDirection('down');
+            moveDown();
+            ammount -= downRate;
+            if(ammount <= 0){
+                setDirection('left')
+                ammount = mSpec.size.y;
+            }
+        }
+        function moveDownRight(){
+            setDirection('down');
+            moveDown();
+            ammount -= downRate;
+            if(ammount <= 0){
+                setDirection('right')
+                ammount = mSpec.size.y;
+            }
+        }
+        
         function moveDirection(elapsedTime){
             // if(direction.up){
             //     mSpec.center.y -= (elapsedTime * mSpec.moveRate);
@@ -72,6 +93,8 @@
             setAsHead: setAsHead,
             resetCellDuration: resetCellDuration,
             moveDown: moveDown,
+            moveDownLeft: moveDownLeft,
+            moveDownRight: moveDownRight,
         }
     }
     // MyGame.objects.Centipede = function (spec) {

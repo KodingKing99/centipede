@@ -112,6 +112,9 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing for now, will call game loop stuff at some point
         // game loop code
         lastTimeStamp = performance.now();
+        // re-initialize when you start a new game
+        // objects.objectsArray = [];
+        // objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
         cancelNextRequest = false;
         gameLoop(lastTimeStamp);
     }

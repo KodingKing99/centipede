@@ -4,7 +4,7 @@
         return { radius: radius, center: center };
     }
     MyGame.objects.initialize = function (width, height, numCells) {
-        MyGame.objects.board = { width: width, height: height };
+        MyGame.objects.board = { width: width, height: height, numCells: numCells };
         let cellSize = Math.floor(width / numCells);
         console.log(`cell size is ${cellSize}`)
         let sizeOffset = { x: 0.7, y: 1 }
@@ -113,14 +113,14 @@
         else if (obj.type === 'centipedeSegment') {
             // let duration = 
             if (atEdge.left) {
-                obj.object.setDirection('down');
-                obj.object.moveDown();
-                obj.object.setDirection('right');
+                obj.object.moveDownRight()
+                // obj.object.moveDown();
+                // obj.object.setDirection('right');
             }
             if (atEdge.right) {
-                obj.object.setDirection('down');
-                obj.object.moveDown();
-                obj.object.setDirection('left');
+                obj.object.moveDownLeft();
+                // obj.object.moveDown();
+                // obj.object.setDirection('left');
             }
             if (atEdge.up) {
                 obj.object.setDirection('down');
@@ -131,6 +131,15 @@
             return atEdge;
         }
     }
+    /// I want to move the centipede down while it's colliding with whatever it is colliding with
+    /// for a duration. 
+    // let ammount = 100;
+    // function moveCentipedeDown(centipede, bool){
+    //     ammount -= centipede.center.y;
+    //     if(bool){
+    //         centipede.moveDown();
+    //     }
+    // }
     MyGame.objects.collisionDetection = function () {
         let colissions = [];
         for (let i = 0; i < this.objectsArray.length; i++) {
@@ -155,17 +164,17 @@
                 handleEdges(ship);
                 if (ship.object.hasShot) {
                     if (ship.object.canShoot(elapsedTime)) {
-                    ship.object.setHasShotFalse();
-                    // add a beam to the objects array
-                    let beamSpec = {
-                        center: { x: ship.object.center.x, y: ship.object.center.y - 5 },
-                        size: { x: ship.object.size.x, y: ship.object.size.y },
-                        rotation: 0,
-                        moveRate: 1
-                    }
-                    let beam = MyGame.objects.Beam(beamSpec); // for collision detection
-                    beam.sphere = getSphere(beam.size.y / 2, beam.center);
-                    this.objectsArray.push({ type: 'beam', object: beam });
+                        ship.object.setHasShotFalse();
+                        // add a beam to the objects array
+                        let beamSpec = {
+                            center: { x: ship.object.center.x, y: ship.object.center.y - 5 },
+                            size: { x: ship.object.size.x, y: ship.object.size.y },
+                            rotation: 0,
+                            moveRate: 1
+                        }
+                        let beam = MyGame.objects.Beam(beamSpec); // for collision detection
+                        beam.sphere = getSphere(beam.size.y / 2, beam.center);
+                        this.objectsArray.push({ type: 'beam', object: beam });
                     }
                 }
 
@@ -173,7 +182,7 @@
             }
             if (this.objectsArray[i].type === 'centipedeSegment') {
                 let seg = this.objectsArray[i];
-                let atEdge = handleEdges(seg);
+                handleEdges(seg);
                 // handleCentipedeMovement(seg, atEdge, elapsedTime);
                 // if(seg.object.cellDuration )
                 seg.object.moveDirection(elapsedTime);
@@ -267,6 +276,35 @@
                     // console.log(obj.first.object.getRenderIndex())
                 }
             }
+            /////////////
+            // Centipede detection
+            /////////////
+            // if (obj.first.type === 'centipedeSegment') {
+            //     if (obj.second.type === 'mushroom') {
+            //         if (obj.first.object.direction.left) {
+            //             obj.first.object.moveDownRight();
+            //             continue;
+            //         }
+            //         else if (obj.first.object.direction.right) {
+            //             obj.first.object.moveDownLeft();
+            //             continue;
+            //         }
+            //         // console.log(obj.second.object.getRenderIndex())
+            //     }
+            // }
+            // else if (obj.second.type === 'centipedeSegment') {
+            //     if (obj.first.type === 'mushroom') {
+            //         if (obj.second.object.direction.left) {
+            //             obj.second.object.moveDownRight();
+            //             continue
+            //         }
+            //         // else if (obj.second.object.direction.right) {
+            //         //     obj.second.object.moveDownLeft();
+            //         //     continue;
+            //         // }
+
+            //     }
+            // }
         }
     }
     MyGame.objects.update = function (elapsedTime) {
