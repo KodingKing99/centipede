@@ -48,10 +48,12 @@ MyGame.game = (function (screens, input, objects) {
         // Make the main-menu screen the active one
         showScreen('mainMenu');
 
-        // objects.gameBoard.initialize();
         // width, height, numcells
         // pass in the ship to intialize controls, TODO - get a better way to access this
-        objects.initialize(1000, 1000, 30);
+        let width = document.getElementById('canvas').width;
+
+        let height = document.getElementById('canvas').height;
+        objects.initialize(width, height, 30);
         let ship = {};
         for(let i = 0; i < objects.objectsArray.length; i++){
             if(objects.objectsArray[i].type === 'ship'){
@@ -73,7 +75,7 @@ MyGame.game = (function (screens, input, objects) {
             'keydown', function goBack(e) {
                 if (e.key === 'Escape') {
                     showScreen('mainMenu');
-                    // cancelNextRequest = true;
+                    // screens['gamePlayScreen'].cancelNextRequest = true;
                 }
 
             }

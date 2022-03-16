@@ -55,6 +55,6 @@ ul{
     display: inline-block;
 }
 #game .default:hover{
-    color: black;
+    color: purple;
     cursor:default;
 }

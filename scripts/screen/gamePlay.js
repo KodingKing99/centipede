@@ -1,5 +1,6 @@
 MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects) {
     let cancelNextRequest = true;
+    // MyGame.screens['gamePlayScreen'].cancelNextRequest= cancelNextRequest;
     let lastTimeStamp = performance.now();
     ////////////////////////////////////////////////////
     // static renderer -- Takes a spec with the following specifications
@@ -78,15 +79,17 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
                 cancelNextRequest = true;
             }
         );
+
+        // MyGame.screens['gamePlayScreen'].cancelNextRequest = cancelNextRequest;
         // escape should stop updating
-        // window.addEventListener(
-        //     'keypress', (e) => {
-        //         if(e.key === 'Escape'){
-        //             cancelNextRequest = true;
-        //             console.log('stop')
-        //         }
-        //     }
-        // );
+        window.addEventListener(
+            'keydown', function stopFrame(e){
+                if(e.key === 'Escape'){
+                    cancelNextRequest = true;
+                    // console.log('stop')
+                }
+            }
+        );
         // input.Keyboard.register()
     }
     // function updateStaticRenderers() {
