@@ -131,45 +131,6 @@
             return atEdge;
         }
     }
-    // change one segment at a time
-    let index = 0;
-    let duration = 100;
-    function handleCentipedeMovement(centSeg, atEdge, elapsedTime) {
-        // if the centipede is moving down for a certian time
-        // if (centSeg.object.direction.down) {
-        //     if (centSeg.object.index === index) {
-        //         centSeg.object.subCellDuration(elapsedTime);
-        //         if (centSeg.object.cellDuration < 0) {
-        //             centSeg.object.resetCellDuration();
-                    
-        //             index += 1;
-        //             if (atEdge.left) {
-        //                 centSeg.object.setDirection('right');
-        //             }
-        //             if (atEdge.right) {
-        //                 centSeg.object.setDirection('left');
-        //             }
-        //             // if(atEdge.left){
-        //             //     centSeg.object.setDirection('right');
-        //             // }
-        //             // if(atEdge.left){
-        //             //     centSeg.object.setDirection('right');
-        //             // }
-
-        //         }
-
-        //     }
-        // }
-        // // duration = duration
-        // // if(duration - elapsedTime <= 0){
-        // //     index++;
-        // //     duration = 100;
-        // // }
-        // if(index >=  centSeg.object.segCount){
-        //     index = 0;
-        // }
-
-    }
     MyGame.objects.collisionDetection = function () {
         let colissions = [];
         for (let i = 0; i < this.objectsArray.length; i++) {
@@ -193,7 +154,7 @@
                 // handle edges of screen for ship movement
                 handleEdges(ship);
                 if (ship.object.hasShot) {
-                    // if (ship.object.canShoot(elapsedTime)) {
+                    if (ship.object.canShoot(elapsedTime)) {
                     ship.object.setHasShotFalse();
                     // add a beam to the objects array
                     let beamSpec = {
@@ -205,6 +166,7 @@
                     let beam = MyGame.objects.Beam(beamSpec); // for collision detection
                     beam.sphere = getSphere(beam.size.y / 2, beam.center);
                     this.objectsArray.push({ type: 'beam', object: beam });
+                    }
                 }
 
 

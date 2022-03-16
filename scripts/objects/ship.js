@@ -67,13 +67,12 @@ MyGame.objects.Ship = function (spec) {
     function predMoves(elapsedTime){
         let center = spec.center;
         let moveRate = spec.moveRate;
-        let moves = {
+        return {
             moveUp : {x: center.x, y: (center.y - moveRate)},
             moveDown : {x: center.x, y: (center.y + moveRate)},
             moveLeft : {x: spec.center.x - (spec.moveRate), y: spec.center.y},
             moveRight : {x: spec.center.x + (spec.moveRate), y: spec.center.y},
         }
-        return moves;
     }
     function setDirectionFalse(dir) {
         direction[dir] = false;
@@ -88,24 +87,25 @@ MyGame.objects.Ship = function (spec) {
         // console.log(sh)
     }
     function shoot(elapsedTime) {
-        if (!isPressed) {
-            hasShot = true;
-            isPressed = true;
-        }
+        // if (!isPressed) {
+        //     hasShot = true;
+        //     isPressed = true;
+        // }
+        hasShot = true;
 
     }
     function setHasShotFalse() {
         hasShot = false;
     }
-    // function canShoot(elapsedTime){
-    //     // refractory -= elapsedTime;
-    //     // if(refractory < 0){
-    //     //     refractory = 10;
-    //     //     return true;
-    //     // }
+    function canShoot(elapsedTime){
+        refractory -= elapsedTime;
+        if(refractory < 0){
+            refractory = 200;
+            return true;
+        }
 
-    //     return true;
-    // }
+        return false;
+    }
     function setIsPressedFalse() {
         isPressed = false;
     }
@@ -131,7 +131,7 @@ MyGame.objects.Ship = function (spec) {
         setShouldMove: setShouldMove,
         setAllDirShouldMove: setAllDirShouldMove,
         predMoves: predMoves,
-        // canShoot: canShoot,
+        canShoot: canShoot,
 
     }
     return api;

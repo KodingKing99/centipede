@@ -14,9 +14,14 @@ MyGame.screens['customizeControlsScreen'] = (function (game, keyboard) {
             'keydown',
             // Register key, do screen run(), remove the event listener
             function changeKey(e) {
-                // console.log(e.key)
+                console.log(`changing control: ${control} ${keyboard.currentControls[control]} to ${e.key}`)
                 let currentKey = keyboard.currentControls[control]
+                if(currentKey === 'Space'){
+                    currentKey = ' ';
+                }
                 keyboard.register(e.key, keyboard.handlers[currentKey], control);
+                console.log(keyboard.currentControls);
+                console.log(keyboard.handlers)
                 keyboard.unregister(currentKey)
                 window.removeEventListener('keydown', changeKey)
                 render();

@@ -71,10 +71,10 @@ MyGame.input.initialize = function (spec) {
         ' ', spec.shoot, 'Shoot'
     );
     // register keyups for shooting logic
-    MyGame.input.Keyboard.registerKeyUp(spec.setIsPressedFalse, MyGame.input.Keyboard.currentControls['Shoot']);
-    // Register keyups for all directions. This is for collision detections
-    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('up')}, this.Keyboard.currentControls['MoveUp']);
-    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('right')}, this.Keyboard.currentControls['MoveRight']);
-    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('left')}, this.Keyboard.currentControls['MoveLeft']);
-    MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('down')}, this.Keyboard.currentControls['MoveDown']);
+    // MyGame.input.Keyboard.registerKeyUp(spec.setIsPressedFalse, MyGame.input.Keyboard.currentControls['Shoot']);
+    // // Register keyups for all directions. This is for collision detections
+    // MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('up')}, this.Keyboard.currentControls['MoveUp']);
+    // MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('right')}, this.Keyboard.currentControls['MoveRight']);
+    // MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('left')}, this.Keyboard.currentControls['MoveLeft']);
+    // MyGame.input.Keyboard.registerKeyUp(() => {spec.setDirectionFalse('down')}, this.Keyboard.currentControls['MoveDown']);
 };
