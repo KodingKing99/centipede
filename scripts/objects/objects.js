@@ -38,12 +38,15 @@
 
         // add centipede to top right
         let firstCenter = { x: width * 0.7, y: cellSize };
-        for (let i = 0; i < 4; i++) {
+        let segCount = 8;
+        for (let i = 0; i < segCount; i++) {
             let segmentSpec = {
                 size: { x: cellSize * sizeOffset.x, y: cellSize },
                 rotation: 0,
-                moveRate: 0.3,
-                cellSize: 33
+                moveRate: 0.25,
+                cellSize: 33,
+                index: i,
+                segCount: segCount
             }
             segmentSpec.center = { x: firstCenter.x + (i * segmentSpec.size.x), y: firstCenter.y };
             let segment = MyGame.objects.CentipedeSegment(segmentSpec);
@@ -107,13 +110,17 @@
             }
             return atEdge;
         }
-        else if(obj.type === 'centipedeSegment'){
+        else if (obj.type === 'centipedeSegment') {
             // let duration = 
             if (atEdge.left) {
                 obj.object.setDirection('down');
+                obj.object.moveDown();
+                obj.object.setDirection('right');
             }
             if (atEdge.right) {
                 obj.object.setDirection('down');
+                obj.object.moveDown();
+                obj.object.setDirection('left');
             }
             if (atEdge.up) {
                 obj.object.setDirection('down');
@@ -124,28 +131,44 @@
             return atEdge;
         }
     }
-    function handleCentipedeMovement(centSeg, atEdge, elapsedTime){
+    // change one segment at a time
+    let index = 0;
+    let duration = 100;
+    function handleCentipedeMovement(centSeg, atEdge, elapsedTime) {
         // if the centipede is moving down for a certian time
-        if(centSeg.object.direction.down){
-            centSeg.object.subCellDuration(elapsedTime);
-            if(centSeg.object.cellDuration < 0){
-                centSeg.object.resetCellDuration();
-                if(atEdge.left){
-                    centSeg.object.setDirection('right');
-                }
-                if(atEdge.right){
-                    centSeg.object.setDirection('left');
-                }
-                // if(atEdge.left){
-                //     centSeg.object.setDirection('right');
-                // }
-                // if(atEdge.left){
-                //     centSeg.object.setDirection('right');
-                // }
+        // if (centSeg.object.direction.down) {
+        //     if (centSeg.object.index === index) {
+        //         centSeg.object.subCellDuration(elapsedTime);
+        //         if (centSeg.object.cellDuration < 0) {
+        //             centSeg.object.resetCellDuration();
+                    
+        //             index += 1;
+        //             if (atEdge.left) {
+        //                 centSeg.object.setDirection('right');
+        //             }
+        //             if (atEdge.right) {
+        //                 centSeg.object.setDirection('left');
+        //             }
+        //             // if(atEdge.left){
+        //             //     centSeg.object.setDirection('right');
+        //             // }
+        //             // if(atEdge.left){
+        //             //     centSeg.object.setDirection('right');
+        //             // }
 
-            }
-            
-        }
+        //         }
+
+        //     }
+        // }
+        // // duration = duration
+        // // if(duration - elapsedTime <= 0){
+        // //     index++;
+        // //     duration = 100;
+        // // }
+        // if(index >=  centSeg.object.segCount){
+        //     index = 0;
+        // }
+
     }
     MyGame.objects.collisionDetection = function () {
         let colissions = [];
@@ -189,7 +212,7 @@
             if (this.objectsArray[i].type === 'centipedeSegment') {
                 let seg = this.objectsArray[i];
                 let atEdge = handleEdges(seg);
-                handleCentipedeMovement(seg, atEdge, elapsedTime);
+                // handleCentipedeMovement(seg, atEdge, elapsedTime);
                 // if(seg.object.cellDuration )
                 seg.object.moveDirection(elapsedTime);
             }
