@@ -51,19 +51,23 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     }
     let centipedeSegmentAnimeSpec = {
         spriteSheet: spriteSheet,
-        spriteCount: 1,
+        spriteCount: 4,
         offsetSpriteCount: {x: 0, y: 2},
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0}
+        extraOffset: {x: 0, y: 0.2},
+        hasFlip : true,
+        spriteTime: [75, 75, 75, 75]
     }
     let centipedeHeadAnimeSpec = {
         spriteSheet: spriteSheet,
-        spriteCount: 1,
+        spriteCount: 4,
         offsetSpriteCount: {x: 0, y: 0},
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0}
+        extraOffset: {x: 0, y: 0.2},
+        hasFlip : true,
+        spriteTime: [75, 75, 75, 75]
     }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
     let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
@@ -108,6 +112,11 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     //         // }
     //     }
     // }
+    function updateRenderers(elapsedTime) {
+        centipedeHeadRenderer.update(elapsedTime);
+        centipedeSegmentRenderer.update(elapsedTime);
+
+    }
     function run() {
         // do nothing for now, will call game loop stuff at some point
         // game loop code
@@ -122,6 +131,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // do nothing
         input.Keyboard.update(elapsedTime);
         objects.update(elapsedTime);
+        updateRenderers(elapsedTime);
         // updateStaticRenderers();
     }
     function renderObjects() {

@@ -24,8 +24,10 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     let subImageIndex = 0;
     let subImageWidth = 0;
     let subImageHeight = 0;
+    let offsetSpriteCount = spec.offsetSpriteCount;
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
+    let flip = false;
     //
     // Load he texture to use for the particle system loading and ready for rendering
     image.onload = function () {
@@ -47,27 +49,36 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     // of the model's.
     //
     //------------------------------------------------------------------
-    function update(index) {
-        // animationTime += elapsedTime;
-        // //
-        // // Check to see if we should update the animation frame
-        // if (animationTime >= spec.spriteTime[subImageIndex]) {
-        //     //
-        //     // When switching sprites, keep the leftover time because
-        //     // it needs to be accounted for the next sprite animation frame.
-        //     animationTime -= spec.spriteTime[subImageIndex];
-        //     subImageIndex += 1;
-        //     //
-        //     // Wrap around from the last back to the first sprite as needed
-        //     subImageIndex = subImageIndex % spec.spriteCount;
-        // }
-        // subImageIndex = index;
-        // if(index !== 0){
-
-        //     console.log(index)
-        // }
-        // console.log(model.getRenderIndex());
-        // console.log(subImageIndex)
+    function update(elapsedTime) {
+        animationTime += elapsedTime;
+        //
+        // Check to see if we should update the animation frame
+        if (animationTime >= spec.spriteTime[subImageIndex]) {
+            //
+            // When switching sprites, keep the leftover time because
+            // it needs to be accounted for the next sprite animation frame.
+            animationTime -= spec.spriteTime[subImageIndex];
+            if(spec.hasFlip){
+                ///////
+                // if the animation needs to flip, increment the offsetSpriteCount y
+                // else, set it back to the original, increment subImageIndex
+                ///////
+                if(flip){
+                    offsetSpriteCount.y += 1;
+                }
+                else{
+                    offsetSpriteCount.y = spec.offsetSpriteCount.y;
+                    subImageIndex += 1;
+                }
+            }
+            else{ // Just increment subImageIndex
+                subImageIndex += 1;
+            }
+            // console.log(subImageIndex);
+            //
+            // Wrap around from the last back to the first sprite as needed
+            subImageIndex = subImageIndex % spec.spriteCount;
+        }
     }
 
     //------------------------------------------------------------------
@@ -81,7 +92,7 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
             //     subImageIndex = model.getRenderIndex();
             //     // console.log(subImageIndex)
             // }
-            let sxOffset = Math.floor(subImageWidth * spec.offsetSpriteCount.x) // how many pixels to go before your sprite
+            let sxOffset = Math.floor(subImageWidth * offsetSpriteCount.x) // how many pixels to go before your sprite
             let subSpriteWidth = subImageWidth;
             if (spec.halfSize) {
                 subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
@@ -89,7 +100,7 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
             let sx = (subSpriteWidth * subImageIndex) + sxOffset // where to start clippin
 
 
-            let sy = subImageHeight * spec.offsetSpriteCount.y// # of pixels before your image
+            let sy = subImageHeight * offsetSpriteCount.y// # of pixels before your image
             if (spec.log) {
                 console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
                 spec.log = false;
