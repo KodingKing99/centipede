@@ -57,7 +57,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         halfSize: true,
         extraOffset: {x: 0, y: 0.2},
         hasFlip : true,
-        spriteTime: [75, 75, 75, 75]
+        spriteTime: [100, 100, 100, 100]
     }
     let centipedeHeadAnimeSpec = {
         spriteSheet: spriteSheet,
@@ -67,13 +67,17 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         halfSize: true,
         extraOffset: {x: 0, y: 0.2},
         hasFlip : true,
-        spriteTime: [75, 75, 75, 75]
+        spriteTime: [100, 100, 100, 100]
     }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
     let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
     let beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
     let centipedeSegmentRenderer = renderer.AnimatedRenderer(centipedeSegmentAnimeSpec, graphics);
     let centipedeHeadRenderer = renderer.AnimatedRenderer(centipedeHeadAnimeSpec, graphics);
+    let centipedeHeadRendererCopy = centipedeHeadRenderer;
+    let centipedeHeadDownAnimeSpec = centipedeHeadAnimeSpec;
+    centipedeHeadDownAnimeSpec.offsetSpriteCount = {x: 2, y: 0}
+    let centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
     function initialize() {
         // do nothing for now
 
@@ -112,7 +116,27 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     //         // }
     //     }
     // }
+    function getCentipedeHeadIndex(){
+        for(let i = 0; i < objects.objectsArray.length; i++){
+            let obj = objects.objectsArray[i];
+            if(obj.type === 'centipedeSegment'){
+                if(obj.object.isHead){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
     function updateRenderers(elapsedTime) {
+        let headIndex = getCentipedeHeadIndex();
+        if(headIndex != -1){
+            if(objects.objectsArray[headIndex].object.direction.down){
+                centipedeHeadRenderer = centipedeDownHeadRenderer;                
+            }
+            else{
+                centipedeHeadRenderer = centipedeHeadRendererCopy;
+            }
+        }
         centipedeHeadRenderer.update(elapsedTime);
         centipedeSegmentRenderer.update(elapsedTime);
 
