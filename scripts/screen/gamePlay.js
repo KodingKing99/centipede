@@ -55,7 +55,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         offsetSpriteCount: {x: 0, y: 2},
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0.2},
+        extraOffset: {x: 0, y: 0.05},
         hasFlip : true,
         spriteTime: [100, 100, 100, 100]
     }
@@ -65,7 +65,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         offsetSpriteCount: {x: 0, y: 0},
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0.2},
+        extraOffset: {x: 0, y: 0.05},
         hasFlip : true,
         spriteTime: [100, 100, 100, 100]
     }

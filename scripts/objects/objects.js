@@ -2,6 +2,11 @@
     function getSphere(radius, center) {
         return { radius: radius, center: center };
     }
+    function spawnMushroom(spec) {
+        let mushie = MyGame.objects.Mushroom(spec);
+        mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
+    }
     MyGame.objects.initialize = function (width, height, numCells) {
         MyGame.objects.objectsArray = [];
         MyGame.objects.board = { width: width, height: height, numCells: numCells };
@@ -19,9 +24,7 @@
                         size: { x: cellSize * sizeOffset.x, y: cellSize },
                         rotation: 0
                     }
-                    let mushie = MyGame.objects.Mushroom(spec);
-                    mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
-                    MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
+                    spawnMushroom(spec);
                 }
             }
         }
@@ -105,6 +108,14 @@
             }
             else if (this.objectsArray[i].type === 'mushroom') {
                 if (this.objectsArray[i].object.isDead) {
+                    toDelete[i] = i;
+                }
+            }
+            else if (this.objectsArray[i].type === 'centipedeSegment') {
+                if (this.objectsArray[i].object.isDead) {
+                    let centObject = this.objectsArray[i].object
+                    let spec = {center: centObject.center, size: centObject.size, rotation: 0}
+                    spawnMushroom(spec);
                     toDelete[i] = i;
                 }
             }
