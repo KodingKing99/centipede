@@ -298,17 +298,20 @@
                     // console.log(obj.second.object.getRenderIndex())
                 }
             }
-            // else if (obj.second.type === 'centipedeSegment') {
-            //     if (obj.first.type === 'mushroom') {
-            //         if (obj.second.object.direction.left) {
-            //             obj.second.object.moveDownRight();
-            //         }
-            //         else if (obj.second.object.direction.right) {
-            //             obj.second.object.moveDownLeft();
-            //         }
+            else if (obj.second.type === 'centipedeSegment') {
+                if (obj.first.type === 'mushroom') {
+                    if (obj.second.object.direction.left) {
+                        obj.second.object.setPrevDirection('left')
+                        obj.second.object.setDirection('down');
 
-            //     }
-            // }
+                    }
+                    else if (obj.second.object.direction.right) {
+                        obj.second.object.setPrevDirection('right')
+                        obj.second.object.setDirection('down');
+                    }
+
+                }
+            }
         }
     }
     MyGame.objects.update = function (elapsedTime) {
