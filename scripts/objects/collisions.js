@@ -1,5 +1,5 @@
 
-MyGame.objects.collisions = (function(objects){
+MyGame.objects.collisions = (function (objects) {
     function getDistance(center1, center2) {
         return (center1.x - center2.x) ** 2 + (center1.y - center2.y) ** 2;
     }
@@ -33,42 +33,63 @@ MyGame.objects.collisions = (function(objects){
         }
         return edges;
     }
-    function handleEdges(obj) {
-        let atEdge = atEdges(obj.object);
-        if (obj.type === 'ship') {
-            if (atEdge.left) {
-                obj.object.setShouldMove('left', false);
-            }
-            if (atEdge.right) {
-                obj.object.setShouldMove('right', false);
-            }
-            if (atEdge.up) {
-                obj.object.setShouldMove('up', false);
-            }
-            if (atEdge.down) {
-                obj.object.setShouldMove('down', false);
-            }
-            return atEdge;
-        }
-        else if (obj.type === 'centipedeSegment') {
-            if (atEdge.left) {
-                obj.object.setPrevDirection('left')
-                obj.object.setDirection('down');
-            }
-            if (atEdge.right) {
-                obj.object.setPrevDirection('right')
-                obj.object.setDirection('down');
-            }
-            if (atEdge.up) {
-                obj.object.setDirection('down');
-            }
-            if (atEdge.down) {
-                obj.object.setDirection('up');
-            }
-            return atEdge;
+    let myObjectsEdgeHandlers = {};
+    myObjectsEdgeHandlers['centipedeSegment'] = {
+        left: (obj) => {
+            obj.object.setPrevDirection('left');
+            obj.object.setDirection('down');
+        },
+        right: (obj) => {
+            obj.object.setPrevDirection('right');
+            obj.object.setDirection('down');
+        },
+        up: (obj) => {
+            obj.object.setDirection('down');
+        },
+        down: (obj) => {
+            obj.object.setDirection('up');
         }
     }
-    function collisionDetection(objectsArray){
+    myObjectsEdgeHandlers['ship'] = {
+        left: (obj) => {
+            obj.object.setShouldMove('left', false);
+
+        },
+        right: (obj) => {
+            obj.object.setShouldMove('right', false);
+
+        },
+        up: (obj) => {
+            obj.object.setShouldMove('up', false);
+        },
+        down: (obj) => {
+            obj.object.setShouldMove('down', false);
+        }
+    }
+    function handleEdgesForType(type, obj) {
+        let atEdge = atEdges(obj.object)
+        if (atEdge.left) {
+            myObjectsEdgeHandlers[type].left(obj);
+        }
+        if (atEdge.right) {
+            myObjectsEdgeHandlers[type].right(obj);
+        }
+        if (atEdge.up) {
+            myObjectsEdgeHandlers[type].up(obj);
+        }
+        if (atEdge.down) {
+            myObjectsEdgeHandlers[type].down(obj);
+        }
+    }
+    function handleEdges(obj) {
+        if (obj.type === 'ship') {
+            handleEdgesForType('ship', obj)
+        }
+        else if (obj.type === 'centipedeSegment') {
+            handleEdgesForType('centipedeSegment', obj);
+        }
+    }
+    function collisionDetection(objectsArray) {
         let colissions = [];
         for (let i = 0; i < objectsArray.length; i++) {
             for (let j = 0; j < objectsArray.length; j++) {
@@ -187,7 +208,7 @@ MyGame.objects.collisions = (function(objects){
             }
         }
     }
-    return{
+    return {
         handleCollisions: handleCollisions,
         collisionDetection: collisionDetection,
         handleEdges: handleEdges
