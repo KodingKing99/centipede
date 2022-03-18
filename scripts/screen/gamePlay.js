@@ -67,6 +67,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         halfSize: true,
         extraOffset: {x: 0, y: 0.05},
         hasFlip : true,
+        // spriteTime: [100, 100, 100, 100, 100, 100, 100, 100]
         spriteTime: [100, 100, 100, 100]
     }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);

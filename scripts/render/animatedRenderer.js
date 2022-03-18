@@ -96,6 +96,7 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
             let subSpriteWidth = subImageWidth;
             if (spec.halfSize) {
                 subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
+                // subImageIndex = subImageIndex / 2
             }
             let sx = (subSpriteWidth * subImageIndex) + sxOffset // where to start clippin
 
