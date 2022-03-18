@@ -7,6 +7,72 @@
         mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
     }
+    function disconnectSegments(index, objectsArray) {
+        if (index < objectsArray.length) {
+            if (objectsArray[index - 1].type === 'centipedeSegment') {
+                objectsArray[index - 1].object.setNotConnected();
+            }
+
+        }
+        if (index > 0) {
+            if (objectsArray[index + 1].type === 'centipedeSegment') {
+                objectsArray[index + 1].object.setNotConnected();
+            }
+        }
+    }
+    MyGame.objects.handleDisconnectedSegments = function() {
+        let centSegs = {}
+        connections = 0;
+        centSegs[connections] = {
+            mArray: [],
+            hasAHead: false,
+        };
+        for (let i = 0; i < this.objectsArray.length; i++) {
+            if (this.objectsArray[i].type === 'centipedeSegment') {
+                if (this.objectsArray[i].object.isConnected) {
+                    // let mObj = {
+                    //     centSeg: objectsArray[i], index: i
+                    // }
+                    centSegs[connections].mArray.push(i)
+                }
+                else {
+                    connections += 1;
+                    centSegs[connections] = {
+                        mArray: [],
+                        hasAHead: false,
+                    };
+                    // let mObj = {
+                    //     centSeg: objectsArray[i], index: i
+                    // }
+                    centSegs[connections].mArray.push(i)
+                    // centSegs[connections].mArray.push(objectsArray[i]);
+                }
+                if (this.objectsArray[i].object.isHead) {
+                    centSegs[connections].hasAHead = true;
+                }
+            }
+        }
+        //////// 
+        // Loop through, if there is a disconnected segment without a head, set the first one as a head
+        ////////
+        // console.log(centSegs)
+        for (let key in centSegs) {
+            if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
+                if (!centSegs[key].hasAHead) {
+                    let segment = this.objectsArray[centSegs[key].mArray[0]].object;
+                    if(segment.direction.left){
+                       segment.setAsHead(); 
+                    }
+                    else{
+
+                        let segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object;
+                        segment.setAsHead();
+                    }
+                    // console.log(this.objectsArray[obj.mArray[0].obj])
+                }
+            }
+        }
+    }
     MyGame.objects.initialize = function (width, height, numCells) {
         MyGame.objects.objectsArray = [];
         MyGame.objects.board = { width: width, height: height, numCells: numCells };
@@ -38,6 +104,9 @@
         let ship = MyGame.objects.Ship(shipSpec);
         ship.sphere = getSphere(((Math.sqrt(ship.size.y ** 2 + ship.size.x ** 2)) / 2), ship.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'ship', object: ship })
+        //////////////
+        //// Centipede 
+        //////////////
 
         // add centipede to top right
         let firstCenter = { x: width * 0.7, y: cellSize };
@@ -54,16 +123,19 @@
             segmentSpec.center = { x: firstCenter.x + (i * segmentSpec.size.x), y: firstCenter.y };
             let segment = MyGame.objects.CentipedeSegment(segmentSpec);
             segment.setDirection('left');
-            segment.sphere = getSphere((segment.size.x / 2), segment.center);
+            /// - 5 to make the hit box a bit tighter
+            segment.sphere = getSphere((segment.size.y / 2), segment.center);
             if (i === 0) {
                 segment.setAsHead();
             }
+            segment.setIsConnected();
             MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment })
         }
-        console.log(MyGame.objects.objectsArray)
+        // console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
     MyGame.objects.handleUpdate = function (elapsedTime) {
+        this.handleDisconnectedSegments(this.objectsArray);
         for (let i = 0; i < this.objectsArray.length; i++) {
             if (this.objectsArray[i].type === 'ship') {
                 let ship = this.objectsArray[i];
@@ -81,7 +153,7 @@
                             moveRate: 1
                         }
                         let beam = MyGame.objects.Beam(beamSpec); // for collision detection
-                        beam.sphere = getSphere(beam.size.y / 2, beam.center);
+                        beam.sphere = getSphere(beam.size.x / 2, beam.center);
                         this.objectsArray.push({ type: 'beam', object: beam });
                     }
                 }
@@ -113,8 +185,10 @@
             }
             else if (this.objectsArray[i].type === 'centipedeSegment') {
                 if (this.objectsArray[i].object.isDead) {
-                    let centObject = this.objectsArray[i].object
-                    let spec = {center: centObject.center, size: centObject.size, rotation: 0}
+                    let centObject = this.objectsArray[i].object;
+                    disconnectSegments(i, this.objectsArray);
+                    let spec = { center: centObject.center, size: centObject.size, rotation: 0 }
+                    // console.log(this.objectsArray)
                     spawnMushroom(spec);
                     //// change segment into head
                     toDelete[i] = i;

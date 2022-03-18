@@ -10,6 +10,7 @@
     MyGame.objects.CentipedeSegment = function(mSpec) {
         let lives = 4;
         let isHead = false;
+        let isConnected = false;
         let direction = {
             left: false,
             right: false,
@@ -27,6 +28,8 @@
         let downRate = mSpec.size.y / 10;
         let ammount = mSpec.size.y;
         function setAsHead() { isHead = true; }
+        function setIsConnected() { isConnected = true; }
+        function setNotConnected() { isConnected = false; }
         function subLife() { lives-- };
         function moveDown(){
             // while()
@@ -111,12 +114,15 @@
             get direction() {return direction },
             get isDead() { return lives === 0; },
             get isHead() { return isHead; },
+            get isConnected() { return isConnected; },
             subLife: subLife,
             setDirection: setDirection,
             setPrevDirection: setPrevDirection,
             moveDirection: moveDirection,
             subCellDuration: subCellDuration,
             setAsHead: setAsHead,
+            setIsConnected: setIsConnected, 
+            setNotConnected: setNotConnected, 
             resetCellDuration: resetCellDuration,
             moveDown: moveDown,
             moveDownLeft: moveDownLeft,
