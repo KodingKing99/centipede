@@ -13,20 +13,21 @@
     function disconnectSegments(index, objectsArray) {
         if (index < objectsArray.length) {
             if (index > 0) {
-                if (objectsArray[index - 1].type === 'centipedeSegment') {
-                    objectsArray[index - 1].object.setNotConnected();
-                    if (objectsArray[index + 1].type === 'centipedeSegment') {
-                        objectsArray[index + 1].object.setNotConnected();
-                    }
-                }
+                // if (objectsArray[index - 1].type === 'centipedeSegment') {
+                //     objectsArray[index - 1].object.setNotConnected();
+                //     // objectsArray[index + 1].object.setNotConnected();
 
+                // }
+                if (objectsArray[index + 1].type === 'centipedeSegment') {
+                    objectsArray[index + 1].object.setNotConnected();
+                }
             }
 
 
         }
-        if (index > 0) {
+        // if (index > 0) {
 
-        }
+        // }
     }
     MyGame.objects.handleDisconnectedSegments = function () {
         let centSegs = {}
@@ -63,14 +64,18 @@
         //////// 
         // Loop through, if there is a disconnected segment without a head, set the first one as a head
         ////////
-        // console.log(centSegs)
+        console.log(centSegs)
         for (let key in centSegs) {
             if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
                 if (!centSegs[key].hasAHead) {
+                    // let segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object; 
                     let segment = this.objectsArray[centSegs[key].mArray[0]].object;
-                    if (segment.direction.right) {
-                        segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object;
-                    }
+                    // if(segment.direction.left){
+                    //     segment = this.objectsArray[centSegs[key].mArray[0]].object;
+                    // }
+                    // if(!segment.direction.left){
+                    //     segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object;
+                    // }
                     segment.setAsHead();
                 }
             }
