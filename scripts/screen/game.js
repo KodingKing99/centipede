@@ -28,7 +28,30 @@ MyGame.game = (function (screens, input, objects) {
         // Then, set the new screen to be active
         document.getElementById(id).classList.add('active');
     }
+    function initializeShip(firstInit) {
+        let ship = {};
+        for (let i = 0; i < objects.objectsArray.length; i++) {
+            if (objects.objectsArray[i].type === 'ship') {
+                ship = objects.objectsArray[i];
+            }
+        }
+        let spec = {
+            moveLeft: ship.object.moveLeft,
+            moveRight: ship.object.moveRight,
+            moveUp: ship.object.moveUp,
+            moveDown: ship.object.moveDown,
+            shoot: ship.object.shoot,
+            setIsPressedFalse: ship.object.setIsPressedFalse,
+            setDirectionFalse: ship.object.setDirectionFalse,
+        }
+        if (firstInit) {
+            input.initialize(spec);
+        }
+        else {
 
+            input.reInitialize(spec);
+        }
+    }
     //------------------------------------------------------------------
     //
     // This function performs the one-time game initialization.
@@ -54,22 +77,7 @@ MyGame.game = (function (screens, input, objects) {
 
         let height = document.getElementById('canvas').height;
         objects.initialize(width, height, 30);
-        let ship = {};
-        for(let i = 0; i < objects.objectsArray.length; i++){
-            if(objects.objectsArray[i].type === 'ship'){
-                ship = objects.objectsArray[i];
-            }
-        } 
-        let spec = {
-            moveLeft: ship.object.moveLeft,
-            moveRight: ship.object.moveRight,
-            moveUp: ship.object.moveUp,
-            moveDown: ship.object.moveDown,
-            shoot: ship.object.shoot,
-            setIsPressedFalse: ship.object.setIsPressedFalse,
-            setDirectionFalse: ship.object.setDirectionFalse,
-        }
-        input.initialize(spec);
+        initializeShip(true);
         console.log(MyGame)
         window.addEventListener(
             'keydown', function goBack(e) {
@@ -84,6 +92,7 @@ MyGame.game = (function (screens, input, objects) {
 
     return {
         initialize: initialize,
-        showScreen: showScreen
+        showScreen: showScreen,
+        initializeShip: initializeShip
     };
 }(MyGame.screens, MyGame.input, MyGame.objects));
