@@ -106,7 +106,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             if (obj.type === 'mushroom') {
                 mushieRenderer.render(obj.object);
             }
-            else if (obj.type === 'ship') {
+            else if (obj.type === 'ship' || obj.type === 'shipLife') {
                 shipRenderer.render(obj.object)
             }
             else if (obj.type === 'beam') {

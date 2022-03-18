@@ -13,7 +13,29 @@
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'explosion', object: explosion })
     }
+    function spawnShipLife(spec) {
+        let shipLife = MyGame.objects.shipLife(spec);
+        // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'shipLife', object: shipLife })
+    }
     //////////
+    // Generates ship lives to be rendered in the top left corner
+    // numLives: int, number of ships to render
+    //////////
+    MyGame.objects.initializeShipLives = function(spec, numLives){
+        // change from 15 to not hard coded number
+
+        let firstCenter = {x: MyGame.objects.board.width * 0.65, y: spec.size.y / 1.5}
+        for(let i = 0; i < numLives; i++){
+            let mSpec = {}
+            // console.log(firstCenter.x + (i * spec.size.x))
+            mSpec.size = spec.size;
+            mSpec.center = {x: firstCenter.x + (i * spec.size.x), y: firstCenter.y},
+            mSpec.rotation = 0;
+            spawnShipLife(mSpec);
+        }
+        // console.log(this.objectsArray);
+    }
     // ToDo: if the object is at the end, don't set any connections/disconnections
     //////////
     function disconnectSegments(index, objectsArray) {
@@ -31,9 +53,6 @@
 
 
         }
-        // if (index > 0) {
-
-        // }
     }
     MyGame.objects.handleDisconnectedSegments = function () {
         let centSegs = {}
@@ -70,7 +89,7 @@
         //////// 
         // Loop through, if there is a disconnected segment without a head, set the first one as a head
         ////////
-        console.log(centSegs)
+        // console.log(centSegs)
         for (let key in centSegs) {
             if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
                 if (!centSegs[key].hasAHead) {

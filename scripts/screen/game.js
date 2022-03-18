@@ -28,6 +28,7 @@ MyGame.game = (function (screens, input, objects) {
         // Then, set the new screen to be active
         document.getElementById(id).classList.add('active');
     }
+    let shipLives = 0;
     function initializeShip(firstInit) {
         let ship = {};
         for (let i = 0; i < objects.objectsArray.length; i++) {
@@ -44,12 +45,20 @@ MyGame.game = (function (screens, input, objects) {
             setIsPressedFalse: ship.object.setIsPressedFalse,
             setDirectionFalse: ship.object.setDirectionFalse,
         }
+        let shipLifeSpec = {
+            size: ship.object.size,
+        };
+
         if (firstInit) {
+            shipLives = ship.object.lives;
             input.initialize(spec);
+            
+            objects.initializeShipLives(shipLifeSpec, shipLives)
         }
         else {
 
             input.reInitialize(spec);
+            objects.initializeShipLives(shipLifeSpec, shipLives);
         }
     }
     //------------------------------------------------------------------
@@ -93,6 +102,7 @@ MyGame.game = (function (screens, input, objects) {
     return {
         initialize: initialize,
         showScreen: showScreen,
-        initializeShip: initializeShip
+        initializeShip: initializeShip,
+        get shipLives() { return shipLives; },
     };
 }(MyGame.screens, MyGame.input, MyGame.objects));
