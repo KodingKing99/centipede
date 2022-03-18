@@ -116,6 +116,7 @@
                     let centObject = this.objectsArray[i].object
                     let spec = {center: centObject.center, size: centObject.size, rotation: 0}
                     spawnMushroom(spec);
+                    //// change segment into head
                     toDelete[i] = i;
                 }
             }

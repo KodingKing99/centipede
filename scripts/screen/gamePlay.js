@@ -2,6 +2,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     let cancelNextRequest = true;
     // MyGame.screens['gamePlayScreen'].cancelNextRequest= cancelNextRequest;
     let lastTimeStamp = performance.now();
+    let newGame = false;
     ////////////////////////////////////////////////////
     // static renderer -- Takes a spec with the following specifications
     // spriteSheet: {
@@ -52,21 +53,21 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     let centipedeSegmentAnimeSpec = {
         spriteSheet: spriteSheet,
         spriteCount: 4,
-        offsetSpriteCount: {x: 0, y: 2},
+        offsetSpriteCount: { x: 0, y: 2 },
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0.05},
-        hasFlip : true,
+        extraOffset: { x: 0, y: 0.05 },
+        hasFlip: true,
         spriteTime: [100, 100, 100, 100]
     }
     let centipedeHeadAnimeSpec = {
         spriteSheet: spriteSheet,
         spriteCount: 4,
-        offsetSpriteCount: {x: 0, y: 0},
+        offsetSpriteCount: { x: 0, y: 0 },
         level: level,
         halfSize: true,
-        extraOffset: {x: 0, y: 0.05},
-        hasFlip : true,
+        extraOffset: { x: 0, y: 0.05 },
+        hasFlip: true,
         spriteTime: [100, 100, 100, 100]
     }
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
@@ -76,7 +77,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     let centipedeHeadRenderer = renderer.AnimatedRenderer(centipedeHeadAnimeSpec, graphics);
     let centipedeHeadRendererCopy = centipedeHeadRenderer;
     let centipedeHeadDownAnimeSpec = centipedeHeadAnimeSpec;
-    centipedeHeadDownAnimeSpec.offsetSpriteCount = {x: 2, y: 0}
+    centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
     let centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
     function initialize() {
         // do nothing for now
@@ -91,8 +92,8 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // MyGame.screens['gamePlayScreen'].cancelNextRequest = cancelNextRequest;
         // escape should stop updating
         window.addEventListener(
-            'keydown', function stopFrame(e){
-                if(e.key === 'Escape'){
+            'keydown', function stopFrame(e) {
+                if (e.key === 'Escape') {
                     cancelNextRequest = true;
                     // console.log('stop')
                 }
@@ -116,11 +117,11 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     //         // }
     //     }
     // }
-    function getCentipedeHeadIndex(){
-        for(let i = 0; i < objects.objectsArray.length; i++){
+    function getCentipedeHeadIndex() {
+        for (let i = 0; i < objects.objectsArray.length; i++) {
             let obj = objects.objectsArray[i];
-            if(obj.type === 'centipedeSegment'){
-                if(obj.object.isHead){
+            if (obj.type === 'centipedeSegment') {
+                if (obj.object.isHead) {
                     return i;
                 }
             }
@@ -129,11 +130,11 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     }
     function updateRenderers(elapsedTime) {
         let headIndex = getCentipedeHeadIndex();
-        if(headIndex != -1){
-            if(objects.objectsArray[headIndex].object.direction.down){
-                centipedeHeadRenderer = centipedeDownHeadRenderer;                
+        if (headIndex != -1) {
+            if (objects.objectsArray[headIndex].object.direction.down) {
+                centipedeHeadRenderer = centipedeDownHeadRenderer;
             }
-            else{
+            else {
                 centipedeHeadRenderer = centipedeHeadRendererCopy;
             }
         }
@@ -147,7 +148,13 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         lastTimeStamp = performance.now();
         // re-initialize when you start a new game
         // objects.objectsArray = [];
-        // objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        if (newGame) {
+
+            objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+            game.initializeShip();
+        }
+        /// will initialize when a new game is pressed now
+        newGame = true;
         cancelNextRequest = false;
         gameLoop(lastTimeStamp);
     }
@@ -171,11 +178,11 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             else if (obj.type === 'beam') {
                 beamRenderer.render(obj.object);
             }
-            else if(obj.type === 'centipedeSegment'){
-                if(obj.object.isHead){
+            else if (obj.type === 'centipedeSegment') {
+                if (obj.object.isHead) {
                     centipedeHeadRenderer.render(obj.object);
                 }
-                else{
+                else {
                     centipedeSegmentRenderer.render(obj.object);
                 }
             }
