@@ -7,20 +7,28 @@
         mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
     }
+    //////////
+    // ToDo: if the object is at the end, don't set any connections/disconnections
+    //////////
     function disconnectSegments(index, objectsArray) {
         if (index < objectsArray.length) {
-            if (objectsArray[index - 1].type === 'centipedeSegment') {
-                objectsArray[index - 1].object.setNotConnected();
+            if (index > 0) {
+                if (objectsArray[index - 1].type === 'centipedeSegment') {
+                    objectsArray[index - 1].object.setNotConnected();
+                    if (objectsArray[index + 1].type === 'centipedeSegment') {
+                        objectsArray[index + 1].object.setNotConnected();
+                    }
+                }
+
             }
+
 
         }
         if (index > 0) {
-            if (objectsArray[index + 1].type === 'centipedeSegment') {
-                objectsArray[index + 1].object.setNotConnected();
-            }
+
         }
     }
-    MyGame.objects.handleDisconnectedSegments = function() {
+    MyGame.objects.handleDisconnectedSegments = function () {
         let centSegs = {}
         connections = 0;
         centSegs[connections] = {
@@ -60,15 +68,10 @@
             if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
                 if (!centSegs[key].hasAHead) {
                     let segment = this.objectsArray[centSegs[key].mArray[0]].object;
-                    if(segment.direction.left){
-                       segment.setAsHead(); 
+                    if (segment.direction.right) {
+                        segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object;
                     }
-                    else{
-
-                        let segment = this.objectsArray[centSegs[key].mArray[centSegs[key].mArray.length - 1]].object;
-                        segment.setAsHead();
-                    }
-                    // console.log(this.objectsArray[obj.mArray[0].obj])
+                    segment.setAsHead();
                 }
             }
         }
