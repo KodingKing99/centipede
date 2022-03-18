@@ -1,4 +1,5 @@
 {
+    'use strict';
     function getSphere(radius, center) {
         return { radius: radius, center: center };
     }
@@ -6,6 +7,11 @@
         let mushie = MyGame.objects.Mushroom(spec);
         mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
+    }
+    function spawnExplosion(spec) {
+        let explosion = MyGame.objects.Explosion(spec);
+        // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'explosion', object: explosion })
     }
     //////////
     // ToDo: if the object is at the end, don't set any connections/disconnections
@@ -64,7 +70,7 @@
         //////// 
         // Loop through, if there is a disconnected segment without a head, set the first one as a head
         ////////
-        console.log(centSegs)
+        // console.log(centSegs)
         for (let key in centSegs) {
             if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
                 if (!centSegs[key].hasAHead) {
@@ -171,11 +177,7 @@
 
             }
             if (this.objectsArray[i].type === 'centipedeSegment') {
-                let seg = this.objectsArray[i];
-                this.collisions.handleEdges(seg);
-                // handleCentipedeMovement(seg, atEdge, elapsedTime);
-                // if(seg.object.cellDuration )
-                seg.object.moveDirection(elapsedTime);
+                
             }
             /////////////
             // deletions
@@ -194,13 +196,22 @@
                 }
             }
             else if (this.objectsArray[i].type === 'centipedeSegment') {
+                let seg = this.objectsArray[i];
+                this.collisions.handleEdges(seg);
+                seg.object.moveDirection(elapsedTime);
                 if (this.objectsArray[i].object.isDead) {
                     let centObject = this.objectsArray[i].object;
+                    toDelete[i] = i;
                     disconnectSegments(i, this.objectsArray);
                     let spec = { center: centObject.center, size: centObject.size, rotation: 0 }
-                    // console.log(this.objectsArray)
                     spawnMushroom(spec);
+                    spawnExplosion(spec);
                     //// change segment into head
+                }
+            }
+            else if(this.objectsArray[i].type === 'explosion'){
+                this.objectsArray[i].object.update(elapsedTime);
+                if(this.objectsArray[i].object.isDead){
                     toDelete[i] = i;
                 }
             }
