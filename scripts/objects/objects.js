@@ -24,7 +24,7 @@
                 //     // objectsArray[index + 1].object.setNotConnected();
 
                 // }
-                if (objectsArray[index + 1].type === 'centipedeSegment') {
+                if (objectsArray[index + 1] && objectsArray[index + 1].type === 'centipedeSegment') {
                     objectsArray[index + 1].object.setNotConnected();
                 }
             }
@@ -70,7 +70,7 @@
         //////// 
         // Loop through, if there is a disconnected segment without a head, set the first one as a head
         ////////
-        // console.log(centSegs)
+        console.log(centSegs)
         for (let key in centSegs) {
             if (centSegs[key].mArray && centSegs[key].mArray.length > 0) {
                 if (!centSegs[key].hasAHead) {
@@ -96,8 +96,8 @@
         // i and j are those values because I want to render mushrooms at around
         // 1 - 32 on x and 1 - 24 on y (going from top left corner)
         for (let i = cellSize; i < width - cellSize; i += cellSize) {
-            for (let j = cellSize * 3; j < height - (cellSize) * 3; j += cellSize) {
-                let addMush = Math.random() < 0.05;
+            for (let j = cellSize * 3; j < height - (cellSize * 7); j += cellSize) {
+                let addMush = Math.random() < 0.06;
                 if (addMush) {
                     let spec = {
                         center: { x: i, y: j },
