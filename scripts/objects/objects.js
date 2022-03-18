@@ -90,7 +90,7 @@
         // i and j are those values because I want to render mushrooms at around
         // 1 - 32 on x and 1 - 24 on y (going from top left corner)
         for (let i = cellSize; i < width - cellSize; i += cellSize) {
-            for (let j = cellSize; j < height - cellSize; j += cellSize) {
+            for (let j = cellSize * 3; j < height - (cellSize) * 3; j += cellSize) {
                 let addMush = Math.random() < 0.05;
                 if (addMush) {
                     let spec = {
@@ -117,8 +117,8 @@
         //////////////
 
         // add centipede to top right
-        let firstCenter = { x: width * 0.7, y: cellSize };
-        let segCount = 8;
+        let firstCenter = { x: width * 0.5, y: cellSize * 2};
+        let segCount = 10;
         for (let i = 0; i < segCount; i++) {
             let segmentSpec = {
                 size: { x: cellSize * sizeOffset.x, y: cellSize },
@@ -137,6 +137,8 @@
                 segment.setAsHead();
             }
             segment.setIsConnected();
+            // segment.setPrevDirection('right');
+            // segment.setDirection('down')
             MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment })
         }
         // console.log(MyGame.objects.objectsArray)
