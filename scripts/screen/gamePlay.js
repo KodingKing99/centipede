@@ -16,9 +16,26 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // updateBool: condition on which to update
     // halfSize: bool, tells if you should divide by two for a sprite
     ////////////////////////////////////////////////////
+    let objectsArrayCopy;
     function initalizeGame() {
         objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        objectsArrayCopy = objects.objectsArray;
         game.initializeShip();
+    }
+    function reInitializeLevel() {
+        objects.objectsArray = objectsArrayCopy;
+        game.initializeShip();
+    }
+    function checkReInitalizeFlag(){
+        if(objects.reInitializeFlag){
+            game.subShipLife();
+            if(game.shipLives === 0){
+                // show game over screen
+                cancelNextRequest = true;
+            }
+            initalizeGame();
+            objects.reInitializeFlag = false;
+        }
     }
     function initialize() {
         // do nothing for now
@@ -78,6 +95,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         input.Keyboard.update(elapsedTime);
         objects.update(elapsedTime);
         renderer.renderers.updateRenderers(elapsedTime);
+        checkReInitalizeFlag();
         // updateStaticRenderers();
     }
 
@@ -95,15 +113,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         processInput(elapsedTime);
         update(elapsedTime);
         render();
-        if(objects.reInitializeFlag){
-            game.subShipLife();
-            if(game.shipLives === 0){
-                // show game over screen
-                cancelNextRequest = true;
-            }
-            initalizeGame();
-            objects.reInitializeFlag = false;
-        }
+
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }
