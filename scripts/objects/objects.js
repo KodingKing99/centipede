@@ -19,7 +19,6 @@
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'shipLife', object: shipLife })
     }
-
     //////////
     // Generates ship lives to be rendered in the top left corner
     // numLives: int, number of ships to render
@@ -186,6 +185,9 @@
         // console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
+    let segCount = 0;
+    // tells the game to move to a new level if there are no more centipede segments
+    MyGame.objects.outOfSegments = false;
     MyGame.objects.handleUpdate = function (elapsedTime) {
         this.handleDisconnectedSegments(this.objectsArray);
         for (let i = 0; i < this.objectsArray.length; i++) {
@@ -212,9 +214,9 @@
 
 
             }
-            if (this.objectsArray[i].type === 'centipedeSegment') {
+            // if (this.objectsArray[i].type === 'centipedeSegment') {
 
-            }
+            // }
             /////////////
             // deletions
             ////////////
@@ -232,6 +234,7 @@
                 }
             }
             else if (this.objectsArray[i].type === 'centipedeSegment') {
+                segCount++;
                 let seg = this.objectsArray[i];
                 this.collisions.handleEdges(seg);
                 seg.object.moveDirection(elapsedTime);
@@ -255,6 +258,13 @@
             }
         }
         MyGame.objects.scoreText.text = String(score);
+        if(segCount === 0){
+            MyGame.objects.outOfSegments = true;
+        }
+        else{
+            MyGame.objects.outOfSegments = false;
+        }
+        segCount = 0;
     }
 
     MyGame.objects.update = function (elapsedTime) {

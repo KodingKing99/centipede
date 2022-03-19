@@ -4,7 +4,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         dimensions: { levelWidth: 2, levelHeight: 7 },
         spritesPerLevel: { x: 7, y: 11 },
     }
-    let level = 1;
+    let level = 0;
     let mushAnimeSpec = {
         spriteSheet: spriteSheet,
         spriteCount: 4,
@@ -74,6 +74,79 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
     let centipedeHeadDownAnimeSpec = centipedeHeadAnimeSpec;
     centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
     let centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
+    // centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
+    function initializeRenderers() {
+        mushAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 4,
+            offsetSpriteCount: { x: 4, y: 0 },
+            level: level,
+            updateBool: () => { return false },
+            halfSize: true,
+            extraOffset: { x: 0, y: 0.5 }
+        };
+        shipAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 1,
+            offsetSpriteCount: { x: 0, y: 10 },
+            level: level,
+            updateBool: () => { return false },
+            halfSize: true,
+            extraOffset: { x: 0, y: 0 }
+        };
+        beamAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 1,
+            offsetSpriteCount: { x: 0.5, y: 10 },
+            level: level,
+            updateBool: () => { return false },
+            halfSize: true,
+            extraOffset: { x: 0, y: 0 },
+            log: true
+        }
+        centipedeSegmentAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 4,
+            offsetSpriteCount: { x: 0, y: 2 },
+            level: level,
+            halfSize: true,
+            extraOffset: { x: 0, y: 0.05 },
+            hasFlip: true,
+            spriteTime: [100, 100, 100, 100]
+        }
+        centipedeHeadAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 4,
+            offsetSpriteCount: { x: 0, y: 0 },
+            level: level,
+            halfSize: true,
+            extraOffset: { x: 0, y: 0.05 },
+            hasFlip: true,
+            spriteTime: [100, 100, 100, 100]
+        }
+        explosionAnimeSpec = {
+            spriteSheet: spriteSheet,
+            spriteCount: 4,
+            offsetSpriteCount: { x: 0, y: 9 },
+            level: level,
+            // halfSize: /,
+            extraOffset: { x: 0, y: 0 },
+            // hasFlip: true,
+            spriteTime: [100, 100, 100, 100]
+        }
+
+        mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
+        shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
+        beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
+        centipedeSegmentRenderer = renderer.AnimatedRenderer(centipedeSegmentAnimeSpec, graphics);
+        centipedeHeadRenderer = renderer.AnimatedRenderer(centipedeHeadAnimeSpec, graphics);
+        explosionRenderer = renderer.AnimatedRenderer(explosionAnimeSpec, graphics);
+        centipedeHeadRendererCopy = centipedeHeadRenderer;
+        centipedeHeadDownAnimeSpec = centipedeHeadAnimeSpec;
+        centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
+        centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
+    }
+
     function getCentipedeHeadIndex() {
         for (let i = 0; i < objects.objectsArray.length; i++) {
             let obj = objects.objectsArray[i];
@@ -121,17 +194,22 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
                     centipedeSegmentRenderer.render(obj.object);
                 }
             }
-            else if (obj.type === 'explosion'){
+            else if (obj.type === 'explosion') {
                 explosionRenderer.render(obj.object);
             }
         }
     }
-    function renderText(textToRender){
+    function renderText(textToRender) {
         renderer.TextRenderer.render(textToRender);
+    }
+    function addLevel() {
+        level++;
     }
     return {
         updateRenderers: updateRenderers,
         renderObjects: renderObjects,
+        initializeRenderers: initializeRenderers,
         renderText: renderText,
+        addLevel: addLevel,
     }
 }(MyGame.objects, MyGame.graphics, MyGame.render))

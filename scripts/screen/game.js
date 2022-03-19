@@ -5,7 +5,7 @@
 //
 // ------------------------------------------------------------------
 
-MyGame.game = (function (screens, input, objects) {
+MyGame.game = (function (screens, input, objects, renderer) {
     'use strict';
 
     //------------------------------------------------------------------
@@ -74,12 +74,14 @@ MyGame.game = (function (screens, input, objects) {
         objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
         // objectsArrayCopy = objects.objectsArray;
         initializeShip();
+        renderer.renderers.initializeRenderers();
     }
     function reInitalizeGame() {
         objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
         // objects.shipLives = 3;
         // objectsArrayCopy = objects.objectsArray;
         initializeShip(false, true);
+        renderer.renderers.initializeRenderers();
     }
     //------------------------------------------------------------------
     //
@@ -128,4 +130,4 @@ MyGame.game = (function (screens, input, objects) {
         get shipLives() { return shipLives; },
         subShipLife() { shipLives-- },
     };
-}(MyGame.screens, MyGame.input, MyGame.objects));
+}(MyGame.screens, MyGame.input, MyGame.objects, MyGame.render));

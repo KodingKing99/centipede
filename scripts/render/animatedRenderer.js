@@ -24,6 +24,8 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     let subImageIndex = 0;
     let subImageWidth = 0;
     let subImageHeight = 0;
+    let levelWidth = 0;
+    let levelHeight = 0;
     let offsetSpriteCount = spec.offsetSpriteCount;
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
@@ -32,11 +34,11 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     // Load he texture to use for the particle system loading and ready for rendering
     image.onload = function () {
         isReady = true;
-        let levelWidth = Math.floor(image.width / spec.spriteSheet.dimensions.levelWidth);
+        levelWidth = Math.floor(image.width / spec.spriteSheet.dimensions.levelWidth);
         console.log(`levelWidth is : ${levelWidth}`)
         console.log(`image width is : ${image.width}`)
         subImageWidth = Math.round(levelWidth / spec.spriteSheet.spritesPerLevel.x); // width of a sprite
-        let levelHeight = Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
+        levelHeight = Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
         subImageHeight = Math.round(levelHeight / spec.spriteSheet.spritesPerLevel.y)
         console.log(`image is ready. it's width is: ${subImageWidth}, height is: ${subImageHeight}`)
     }
@@ -98,10 +100,13 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
                 subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
                 // subImageIndex = subImageIndex / 2
             }
-            let sx = (subSpriteWidth * subImageIndex) + sxOffset // where to start clippin
+            let sx = (subSpriteWidth * subImageIndex) + sxOffset + (levelWidth * (spec.level % 2)) // where to start clippin
 
 
-            let sy = subImageHeight * offsetSpriteCount.y// # of pixels before your image
+            let sy = subImageHeight * spec.offsetSpriteCount.y // # of pixels before your image
+            if(spec.level % 2 === 0){
+                sy += (levelHeight * spec.level % 7);
+            }
             if (spec.log) {
                 console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
                 spec.log = false;

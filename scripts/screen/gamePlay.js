@@ -41,6 +41,12 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             objects.reInitializeFlag = false;
         }
     }
+    function checkOutOfSegmentsFlag(){
+        if(objects.outOfSegments){
+            renderer.renderers.addLevel();
+            game.initalizeGame();
+        }
+    }
     // let myText = objects.Text();
 
     function initialize() {
@@ -65,23 +71,6 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         );
         // input.Keyboard.register()
     }
-    // function updateStaticRenderers() {
-    //     for (let i = 0; i < objects.objectsArray.length; i++) {
-    //         let obj = objects.objectsArray[i];
-    //         // if (obj.type === 'mushroom') {
-    //         //     // console.log(obj.object.lives);
-    //         //     mushieRenderer.update(obj.object.getRenderIndex());
-    //         //     // console.log(obj.object.getRenderIndex());
-    //         // }
-    //         // else if (obj.type === 'ship') {
-    //         //     shipRenderer.render(obj.object)
-    //         // }
-    //         // else if (obj.type === 'beam') {
-    //         //     beamRenderer.render(obj.object);
-    //         // }
-    //     }
-    // }
-
     function run() {
         // do nothing for now, will call game loop stuff at some point
         // game loop code
@@ -105,6 +94,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         objects.update(elapsedTime);
         renderer.renderers.updateRenderers(elapsedTime);
         checkReInitalizeFlag();
+        checkOutOfSegmentsFlag();
         // updateStaticRenderers();
     }
 
