@@ -1,4 +1,4 @@
-MyGame.graphics = (function() {
+MyGame.graphics = (function () {
     'use strict';
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
@@ -79,15 +79,33 @@ MyGame.graphics = (function() {
     // --------------------------------------------------------------
     function drawRectangle(rect, fillStyle, strokeStyle) {
         context.save();
-        context.translate(rect.center.x, rect.center.y );
+        context.translate(rect.center.x, rect.center.y);
         context.rotate(rect.rotation);
         context.translate(-rect.center.x, -rect.center.y);
-        
+
         context.fillStyle = fillStyle;
         context.fillRect(rect.center.x - rect.size.x / 2, rect.center.y - rect.size.y / 2, rect.size.x, rect.size.y);
-        
+
         context.strokeStyle = strokeStyle;
         context.strokeRect(rect.center.x - rect.size.x / 2, rect.center.y - rect.size.y / 2, rect.size.x, rect.size.y);
+
+        context.restore();
+    }
+    function drawText(spec) {
+        context.save();
+
+        context.font = spec.font;
+        context.fillStyle = spec.fillStyle;
+        context.strokeStyle = spec.strokeStyle;
+        context.textBaseline = 'top';
+
+        context.translate(spec.position.x, spec.position.y);
+        context.rotate(spec.rotation);
+        context.translate(-spec.position.x, -spec.position.y);
+
+
+        context.fillText(spec.text, spec.position.x, spec.position.y);
+        context.strokeText(spec.text, spec.position.x, spec.position.y);
 
         context.restore();
     }
@@ -96,7 +114,8 @@ MyGame.graphics = (function() {
         clear: clear,
         drawTexture: drawTexture,
         drawSubTexture: drawSubTexture,
-        drawRectangle: drawRectangle
+        drawRectangle: drawRectangle,
+        drawText: drawText
     };
 
     return api;

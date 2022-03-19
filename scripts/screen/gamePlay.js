@@ -37,6 +37,8 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             objects.reInitializeFlag = false;
         }
     }
+    // let myText = objects.Text();
+
     function initialize() {
         // do nothing for now
 
@@ -102,6 +104,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     function render(elapsedTime) {
         graphics.clear();
         renderer.renderers.renderObjects();
+        renderer.renderers.renderText(objects.scoreText)
     }
     function processInput(elapsedTime) {
         // do nothing

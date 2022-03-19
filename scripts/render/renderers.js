@@ -63,6 +63,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         // hasFlip: true,
         spriteTime: [100, 100, 100, 100]
     }
+
     let mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
     let shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
     let beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
@@ -125,8 +126,12 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             }
         }
     }
+    function renderText(textToRender){
+        renderer.TextRenderer.render(textToRender);
+    }
     return {
         updateRenderers: updateRenderers,
-        renderObjects: renderObjects
+        renderObjects: renderObjects,
+        renderText: renderText,
     }
 }(MyGame.objects, MyGame.graphics, MyGame.render))

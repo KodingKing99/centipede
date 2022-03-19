@@ -19,23 +19,31 @@
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'shipLife', object: shipLife })
     }
+
     //////////
     // Generates ship lives to be rendered in the top left corner
     // numLives: int, number of ships to render
     //////////
-    MyGame.objects.initializeShipLives = function(spec, numLives){
+    MyGame.objects.initializeShipLives = function (spec, numLives) {
         // change from 15 to not hard coded number
 
-        let firstCenter = {x: MyGame.objects.board.width * 0.65, y: spec.size.y / 1.5}
-        for(let i = 0; i < numLives; i++){
+        let firstCenter = { x: MyGame.objects.board.width * 0.65, y: spec.size.y / 1.5 }
+        for (let i = 0; i < numLives; i++) {
             let mSpec = {}
             // console.log(firstCenter.x + (i * spec.size.x))
             mSpec.size = spec.size;
-            mSpec.center = {x: firstCenter.x + (i * spec.size.x), y: firstCenter.y},
-            mSpec.rotation = 0;
+            mSpec.center = { x: firstCenter.x + (i * spec.size.x), y: firstCenter.y },
+                mSpec.rotation = 0;
             spawnShipLife(mSpec);
         }
         // console.log(this.objectsArray);
+    }
+    //////////
+    // Score
+    //////////
+    let score = 0;
+    MyGame.objects.addToScore = function(howMuch){
+        score += howMuch;
     }
     // ToDo: if the object is at the end, don't set any connections/disconnections
     //////////
@@ -143,7 +151,7 @@
         //////////////
 
         // add centipede to top right
-        let firstCenter = { x: width * 0.5, y: cellSize * 2};
+        let firstCenter = { x: width * 0.5, y: cellSize * 2 };
         let segCount = 10;
         for (let i = 0; i < segCount; i++) {
             let segmentSpec = {
@@ -166,6 +174,14 @@
             // segment.setPrevDirection('right');
             // segment.setDirection('down')
             MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment })
+        }
+        MyGame.objects.scoreText = {
+            text: String(score),
+            font: '24pt Impact',
+            fillStyle: 'rgba(255, 255, 255, 1)',
+            strokeStyle: 'rgba(160, 32, 240, 1)',
+            position: { x: width * 0.5, y: cellSize / 4 },
+            rotation: 0,
         }
         // console.log(MyGame.objects.objectsArray)
     }
@@ -197,7 +213,7 @@
 
             }
             if (this.objectsArray[i].type === 'centipedeSegment') {
-                
+
             }
             /////////////
             // deletions
@@ -227,15 +243,18 @@
                     spawnMushroom(spec);
                     spawnExplosion(spec);
                     //// change segment into head
+                    ////// increment score
+                    this.addToScore(100);
                 }
             }
-            else if(this.objectsArray[i].type === 'explosion'){
+            else if (this.objectsArray[i].type === 'explosion') {
                 this.objectsArray[i].object.update(elapsedTime);
-                if(this.objectsArray[i].object.isDead){
+                if (this.objectsArray[i].object.isDead) {
                     toDelete[i] = i;
                 }
             }
         }
+        MyGame.objects.scoreText.text = String(score);
     }
 
     MyGame.objects.update = function (elapsedTime) {
