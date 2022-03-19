@@ -90,10 +90,6 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     //------------------------------------------------------------------
     function render(model) {
         if (isReady) {
-            // if (model.getRenderIndex) {
-            //     subImageIndex = model.getRenderIndex();
-            //     // console.log(subImageIndex)
-            // }
             let sxOffset = Math.floor(subImageWidth * offsetSpriteCount.x) // how many pixels to go before your sprite
             let subSpriteWidth = subImageWidth;
             if (spec.halfSize) {
@@ -101,13 +97,7 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
                 // subImageIndex = subImageIndex / 2
             }
             let sx = (subSpriteWidth * subImageIndex) + sxOffset + (levelWidth * (spec.level % 2)) // where to start clippin
-
-
-            // let sy = subImageHeight * spec.offsetSpriteCount.y // # of pixels before your image
             let sy = subImageHeight * spec.offsetSpriteCount.y + (levelHeight * (Math.floor(spec.level / 2) % 7))// # of pixels before your image
-            // if(spec.level % 2 === 0){
-                // sy = sy + (levelHeight * ((spec.level / 2) % 7));
-            // }
             if (spec.log) {
                 console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
                 spec.log = false;

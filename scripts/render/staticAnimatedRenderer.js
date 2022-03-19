@@ -89,15 +89,7 @@ MyGame.render.staticAnimatedRenderer = function (spec, graphics) {
                 subSpriteWidth = subImageWidth / 2 // divide the sprite by 2 if it's half size
             }
             let sx = (subSpriteWidth * subImageIndex) + sxOffset + (levelWidth * (spec.level % 2)) // where to start clippin
-
-
             let sy = subImageHeight * spec.offsetSpriteCount.y + (levelHeight * (Math.floor(spec.level / 2) % 7))// # of pixels before your image
-            // if(spec.level % 2 === 0){
-                // sy = sy + (levelHeight * ((spec.level / 2) % 7));
-            // }
-            // else{
-            //     sy = sy + (levelHeight * ((spec.level) % 7));
-            // }
             if (spec.log) {
                 console.log(`sx is: ${sx} sy is: ${sy}, offset is ${sxOffset}, sprite width is ${subSpriteWidth}, spriteHeight is ${subImageHeight}`)
                 spec.log = false;

@@ -70,16 +70,20 @@ MyGame.game = (function (screens, input, objects, renderer) {
             }
         }
     }
-    function initalizeGame() {
+    function initalizeGame(newGame) {
         objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        if(newGame){
+            objects.resetScore();
+            renderer.renderers.resetLevel();
+        }
         // objectsArrayCopy = objects.objectsArray;
         initializeShip();
         renderer.renderers.initializeRenderers();
     }
     function reInitalizeGame() {
         objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
-        // objects.shipLives = 3;
-        // objectsArrayCopy = objects.objectsArray;
+        objects.resetScore();
+        renderer.renderers.resetLevel();
         initializeShip(false, true);
         renderer.renderers.initializeRenderers();
     }

@@ -205,11 +205,15 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
     function addLevel() {
         level++;
     }
+    function resetLevel() {
+        level = 0;
+    }
     return {
         updateRenderers: updateRenderers,
         renderObjects: renderObjects,
         initializeRenderers: initializeRenderers,
         renderText: renderText,
         addLevel: addLevel,
+        resetLevel: resetLevel
     }
 }(MyGame.objects, MyGame.graphics, MyGame.render))

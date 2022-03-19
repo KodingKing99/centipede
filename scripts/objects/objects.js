@@ -44,6 +44,9 @@
     MyGame.objects.addToScore = function(howMuch){
         score += howMuch;
     }
+    MyGame.objects.resetScore = function(){
+        score = 0;
+    }
     // ToDo: if the object is at the end, don't set any connections/disconnections
     //////////
     function disconnectSegments(index, objectsArray) {

@@ -78,7 +78,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // re-initialize when you start a new game
         // objects.objectsArray = [];
         if (newGame) {
-            game.initalizeGame();
+            game.initalizeGame(true);
         }
         if (gameOver) {
             game.reInitalizeGame();
