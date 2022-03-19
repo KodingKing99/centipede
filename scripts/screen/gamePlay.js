@@ -3,6 +3,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // MyGame.screens['gamePlayScreen'].cancelNextRequest= cancelNextRequest;
     let lastTimeStamp = performance.now();
     let newGame = false;
+    let gameOver = false;
     ////////////////////////////////////////////////////
     // static renderer -- Takes a spec with the following specifications
     // spriteSheet: {
@@ -17,23 +18,26 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // halfSize: bool, tells if you should divide by two for a sprite
     ////////////////////////////////////////////////////
     let objectsArrayCopy;
-    function initalizeGame() {
-        objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
-        objectsArrayCopy = objects.objectsArray;
-        game.initializeShip();
+    function showGameOver(){
+        MyGame.screens['gameOverScreen'].run();
+        document.getElementById('gameOverScreen').classList.add('active');
     }
-    function reInitializeLevel() {
-        objects.objectsArray = objectsArrayCopy;
-        game.initializeShip();
-    }
+    // function reInitializeLevel() {
+    //     objects.objectsArray = objectsArrayCopy;
+    //     game.initializeShip();
+    // }
     function checkReInitalizeFlag(){
         if(objects.reInitializeFlag){
             game.subShipLife();
             if(game.shipLives === 0){
                 // show game over screen
                 cancelNextRequest = true;
+                gameOver = true;
+                showGameOver();
+                // game.showScreen('gameOverScreen');
+
             }
-            initalizeGame();
+            game.initalizeGame();
             objects.reInitializeFlag = false;
         }
     }
@@ -85,7 +89,10 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // re-initialize when you start a new game
         // objects.objectsArray = [];
         if (newGame) {
-            initalizeGame();
+            game.initalizeGame();
+        }
+        if (gameOver) {
+            game.reInitalizeGame();
         }
         /// will initialize when a new game is pressed now
         newGame = true;

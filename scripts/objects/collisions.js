@@ -220,11 +220,6 @@ MyGame.objects.collisions = (function (objects) {
                     obj.first.object.moveMushie();
                 }
             }
-            // else if (obj.second.type === 'mushroom'){
-            //     if(obj.first.type === 'mushroom'){
-            //         obj.second.object.moveMushie();
-            //     }
-            // }
         }
     }
     return {

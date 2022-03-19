@@ -20,16 +20,17 @@ MyGame.game = (function (screens, input, objects) {
         for (let screen = 0; screen < active.length; screen++) {
             active[screen].classList.remove('active');
         }
-        console.log(MyGame)
+        // console.log(MyGame)
         //
         // Tell the screen to start actively running
+        console.log(screens[id]);
         screens[id].run();
         //
         // Then, set the new screen to be active
         document.getElementById(id).classList.add('active');
     }
     let shipLives = 0;
-    function initializeShip(firstInit) {
+    function initializeShip(firstInit, resetLives) {
         let ship = {};
         for (let i = 0; i < objects.objectsArray.length; i++) {
             if (objects.objectsArray[i].type === 'ship') {
@@ -57,9 +58,28 @@ MyGame.game = (function (screens, input, objects) {
         }
         else {
             // not a new game, ship lives is whatever it was before, may need to change
-            input.reInitialize(spec);
-            objects.initializeShipLives(shipLifeSpec, shipLives);
+            if (resetLives) {
+                input.reInitialize(spec);
+                shipLives = 3;
+                // 
+                objects.initializeShipLives(shipLifeSpec, shipLives);
+            }
+            else {
+                input.reInitialize(spec);
+                objects.initializeShipLives(shipLifeSpec, shipLives);
+            }
         }
+    }
+    function initalizeGame() {
+        objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        // objectsArrayCopy = objects.objectsArray;
+        initializeShip();
+    }
+    function reInitalizeGame() {
+        objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        // objects.shipLives = 3;
+        // objectsArrayCopy = objects.objectsArray;
+        initializeShip(false, true);
     }
     //------------------------------------------------------------------
     //
@@ -87,7 +107,7 @@ MyGame.game = (function (screens, input, objects) {
         let height = document.getElementById('canvas').height;
         objects.initialize(width, height, 30);
         initializeShip(true);
-        console.log(MyGame)
+        // console.log(MyGame)
         window.addEventListener(
             'keydown', function goBack(e) {
                 if (e.key === 'Escape') {
@@ -103,7 +123,9 @@ MyGame.game = (function (screens, input, objects) {
         initialize: initialize,
         showScreen: showScreen,
         initializeShip: initializeShip,
+        initalizeGame: initalizeGame,
+        reInitalizeGame: reInitalizeGame,
         get shipLives() { return shipLives; },
-        subShipLife() { shipLives--},
+        subShipLife() { shipLives-- },
     };
 }(MyGame.screens, MyGame.input, MyGame.objects));
