@@ -1,5 +1,6 @@
 {
     'use strict';
+    MyGame.objects.reInitializeFlag = false;
     function getSphere(radius, center) {
         return { radius: radius, center: center };
     }

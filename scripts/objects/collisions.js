@@ -189,6 +189,10 @@ MyGame.objects.collisions = (function (objects) {
                     }
                     // console.log(obj.second.object.getRenderIndex())
                 }
+                else if(obj.second.type === 'ship'){
+                    // obj.second.object.subLife();
+                    objects.reInitializeFlag = true;
+                }
             }
             else if (obj.second.type === 'centipedeSegment') {
                 if (obj.first.type === 'mushroom') {
@@ -203,6 +207,10 @@ MyGame.objects.collisions = (function (objects) {
                     }
 
                 }
+                else if(obj.second.type === 'ship'){
+                    // obj.second.object.subLife();
+                    objects.reInitializeFlag = true;
+                }
             }
         }
     }
@@ -211,4 +219,4 @@ MyGame.objects.collisions = (function (objects) {
         collisionDetection: collisionDetection,
         handleEdges: handleEdges
     }
-}());
+}(MyGame.objects));

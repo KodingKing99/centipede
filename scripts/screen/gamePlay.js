@@ -16,7 +16,10 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     // updateBool: condition on which to update
     // halfSize: bool, tells if you should divide by two for a sprite
     ////////////////////////////////////////////////////
-
+    function initalizeGame() {
+        objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
+        game.initializeShip();
+    }
     function initialize() {
         // do nothing for now
 
@@ -63,9 +66,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         // re-initialize when you start a new game
         // objects.objectsArray = [];
         if (newGame) {
-
-            objects.initialize(objects.board.width, objects.board.height, objects.board.numCells);
-            game.initializeShip();
+            initalizeGame();
         }
         /// will initialize when a new game is pressed now
         newGame = true;
@@ -94,7 +95,15 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         processInput(elapsedTime);
         update(elapsedTime);
         render();
-
+        if(objects.reInitializeFlag){
+            game.subShipLife();
+            if(game.shipLives === 0){
+                // show game over screen
+                cancelNextRequest = true;
+            }
+            initalizeGame();
+            objects.reInitializeFlag = false;
+        }
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }

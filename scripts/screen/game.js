@@ -50,13 +50,13 @@ MyGame.game = (function (screens, input, objects) {
         };
 
         if (firstInit) {
+            // new game, set the ship lives to be the ship's total lives
             shipLives = ship.object.lives;
             input.initialize(spec);
-            
             objects.initializeShipLives(shipLifeSpec, shipLives)
         }
         else {
-
+            // not a new game, ship lives is whatever it was before, may need to change
             input.reInitialize(spec);
             objects.initializeShipLives(shipLifeSpec, shipLives);
         }
@@ -104,5 +104,6 @@ MyGame.game = (function (screens, input, objects) {
         showScreen: showScreen,
         initializeShip: initializeShip,
         get shipLives() { return shipLives; },
+        subShipLife() { shipLives--},
     };
 }(MyGame.screens, MyGame.input, MyGame.objects));
