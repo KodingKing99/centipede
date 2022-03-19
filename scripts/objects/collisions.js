@@ -44,10 +44,12 @@ MyGame.objects.collisions = (function (objects) {
             obj.object.setDirection('down');
         },
         up: (obj) => {
+            obj.object.flipDownDirection();
             obj.object.setDirection('down');
         },
         down: (obj) => {
-            obj.object.setDirection('up');
+            obj.object.flipDownDirection();
+            obj.object.setDirection('down');
         }
     }
     myObjectsEdgeHandlers['ship'] = {
