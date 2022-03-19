@@ -1,4 +1,4 @@
-MyGame.screens['gameOverScreen'] = (function (game) {
+MyGame.screens['gameOverScreen'] = (function (game, objects, persistence) {
     function initialize() {
         // do something
         document.getElementById('playAgain').addEventListener(
@@ -18,9 +18,12 @@ MyGame.screens['gameOverScreen'] = (function (game) {
     }
     function run() {
         // do something
+        document.getElementById('gameScore').innerHTML = "Score: ";
+        document.getElementById('gameScore').innerHTML += objects.scoreText.text;
+        persistence.HighScores.add(parseInt(objects.scoreText.text))
     }
     return {
         initialize: initialize,
         run: run
     }
-}(MyGame.game));
+}(MyGame.game, MyGame.objects, MyGame.persistence));

@@ -65,6 +65,7 @@ ul{
     position: absolute;
     top: 0;
     left: 0;
+    color:cadetblue;
 }
 #game #gameOverScreen #gameScore{
     /* display: ; */

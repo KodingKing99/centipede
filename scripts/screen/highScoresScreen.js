@@ -1,4 +1,4 @@
-MyGame.screens['highScoresScreen'] = (function(game){
+MyGame.screens['highScoresScreen'] = (function(game, persistence){
     function initialize(){
         // back button
         document.getElementById('highScoresBackButt').addEventListener(
@@ -6,10 +6,16 @@ MyGame.screens['highScoresScreen'] = (function(game){
         );
     }
     function run(){
-        // do something
+        // get persisted scores, update
+        document.getElementById('topScore').innerHTML = ""; 
+        document.getElementById('topScore').innerHTML += persistence.HighScores.highScores[1] + "pts"; 
+        document.getElementById('secondScore').innerHTML = ""; 
+        document.getElementById('secondScore').innerHTML += persistence.HighScores.highScores[2] + "pts"; 
+        document.getElementById('thirdScore').innerHTML = ""; 
+        document.getElementById('thirdScore').innerHTML += persistence.HighScores.highScores[3] + "pts"; 
     }
     return{
         initialize: initialize,
         run: run
     }
-}(MyGame.game));
+}(MyGame.game, MyGame.persistence));
