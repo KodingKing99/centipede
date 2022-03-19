@@ -2,7 +2,7 @@ MyGame.objects.Mushroom = function(spec){
     'use strict';
     // let that = {};
     let lives = 16;
-    let downRate = spec.size.y / 9;
+    let downRate = spec.size.y / 10;
     // let refractory = 50;
     function subLife() { 
         lives--;
@@ -21,8 +21,11 @@ MyGame.objects.Mushroom = function(spec){
             return 3;
         }
     }
-    function moveMushie() {
-        spec.center.y -= downRate;
+    function moveMushieLeft() {
+        spec.center.x -= downRate;
+    }
+    function moveMushieRight() {
+        spec.center.x += downRate;
     }
     return {
         get center(){ return spec.center; },
@@ -32,7 +35,8 @@ MyGame.objects.Mushroom = function(spec){
         get isDead() { return lives === 0},
         getRenderIndex: getRenderIndex,
         subLife: subLife,
-        moveMushie: moveMushie,
+        moveMushieLeft: moveMushieLeft,
+        moveMushieRight: moveMushieRight,
     };
     // api.sphere = {radius: spec.size.y / 2};
     // return api;

@@ -215,11 +215,12 @@ MyGame.objects.collisions = (function (objects) {
                 }
             }
             ////////////
-            // Mushroom Collisions with itself
+            // Mushroom Collisions with another mushrooms, move the mushrooms over
             ////////////
             else if (obj.first.type === 'mushroom'){
                 if(obj.second.type === 'mushroom'){
-                    obj.first.object.moveMushie();
+                    obj.first.object.moveMushieLeft();
+                    obj.second.object.moveMushieRight();
                 }
             }
         }
