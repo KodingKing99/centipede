@@ -212,6 +212,19 @@ MyGame.objects.collisions = (function (objects) {
                     objects.reInitializeFlag = true;
                 }
             }
+            ////////////
+            // Mushroom Collisions with itself
+            ////////////
+            else if (obj.first.type === 'mushroom'){
+                if(obj.second.type === 'mushroom'){
+                    obj.first.object.moveMushie();
+                }
+            }
+            // else if (obj.second.type === 'mushroom'){
+            //     if(obj.first.type === 'mushroom'){
+            //         obj.second.object.moveMushie();
+            //     }
+            // }
         }
     }
     return {
