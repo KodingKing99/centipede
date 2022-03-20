@@ -208,7 +208,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             }
             else if (obj.type === 'centipedeSegment') {
                 if (obj.object.isHead) {
-                    if(obj.object.direction.down){
+                    if(obj.object.direction.down || obj.object.direction.straightDown){
                         centipedeDownHeadRenderer.render(obj.object)
                     }
                     else{

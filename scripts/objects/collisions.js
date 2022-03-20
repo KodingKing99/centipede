@@ -245,6 +245,9 @@ MyGame.objects.collisions = (function (objects) {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
                 }
+                else if (obj.second.type === 'poisonMushroom'){
+                    obj.first.object.setDirection('straightDown');
+                }
             }
             else if (obj.second.type === 'centipedeSegment') {
                 if (obj.first.type === 'mushroom') {
@@ -259,9 +262,12 @@ MyGame.objects.collisions = (function (objects) {
                     }
 
                 }
-                else if (obj.second.type === 'ship') {
+                else if (obj.first.type === 'ship') {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
+                }
+                else if (obj.first.type === 'poisonMushroom'){
+                    obj.second.object.setDirection('straightDown');
                 }
             }
             if(obj.first.type === 'spider'){

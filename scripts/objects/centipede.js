@@ -15,7 +15,8 @@
             left: false,
             right: false,
             up: false,
-            down: false
+            down: false,
+            straightDown: false,
         }
         let prevDirection = {
             left: false,
@@ -73,6 +74,11 @@
             // }
             if (direction.down) {
                 moveDownDir();
+                mSpec.center.y += downRate;
+                // mSpec.center.y += (elapsedTime * mSpec.moveRate);
+            }
+            if (direction.straightDown) {
+                // moveDownDir();
                 mSpec.center.y += downRate;
                 // mSpec.center.y += (elapsedTime * mSpec.moveRate);
             }
