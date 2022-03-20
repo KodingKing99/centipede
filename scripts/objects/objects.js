@@ -281,6 +281,7 @@
             }
             else if (this.objectsArray[i].type === 'spider'){
                 let spider = this.objectsArray[i].object;
+                this.collisions.handleEdges(this.objectsArray[i]);
                 spider.moveDirection(elapsedTime);
                 ///////////
                 // random movement
@@ -291,14 +292,28 @@
                 if(Math.random() < 0.02){
                     spider.setVertDirection('down');
                 }
-                // if(spider.sendSpiderRight){
-                //     if(Math.random() < 0.3){
-                //         spider.setHorizontalDirection('right');
-                //     }
-                //     if(Math.random() < 0.4){
-                //         spider.setHorizontalDirection('none');
-                //     }
-                // }
+                if(spider.sendSpiderRight){
+                    if(Math.random() < 0.3){
+                        spider.setHorizontalDirection('right');
+                    }
+                    if(Math.random() < 0.6){
+                        spider.setHorizontalDirection('none');
+                    }
+                }
+                else{
+                    if(Math.random() < 0.3){
+                        spider.setHorizontalDirection('left');
+                    }
+                    if(Math.random() < 0.6){
+                        spider.setHorizontalDirection('none');
+                    }
+                }
+                if(spider.center.x > this.board.width + (this.board.width * 0.1)){
+                    spider.flipSendSpiderRight();
+                }
+                else if(spider.center.x < 0 - (this.board.width * 0.1)){
+                    spider.flipSendSpiderRight();
+                }
             }
         }
         MyGame.objects.scoreText.text = String(score);

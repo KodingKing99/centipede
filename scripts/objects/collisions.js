@@ -33,6 +33,27 @@ MyGame.objects.collisions = (function (objects) {
         }
         return edges;
     }
+    function atHalfEdges(obj) {
+        let edges = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        }
+        if (obj.center.x - (obj.size.x / 2) < 0) {
+            edges.left = true;
+        }
+        if (obj.center.x + (obj.size.x / 2) > MyGame.objects.board.width) {
+            edges.right = true;
+        }
+        if (obj.center.y - (obj.size.y / 2) < (MyGame.objects.board.height * 0.7)) {
+            edges.up = true;
+        }
+        if (obj.center.y + (obj.size.y / 2) > MyGame.objects.board.height) {
+            edges.down = true;
+        }
+        return edges;
+    }
     let myObjectsEdgeHandlers = {};
     myObjectsEdgeHandlers['centipedeSegment'] = {
         left: (obj) => {
@@ -68,8 +89,29 @@ MyGame.objects.collisions = (function (objects) {
             obj.object.setShouldMove('down', false);
         }
     }
-    function handleEdgesForType(type, obj) {
-        let atEdge = atEdges(obj.object)
+    myObjectsEdgeHandlers['spider'] = {
+        left: (obj) => {
+            // do nothing
+        },
+        right: (obj) => {
+            // do nothing
+        },
+        up: (obj) => {
+            obj.object.setVertDirectionOverride('down');
+        },
+        down: (obj) => {
+            obj.object.setVertDirectionOverride('up');
+        },
+
+    }
+    function handleEdgesForType(type, obj, halfHeight) {
+        let atEdge;
+        if(halfHeight){
+            atEdge = atHalfEdges(obj.object);
+        }
+        else{
+            atEdge = atEdges(obj.object)
+        }
         if (atEdge.left) {
             myObjectsEdgeHandlers[type].left(obj);
         }
@@ -85,10 +127,13 @@ MyGame.objects.collisions = (function (objects) {
     }
     function handleEdges(obj) {
         if (obj.type === 'ship') {
-            handleEdgesForType('ship', obj)
+            handleEdgesForType('ship', obj, true)
         }
         else if (obj.type === 'centipedeSegment') {
             handleEdgesForType('centipedeSegment', obj);
+        }
+        else if (obj.type === 'spider'){
+            handleEdgesForType('spider', obj, true)
         }
     }
     function collisionDetection(objectsArray) {
@@ -170,7 +215,7 @@ MyGame.objects.collisions = (function (objects) {
                 }
             }
             else if (obj.second.type === 'beam') {
-                if (obj.first.type === 'mushroom' || obj.first.type  === 'centipedeSegment') {
+                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
                 }
@@ -191,7 +236,7 @@ MyGame.objects.collisions = (function (objects) {
                     }
                     // console.log(obj.second.object.getRenderIndex())
                 }
-                else if(obj.second.type === 'ship'){
+                else if (obj.second.type === 'ship') {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
                 }
@@ -209,7 +254,7 @@ MyGame.objects.collisions = (function (objects) {
                     }
 
                 }
-                else if(obj.second.type === 'ship'){
+                else if (obj.second.type === 'ship') {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
                 }
@@ -217,8 +262,8 @@ MyGame.objects.collisions = (function (objects) {
             ////////////
             // Mushroom Collisions with another mushrooms, move the mushrooms over
             ////////////
-            else if (obj.first.type === 'mushroom'){
-                if(obj.second.type === 'mushroom'){
+            else if (obj.first.type === 'mushroom') {
+                if (obj.second.type === 'mushroom') {
                     obj.first.object.moveMushieLeft();
                     obj.second.object.moveMushieRight();
                 }

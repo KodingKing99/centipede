@@ -2,7 +2,8 @@ MyGame.objects.Spider = function (spec) {
     'use strict';
     let isDead = false;
     let sendSpiderRight = true;
-    let moveAmmount = 500;
+    let vertMoveAmmount = 500;
+    let horMoveAmmount = 500;
     function setIsDead() {
         isDead = true;
     }
@@ -18,26 +19,43 @@ MyGame.objects.Spider = function (spec) {
         right: false,
         none: false,
     }
+    /////////
+    // this will immediately make the spider change direction
+    /////////
+    function setVertDirectionOverride(dir){
+        for (let mDir in vertDirection) {
+            vertDirection[mDir] = false;
+        }
+        vertDirection[dir] = true; 
+    }
+    /////////
+    // This moves the spider a smooth ammount
+    /////////
     function setVertDirection(dir) {
         // console.log(direction)
-        if (moveAmmount < 0) {
+        if (vertMoveAmmount < 0) {
             for (let mDir in vertDirection) {
                 vertDirection[mDir] = false;
             }
             vertDirection[dir] = true;
-            moveAmmount = 500;
+            vertMoveAmmount = 500;
         }
     }
     function setHorizontalDirection(dir) {
         // console.log(direction)
-        for (let mDir in horDirection) {
-            horDirection[mDir] = false;
+        if (horMoveAmmount < 0){
+            for (let mDir in horDirection) {
+                horDirection[mDir] = false;
+            }
+            horDirection[dir] = true;
+            horMoveAmmount = 500;
         }
-        horDirection[dir] = true;
+
     }
 
     function moveDirection(elapsedTime) {
-        moveAmmount -= elapsedTime;
+        vertMoveAmmount -= elapsedTime;
+        horMoveAmmount -= elapsedTime;
         if (vertDirection.up) {
             spec.center.y -= (elapsedTime * spec.moveRate);
         }
@@ -63,6 +81,7 @@ MyGame.objects.Spider = function (spec) {
         moveDirection: moveDirection,
         setVertDirection: setVertDirection,
         setHorizontalDirection: setHorizontalDirection,
-        flipSendSpiderRight: flipSendSpiderRight
+        flipSendSpiderRight: flipSendSpiderRight,
+        setVertDirectionOverride: setVertDirectionOverride
     };
 }
