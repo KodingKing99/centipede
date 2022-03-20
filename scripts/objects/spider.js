@@ -1,11 +1,15 @@
 MyGame.objects.Spider = function (spec) {
     'use strict';
     let isDead = false;
+    let lives = 4;
     let sendSpiderRight = true;
     let vertMoveAmmount = 500;
     let horMoveAmmount = 500;
-    function setIsDead() {
-        isDead = true;
+    // function setIsDead() {
+    //     isDead = true;
+    // }
+    function subLife() {
+        lives--;
     }
     function flipSendSpiderRight() {
         sendSpiderRight = !sendSpiderRight;
@@ -74,11 +78,12 @@ MyGame.objects.Spider = function (spec) {
         get center() { return spec.center; },
         get size() { return spec.size; },
         get rotation() { return spec.rotation; },
-        get isDead() { return isDead },
+        get isDead() { return lives === 0; },
         get sendSpiderRight() { return sendSpiderRight; },
 
-        setIsDead: setIsDead,
+        // setIsDead: setIsDead,
         moveDirection: moveDirection,
+        subLife: subLife,
         setVertDirection: setVertDirection,
         setHorizontalDirection: setHorizontalDirection,
         flipSendSpiderRight: flipSendSpiderRight,

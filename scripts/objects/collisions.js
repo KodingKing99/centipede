@@ -209,13 +209,13 @@ MyGame.objects.collisions = (function (objects) {
             // beam collisions
             /////////////
             if (obj.first.type === 'beam') {
-                if (obj.second.type === 'mushroom' || obj.second.type === 'centipedeSegment') {
+                if (obj.second.type === 'mushroom' || obj.second.type === 'centipedeSegment' || obj.second.type === 'spider') {
                     obj.second.object.subLife();
                     obj.first.object.setHasCollided();
                 }
             }
             else if (obj.second.type === 'beam') {
-                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment') {
+                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment' || obj.first.type === 'spider') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
                 }
@@ -262,7 +262,7 @@ MyGame.objects.collisions = (function (objects) {
             ////////////
             // Mushroom Collisions with another mushrooms, move the mushrooms over
             ////////////
-            else if (obj.first.type === 'mushroom') {
+            if (obj.first.type === 'mushroom') {
                 if (obj.second.type === 'mushroom') {
                     obj.first.object.moveMushieLeft();
                     obj.second.object.moveMushieRight();

@@ -1,6 +1,7 @@
 {
     'use strict';
     MyGame.objects.reInitializeFlag = false;
+    let spiderSpec;
     function getSphere(radius, center) {
         return { radius: radius, center: center };
     }
@@ -185,7 +186,7 @@
         /////////////
         // spider
         /////////////
-        let spiderSpec = {
+        spiderSpec = {
             center: { x: (0 + 4 * cellSize), y: (height - (4 * cellSize))},
             size: { x: ((2.5 * cellSize) * sizeOffset.x), y: (1.25 * cellSize) },
             rotation: 0,
@@ -204,6 +205,7 @@
     }
     let toDelete = {};
     let segCount = 0;
+    let spiderCount = 0;
     // tells the game to move to a new level if there are no more centipede segments
     MyGame.objects.outOfSegments = false;
     MyGame.objects.handleUpdate = function (elapsedTime) {
@@ -260,7 +262,7 @@
                     let centObject = this.objectsArray[i].object;
                     toDelete[i] = i;
                     disconnectSegments(i, this.objectsArray);
-                    let spec = { center: centObject.center, size: centObject.size, rotation: 0 }
+                    let spec = { center: {...centObject.center}, size: {...centObject.size}, rotation: 0 }
                     spawnMushroom(spec);
                     spawnExplosion(spec);
                     //// change segment into head
@@ -280,6 +282,7 @@
                 }
             }
             else if (this.objectsArray[i].type === 'spider'){
+                spiderCount++;
                 let spider = this.objectsArray[i].object;
                 this.collisions.handleEdges(this.objectsArray[i]);
                 spider.moveDirection(elapsedTime);
@@ -308,11 +311,16 @@
                         spider.setHorizontalDirection('none');
                     }
                 }
-                if(spider.center.x > this.board.width + (this.board.width * 0.1)){
+                if(spider.center.x > this.board.width + (this.board.width * 0.05)){
                     spider.flipSendSpiderRight();
                 }
-                else if(spider.center.x < 0 - (this.board.width * 0.1)){
+                else if(spider.center.x < 0 - (this.board.width * 0.05)){
                     spider.flipSendSpiderRight();
+                }
+                if(spider.isDead){
+                    toDelete[i] = i;
+                    let spec = {center: {...spider.center}, size: {...spider.size}, rotation: 0};
+                    spawnExplosion(spec);
                 }
             }
         }
@@ -323,7 +331,16 @@
         else{
             MyGame.objects.outOfSegments = false;
         }
+        /////////////
+        // Respawn
+        /////////////
+        if(spiderCount === 0){
+            let mSpiderSpec = {...spiderSpec};
+            mSpiderSpec.center = {x: (0 - (this.board.width * 0.04)), y: (this.board.height - (this.board.height * 0.1))}
+            spawnSpider(mSpiderSpec);
+        }
         segCount = 0;
+        spiderCount = 0;
     }
 
     MyGame.objects.update = function (elapsedTime) {

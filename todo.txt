@@ -1,6 +1,12 @@
 - shoot customize control doesn't work
 - centipede
-* fix centipede shooting bugs
-* render centipede to mushroom
-* add lives for ship
-* add score
+- fix centipede shooting bugs
+- render centipede to mushroom
+- add lives for ship
+- add score
+- spider movement
+* spider collisions with beams
+* respawn spiders
+* flea
+* scorpian
+* sounds
