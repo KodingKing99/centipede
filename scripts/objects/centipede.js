@@ -130,7 +130,6 @@
             setIsConnected: setIsConnected,
             setNotConnected: setNotConnected,
             resetCellDuration: resetCellDuration,
-            flipDownDirection: flipDownDirection,
             // moveDown: moveDown,
             // moveDownLeft: moveDownLeft,
             // moveDownRight: moveDownRight,

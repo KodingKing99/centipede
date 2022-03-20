@@ -9,6 +9,11 @@
         mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'mushroom', object: mushie })
     }
+    function spawnSpider(spec) {
+        let spider = MyGame.objects.Spider(spec);
+        spider.sphere = getSphere((spider.size.x / 2), spider.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'spider', object: spider })
+    }
     function spawnExplosion(spec) {
         let explosion = MyGame.objects.Explosion(spec);
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
@@ -121,7 +126,7 @@
         MyGame.objects.objectsArray = [];
         MyGame.objects.board = { width: width, height: height, numCells: numCells };
         let cellSize = Math.floor(width / numCells);
-        console.log(`cell size is ${cellSize}`)
+        // console.log(`cell size is ${cellSize}`)
         let sizeOffset = { x: 0.7, y: 1 }
         // i and j are those values because I want to render mushrooms at around
         // 1 - 32 on x and 1 - 24 on y (going from top left corner)
@@ -177,6 +182,16 @@
             // segment.setDirection('down')
             MyGame.objects.objectsArray.push({ type: 'centipedeSegment', object: segment })
         }
+        /////////////
+        // spider
+        /////////////
+        let spiderSpec = {
+            center: { x: (0 + 4 * cellSize), y: (height - (4 * cellSize))},
+            size: { x: ((2.5 * cellSize) * sizeOffset.x), y: (1.25 * cellSize) },
+            rotation: 0,
+            moveRate: 0.2,
+        }
+        spawnSpider(spiderSpec);
         MyGame.objects.scoreText = {
             text: String(score),
             font: '24pt Impact',
@@ -185,7 +200,7 @@
             position: { x: width * 0.5, y: cellSize / 4 },
             rotation: 0,
         }
-        // console.log(MyGame.objects.objectsArray)
+        console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
     let segCount = 0;
@@ -250,7 +265,12 @@
                     spawnExplosion(spec);
                     //// change segment into head
                     ////// increment score
-                    this.addToScore(100);
+                    if(centObject.isHead){
+                        this.addToScore(100);
+                    }
+                    else{
+                        this.addToScore(10);
+                    }
                 }
             }
             else if (this.objectsArray[i].type === 'explosion') {
@@ -258,6 +278,27 @@
                 if (this.objectsArray[i].object.isDead) {
                     toDelete[i] = i;
                 }
+            }
+            else if (this.objectsArray[i].type === 'spider'){
+                let spider = this.objectsArray[i].object;
+                spider.moveDirection(elapsedTime);
+                ///////////
+                // random movement
+                ///////////
+                if(Math.random() < 0.02){
+                    spider.setVertDirection('up');
+                }
+                if(Math.random() < 0.02){
+                    spider.setVertDirection('down');
+                }
+                // if(spider.sendSpiderRight){
+                //     if(Math.random() < 0.3){
+                //         spider.setHorizontalDirection('right');
+                //     }
+                //     if(Math.random() < 0.4){
+                //         spider.setHorizontalDirection('none');
+                //     }
+                // }
             }
         }
         MyGame.objects.scoreText.text = String(score);

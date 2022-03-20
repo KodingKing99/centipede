@@ -26,7 +26,7 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     let subImageHeight = 0;
     let levelWidth = 0;
     let levelHeight = 0;
-    let offsetSpriteCount = spec.offsetSpriteCount;
+    let offsetSpriteCount = {...spec.offsetSpriteCount};
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
     let flip = false;
@@ -67,10 +67,12 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
                 ///////
                 if(flip){
                     offsetSpriteCount.y += 1;
+                    flip = false;
                 }
                 else{
                     offsetSpriteCount.y = spec.offsetSpriteCount.y;
                     subImageIndex += 1;
+                    flip = true;
                 }
             }
             else{ // Just increment subImageIndex
