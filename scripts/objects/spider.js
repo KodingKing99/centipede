@@ -11,8 +11,11 @@ MyGame.objects.Spider = function (spec) {
     function subLife() {
         lives--;
     }
-    function flipSendSpiderRight() {
-        sendSpiderRight = !sendSpiderRight;
+    function turnSpiderRight() {
+        sendSpiderRight = true;
+    }
+    function turnSpiderLeft() {
+        sendSpiderRight = false;
     }
     let vertDirection = {
         up: false,
@@ -26,11 +29,11 @@ MyGame.objects.Spider = function (spec) {
     /////////
     // this will immediately make the spider change direction
     /////////
-    function setVertDirectionOverride(dir){
+    function setVertDirectionOverride(dir) {
         for (let mDir in vertDirection) {
             vertDirection[mDir] = false;
         }
-        vertDirection[dir] = true; 
+        vertDirection[dir] = true;
     }
     /////////
     // This moves the spider a smooth ammount
@@ -47,7 +50,7 @@ MyGame.objects.Spider = function (spec) {
     }
     function setHorizontalDirection(dir) {
         // console.log(direction)
-        if (horMoveAmmount < 0){
+        if (horMoveAmmount < 0) {
             for (let mDir in horDirection) {
                 horDirection[mDir] = false;
             }
@@ -86,7 +89,9 @@ MyGame.objects.Spider = function (spec) {
         subLife: subLife,
         setVertDirection: setVertDirection,
         setHorizontalDirection: setHorizontalDirection,
-        flipSendSpiderRight: flipSendSpiderRight,
+        turnSpiderLeft: turnSpiderLeft,
+        turnSpiderRight: turnSpiderRight,
+        // flipSendSpiderRight: flipSendSpiderRight,
         setVertDirectionOverride: setVertDirectionOverride
     };
 }

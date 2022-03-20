@@ -15,6 +15,11 @@
         spider.sphere = getSphere((spider.size.x / 2), spider.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'spider', object: spider })
     }
+    function spawnFlea(spec) {
+        let flea = MyGame.objects.Flea(spec);
+        flea.sphere = getSphere((flea.size.x / 2), flea.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'flea', object: flea })
+    }
     function spawnExplosion(spec) {
         let explosion = MyGame.objects.Explosion(spec);
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
@@ -47,10 +52,10 @@
     // Score
     //////////
     let score = 0;
-    MyGame.objects.addToScore = function(howMuch){
+    MyGame.objects.addToScore = function (howMuch) {
         score += howMuch;
     }
-    MyGame.objects.resetScore = function(){
+    MyGame.objects.resetScore = function () {
         score = 0;
     }
     // ToDo: if the object is at the end, don't set any connections/disconnections
@@ -125,8 +130,8 @@
     }
     MyGame.objects.initialize = function (width, height, numCells) {
         MyGame.objects.objectsArray = [];
-        MyGame.objects.board = { width: width, height: height, numCells: numCells };
         let cellSize = Math.floor(width / numCells);
+        MyGame.objects.board = { width: width, height: height, numCells: numCells, cellSize: cellSize };
         // console.log(`cell size is ${cellSize}`)
         let sizeOffset = { x: 0.7, y: 1 }
         // i and j are those values because I want to render mushrooms at around
@@ -187,7 +192,7 @@
         // spider
         /////////////
         spiderSpec = {
-            center: { x: (0 + 4 * cellSize), y: (height - (4 * cellSize))},
+            center: { x: (0 + 4 * cellSize), y: (height - (4 * cellSize)) },
             size: { x: ((2.5 * cellSize) * sizeOffset.x), y: (1.25 * cellSize) },
             rotation: 0,
             moveRate: 0.2,
@@ -206,6 +211,7 @@
     let toDelete = {};
     let segCount = 0;
     let spiderCount = 0;
+    let fleaCount = 0;
     // tells the game to move to a new level if there are no more centipede segments
     MyGame.objects.outOfSegments = false;
     MyGame.objects.handleUpdate = function (elapsedTime) {
@@ -248,6 +254,15 @@
                     toDelete[i] = i;
                 }
             }
+            else if (this.objectsArray[i].type === 'flea') {
+                let flea = this.objectsArray[i];
+                flea.object.moveDown(elapsedTime);
+                // if the object went too low
+                if (flea.object.center.y > this.board.height) {
+                    toDelete[i] = i;
+                    fleaCount--;
+                }
+            }
             else if (this.objectsArray[i].type === 'mushroom') {
                 if (this.objectsArray[i].object.isDead) {
                     toDelete[i] = i;
@@ -262,15 +277,15 @@
                     let centObject = this.objectsArray[i].object;
                     toDelete[i] = i;
                     disconnectSegments(i, this.objectsArray);
-                    let spec = { center: {...centObject.center}, size: {...centObject.size}, rotation: 0 }
+                    let spec = { center: { ...centObject.center }, size: { ...centObject.size }, rotation: 0 }
                     spawnMushroom(spec);
                     spawnExplosion(spec);
                     //// change segment into head
                     ////// increment score
-                    if(centObject.isHead){
+                    if (centObject.isHead) {
                         this.addToScore(100);
                     }
-                    else{
+                    else {
                         this.addToScore(10);
                     }
                 }
@@ -281,7 +296,7 @@
                     toDelete[i] = i;
                 }
             }
-            else if (this.objectsArray[i].type === 'spider'){
+            else if (this.objectsArray[i].type === 'spider') {
                 spiderCount++;
                 let spider = this.objectsArray[i].object;
                 this.collisions.handleEdges(this.objectsArray[i]);
@@ -289,56 +304,71 @@
                 ///////////
                 // random movement
                 ///////////
-                if(Math.random() < 0.02){
+                if (Math.random() < 0.02) {
                     spider.setVertDirection('up');
                 }
-                if(Math.random() < 0.02){
+                if (Math.random() < 0.02) {
                     spider.setVertDirection('down');
                 }
-                if(spider.sendSpiderRight){
-                    if(Math.random() < 0.3){
+                if (spider.sendSpiderRight) {
+                    if (Math.random() < 0.3) {
                         spider.setHorizontalDirection('right');
                     }
-                    if(Math.random() < 0.6){
+                    if (Math.random() < 0.6) {
                         spider.setHorizontalDirection('none');
                     }
                 }
-                else{
-                    if(Math.random() < 0.3){
+                else {
+                    if (Math.random() < 0.3) {
                         spider.setHorizontalDirection('left');
                     }
-                    if(Math.random() < 0.6){
+                    if (Math.random() < 0.6) {
                         spider.setHorizontalDirection('none');
                     }
                 }
-                if(spider.center.x > this.board.width + (this.board.width * 0.05)){
-                    spider.flipSendSpiderRight();
+                if (spider.center.x > this.board.width + (this.board.width * 0.01)) {
+                    spider.turnSpiderLeft();
                 }
-                else if(spider.center.x < 0 - (this.board.width * 0.05)){
-                    spider.flipSendSpiderRight();
+                else if (spider.center.x < 0 - (this.board.width * 0.01)) {
+                    spider.turnSpiderRight();
                 }
-                if(spider.isDead){
+                if (spider.isDead) {
                     this.addToScore(300);
                     toDelete[i] = i;
-                    let spec = {center: {...spider.center}, size: {...spider.size}, rotation: 0};
+                    let spec = { center: { ...spider.center }, size: { ...spider.size }, rotation: 0 };
                     spawnExplosion(spec);
                 }
             }
         }
         MyGame.objects.scoreText.text = String(score);
-        if(segCount === 0){
+        if (segCount === 0) {
             MyGame.objects.outOfSegments = true;
         }
-        else{
+        else {
             MyGame.objects.outOfSegments = false;
         }
         /////////////
         // Respawn
         /////////////
-        if(spiderCount === 0){
-            let mSpiderSpec = {...spiderSpec};
-            mSpiderSpec.center = {x: (0 - (this.board.width * 0.04)), y: (this.board.height - (this.board.height * 0.1))}
+        if (spiderCount === 0) {
+            let mSpiderSpec = { ...spiderSpec };
+            mSpiderSpec.center = { x: (0 - (this.board.width * 0.04)), y: (this.board.height - (this.board.height * 0.1)) }
             spawnSpider(mSpiderSpec);
+        }
+        ////////////
+        // Spawning fleas
+        ////////////
+        if (fleaCount < 1) {
+            if (Math.random() < 0.005) {
+                fleaCount++;
+                let spec = {
+                    center: { x: this.board.width - (Math.random() * this.board.width), y: -10 },
+                    size: { x: this.board.cellSize, y: this.board.cellSize },
+                    rotation: 0,
+                    moveRate: 0.4
+                }
+                spawnFlea(spec);
+            }
         }
         segCount = 0;
         spiderCount = 0;

@@ -35,12 +35,12 @@ MyGame.render.AnimatedRenderer = function (spec, graphics) {
     image.onload = function () {
         isReady = true;
         levelWidth = Math.floor(image.width / spec.spriteSheet.dimensions.levelWidth);
-        console.log(`levelWidth is : ${levelWidth}`)
-        console.log(`image width is : ${image.width}`)
+        // console.log(`levelWidth is : ${levelWidth}`)
+        // console.log(`image width is : ${image.width}`)
         subImageWidth = Math.round(levelWidth / spec.spriteSheet.spritesPerLevel.x); // width of a sprite
         levelHeight = Math.floor(image.height / spec.spriteSheet.dimensions.levelHeight)
         subImageHeight = Math.round(levelHeight / spec.spriteSheet.spritesPerLevel.y)
-        console.log(`image is ready. it's width is: ${subImageWidth}, height is: ${subImageHeight}`)
+        // console.log(`image is ready. it's width is: ${subImageWidth}, height is: ${subImageHeight}`)
     }
     image.src = spec.spriteSheet.url;
 

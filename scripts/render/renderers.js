@@ -86,6 +86,16 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         hasFlip: true,
         spriteTime: [100, 100, 100, 100]
     }
+    let fleaAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 2,
+        offsetSpriteCount: { x: 4, y: 4 },
+        level: level,
+        // halfSize: true,
+        extraOffset: { x: 0, y: 0 },
+        hasFlip: true,
+        spriteTime: [200, 200, 200, 200]
+    }
     ///////////
     // Initialize the Renderers
     ///////////
@@ -100,6 +110,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
     // centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
     let centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
     let spiderRenderer = renderer.AnimatedRenderer(spiderAnimeSpec, graphics);
+    let fleaRenderer = renderer.AnimatedRenderer(fleaAnimeSpec, graphics)
 
     function initializeRenderers() {
         mushAnimeSpec.level = level;
@@ -110,6 +121,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         explosionAnimeSpec.level = level;
         spiderAnimeSpec.level = level;
         centipedeHeadDownAnimeSpec.level = level;
+        fleaAnimeSpec.level = level;
         mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
         shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
         beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
@@ -119,6 +131,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         // centipedeHeadRendererCopy = centipedeHeadRenderer;
         centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
         spiderRenderer = renderer.AnimatedRenderer(spiderAnimeSpec, graphics);
+        fleaRenderer = renderer.AnimatedRenderer(fleaAnimeSpec, graphics)
     }
 
     // function getCentipedeHeadIndex() {
@@ -152,6 +165,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         centipedeSegmentRenderer.update(elapsedTime);
         explosionRenderer.update(elapsedTime);
         spiderRenderer.update(elapsedTime);
+        fleaRenderer.update(elapsedTime);
 
     }
     function renderObjects() {
@@ -185,6 +199,9 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             }
             else if (obj.type === 'spider') {
                 spiderRenderer.render(obj.object);
+            }
+            else if (obj.type === 'flea') {
+                fleaRenderer.render(obj.object)
             }
         }
     }
