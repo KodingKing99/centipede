@@ -318,6 +318,7 @@
                     spider.flipSendSpiderRight();
                 }
                 if(spider.isDead){
+                    this.addToScore(300);
                     toDelete[i] = i;
                     let spec = {center: {...spider.center}, size: {...spider.size}, rotation: 0};
                     spawnExplosion(spec);

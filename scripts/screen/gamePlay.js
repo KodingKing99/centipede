@@ -109,7 +109,12 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
     function gameLoop(time) {
         let elapsedTime = time - lastTimeStamp;
         lastTimeStamp = time;
-
+        ///////
+        // Fps locking so the centipede isn't crazy
+        //////
+        if(elapsedTime < 30){
+            setTimeout(30);
+        }
         processInput(elapsedTime);
         update(elapsedTime);
         render();
