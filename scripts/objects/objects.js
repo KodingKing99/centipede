@@ -20,6 +20,11 @@
         flea.sphere = getSphere((flea.size.x / 2), flea.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'flea', object: flea })
     }
+    function spawnScorpion(spec) {
+        let scorpion = MyGame.objects.Scorpion(spec);
+        scorpion.sphere = getSphere((scorpion.size.x / 2), scorpion.center); // for collision detection
+        MyGame.objects.objectsArray.push({ type: 'scorpion', object: scorpion })
+    }
     function spawnExplosion(spec) {
         let explosion = MyGame.objects.Explosion(spec);
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
@@ -129,6 +134,7 @@
         }
     }
     let fleaCount = 0;
+    let scorpionCount = 0;
     MyGame.objects.initialize = function (width, height, numCells) {
         MyGame.objects.objectsArray = [];
         let cellSize = Math.floor(width / numCells);
@@ -278,7 +284,22 @@
                     fleaCount--;
                 }
             }
-            else if (this.objectsArray[i].type === 'mushroom') {
+            else if (this.objectsArray[i].type === 'scorpion') {
+                let scorpion = this.objectsArray[i];
+                scorpion.object.moveRight(elapsedTime);
+                // // if the flea was shot
+                // if (flea.object.isDead){
+                //     toDelete[i] = i;
+                //     this.addToScore(200);
+                //     fleaCount--;
+                // }
+                // if the object went too low
+                if (scorpion.object.center.x > this.board.width) {
+                    toDelete[i] = i;
+                    scorpionCount--;
+                }
+            }
+            else if (this.objectsArray[i].type === 'mushroom' || this.objectsArray[i].type === 'poisonMushroom') {
                 if (this.objectsArray[i].object.isDead) {
                     this.addToScore(4);
                     toDelete[i] = i;
@@ -366,7 +387,7 @@
         /////////////
         // Respawn
         /////////////
-        if (spiderCount === 0) {
+        if (spiderCount <= 0) {
             let mSpiderSpec = { ...spiderSpec };
             mSpiderSpec.center = { x: (0 - (this.board.width * 0.04)), y: (this.board.height - (this.board.height * 0.1)) }
             spawnSpider(mSpiderSpec);
@@ -385,6 +406,22 @@
                 }
                 spawnFlea(spec);
             }
+        }
+        ///////////
+        // Spawning Scorpion
+        ///////////
+        if(scorpionCount <= 0){
+            if (Math.random() < 0.1) {
+                scorpionCount++;
+                // spawn left of screen, somewhere between the top and 7/10ths of the screen
+                let spec = {
+                    center: { x: -10, y: (Math.random() * (this.board.width * 0.7)) },
+                    size: {...spiderSpec.size},
+                    rotation: 0,
+                    moveRate: 0.2
+                }
+                spawnScorpion(spec);
+            } 
         }
         segCount = 0;
         spiderCount = 0;

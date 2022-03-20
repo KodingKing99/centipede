@@ -81,7 +81,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         spriteCount: 4,
         offsetSpriteCount: { x: 0, y: 4 },
         level: level,
-        // halfSize: /,
+        // halfSize: true,
         extraOffset: { x: 0, y: 0.1 },
         hasFlip: true,
         spriteTime: [100, 100, 100, 100]
@@ -94,7 +94,25 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         // halfSize: true,
         extraOffset: { x: 0, y: 0 },
         hasFlip: true,
+        spriteTime: [100, 100, 100, 100]
+    }
+    let scorpionAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 4,
+        offsetSpriteCount: { x: 0, y: 7 },
+        level: level,
+        // halfSize: true,
+        extraOffset: { x: 0, y: 0 },
+        // hasFlip: true,
         spriteTime: [200, 200, 200, 200]
+    }
+    let poisonMushieAnimeSpec = {
+        spriteSheet: spriteSheet,
+        spriteCount: 4,
+        offsetSpriteCount: { x: 4, y: 1 },
+        level: level,
+        halfSize: true,
+        extraOffset: { x: 0, y: 0 },
     }
     ///////////
     // Initialize the Renderers
@@ -105,12 +123,11 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
     let centipedeSegmentRenderer = renderer.AnimatedRenderer(centipedeSegmentAnimeSpec, graphics);
     let centipedeHeadRenderer = renderer.AnimatedRenderer(centipedeHeadAnimeSpec, graphics);
     let explosionRenderer = renderer.AnimatedRenderer(explosionAnimeSpec, graphics);
-    // let centipedeHeadRendererCopy = centipedeHeadRenderer;
-    // let centipedeHeadDownAnimeSpec = centipedeHeadAnimeSpec;
-    // centipedeHeadDownAnimeSpec.offsetSpriteCount = { x: 2, y: 0 }
     let centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
     let spiderRenderer = renderer.AnimatedRenderer(spiderAnimeSpec, graphics);
     let fleaRenderer = renderer.AnimatedRenderer(fleaAnimeSpec, graphics)
+    let scorpionRenderer = renderer.AnimatedRenderer(scorpionAnimeSpec, graphics)
+    let poisonMushieRenderer = renderer.staticAnimatedRenderer(poisonMushieAnimeSpec, graphics);
 
     function initializeRenderers() {
         mushAnimeSpec.level = level;
@@ -122,6 +139,8 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         spiderAnimeSpec.level = level;
         centipedeHeadDownAnimeSpec.level = level;
         fleaAnimeSpec.level = level;
+        scorpionAnimeSpec.level = level;
+        poisonMushieAnimeSpec.level = level;
         mushieRenderer = renderer.staticAnimatedRenderer(mushAnimeSpec, graphics);
         shipRenderer = renderer.staticAnimatedRenderer(shipAnimeSpec, graphics);
         beamRenderer = renderer.staticAnimatedRenderer(beamAnimeSpec, graphics);
@@ -132,6 +151,8 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         centipedeDownHeadRenderer = renderer.AnimatedRenderer(centipedeHeadDownAnimeSpec, graphics);
         spiderRenderer = renderer.AnimatedRenderer(spiderAnimeSpec, graphics);
         fleaRenderer = renderer.AnimatedRenderer(fleaAnimeSpec, graphics)
+        scorpionRenderer = renderer.AnimatedRenderer(scorpionAnimeSpec, graphics)
+        poisonMushieRenderer = renderer.staticAnimatedRenderer(poisonMushieAnimeSpec, graphics);
     }
 
     // function getCentipedeHeadIndex() {
@@ -166,6 +187,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         explosionRenderer.update(elapsedTime);
         spiderRenderer.update(elapsedTime);
         fleaRenderer.update(elapsedTime);
+        scorpionRenderer.update(elapsedTime);
 
     }
     function renderObjects() {
@@ -174,6 +196,9 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             let obj = objects.objectsArray[i];
             if (obj.type === 'mushroom') {
                 mushieRenderer.render(obj.object);
+            }
+            else if (obj.type === 'poisonMushroom'){
+                poisonMushieRenderer.render(obj.object)
             }
             else if (obj.type === 'ship' || obj.type === 'shipLife') {
                 shipRenderer.render(obj.object)
@@ -202,6 +227,9 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
             }
             else if (obj.type === 'flea') {
                 fleaRenderer.render(obj.object)
+            }
+            else if (obj.type === 'scorpion') {
+                scorpionRenderer.render(obj.object)
             }
         }
     }

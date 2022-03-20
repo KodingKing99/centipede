@@ -210,6 +210,7 @@ MyGame.objects.collisions = (function (objects) {
             /////////////
             if (obj.first.type === 'beam') {
                 if (obj.second.type === 'mushroom' || 
+                    obj.second.type === 'poisonMushroom' || 
                     obj.second.type === 'centipedeSegment' || 
                     obj.second.type === 'spider' || 
                     obj.second.type === 'flea') {
@@ -218,7 +219,7 @@ MyGame.objects.collisions = (function (objects) {
                 }
             }
             else if (obj.second.type === 'beam') {
-                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment' 
+                if (obj.first.type === 'mushroom' || obj.first.type === 'poisonMushroom' ||obj.first.type === 'centipedeSegment' 
                 || obj.first.type === 'spider' || obj.first.type === 'flea') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
@@ -264,7 +265,7 @@ MyGame.objects.collisions = (function (objects) {
                 }
             }
             if(obj.first.type === 'spider'){
-                if(obj.second.type === 'mushroom'){
+                if(obj.second.type === 'mushroom' || obj.second.type === 'poisonMushroom'){
                     obj.second.object.cleanMushroom();
                 }
                 if(obj.second.type === 'ship'){
@@ -281,11 +282,21 @@ MyGame.objects.collisions = (function (objects) {
                     objects.reInitializeFlag = true;
                 }
             }
+            if(obj.first.type === 'scorpion'){
+                if(obj.second.type === 'mushroom'){
+                    obj.second.type = 'poisonMushroom';
+                }
+            }
+            else if(obj.second.type === 'scorpion'){
+                if(obj.first.type === 'mushroom'){
+                    obj.first.type = 'poisonMushroom';
+                }
+            }
             ////////////
             // Mushroom Collisions with another mushrooms, move the mushrooms over
             ////////////
-            if (obj.first.type === 'mushroom') {
-                if (obj.second.type === 'mushroom') {
+            if (obj.first.type === 'mushroom' || obj.first.type === 'poisonMushroom') {
+                if (obj.second.type === 'mushroom' || obj.second.type === 'poisonMushroom') {
                     obj.first.object.moveMushieLeft();
                     obj.second.object.moveMushieRight();
                 }
