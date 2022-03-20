@@ -27,6 +27,9 @@ MyGame.objects.Mushroom = function(spec){
     function moveMushieRight() {
         spec.center.x += downRate;
     }
+    function cleanMushroom() {
+        lives = 0;
+    }
     return {
         get center(){ return spec.center; },
         get size() { return spec.size; },
@@ -37,6 +40,7 @@ MyGame.objects.Mushroom = function(spec){
         subLife: subLife,
         moveMushieLeft: moveMushieLeft,
         moveMushieRight: moveMushieRight,
+        cleanMushroom: cleanMushroom,
     };
     // api.sphere = {radius: spec.size.y / 2};
     // return api;

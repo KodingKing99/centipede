@@ -259,6 +259,14 @@ MyGame.objects.collisions = (function (objects) {
                     objects.reInitializeFlag = true;
                 }
             }
+            if(obj.first.type === 'spider'){
+                if(obj.second.type === 'mushroom'){
+                    obj.second.object.cleanMushroom();
+                }
+                if(obj.second.type === 'ship'){
+                    objects.reInitializeFlag = true;
+                }
+            }
             ////////////
             // Mushroom Collisions with another mushrooms, move the mushrooms over
             ////////////
