@@ -15,7 +15,7 @@ MyGame.objects.Flea = function(spec){
         lives = 0;
     }
     function shouldSpawnMushroom() {
-        return Math.random() < 0.1;
+        return Math.random() < 0.05;
     }
     return {
         get center(){ return spec.center; },

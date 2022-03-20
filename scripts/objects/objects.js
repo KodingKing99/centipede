@@ -128,12 +128,14 @@
             }
         }
     }
+    let fleaCount = 0;
     MyGame.objects.initialize = function (width, height, numCells) {
         MyGame.objects.objectsArray = [];
         let cellSize = Math.floor(width / numCells);
-        MyGame.objects.board = { width: width, height: height, numCells: numCells, cellSize: cellSize };
         // console.log(`cell size is ${cellSize}`)
         let sizeOffset = { x: 0.7, y: 1 }
+        MyGame.objects.board = { width: width, height: height, numCells: numCells,
+                                 cellSize: cellSize, sizeOffset: sizeOffset };
         // i and j are those values because I want to render mushrooms at around
         // 1 - 32 on x and 1 - 24 on y (going from top left corner)
         for (let i = cellSize; i < width - cellSize; i += cellSize) {
@@ -206,12 +208,12 @@
             position: { x: width * 0.5, y: cellSize / 4 },
             rotation: 0,
         }
+        fleaCount = 0;
         console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
     let segCount = 0;
     let spiderCount = 0;
-    let fleaCount = 0;
     // tells the game to move to a new level if there are no more centipede segments
     MyGame.objects.outOfSegments = false;
     MyGame.objects.handleUpdate = function (elapsedTime) {
@@ -240,9 +242,6 @@
 
 
             }
-            // if (this.objectsArray[i].type === 'centipedeSegment') {
-
-            // }
             /////////////
             // deletions
             ////////////
@@ -257,6 +256,22 @@
             else if (this.objectsArray[i].type === 'flea') {
                 let flea = this.objectsArray[i];
                 flea.object.moveDown(elapsedTime);
+                if(flea.object.shouldSpawnMushroom()){
+                    let spec = {center: {...flea.object.center}, 
+                                size: {
+                                        x: this.board.cellSize * this.board.sizeOffset.x, 
+                                        y: this.board.cellSize * this.board.sizeOffset.y
+                                    },
+                                rotation: 0,
+                                }
+                    spawnMushroom(spec);
+                }
+                // if the flea was shot
+                if (flea.object.isDead){
+                    toDelete[i] = i;
+                    this.addToScore(200);
+                    fleaCount--;
+                }
                 // if the object went too low
                 if (flea.object.center.y > this.board.height) {
                     toDelete[i] = i;
@@ -265,6 +280,7 @@
             }
             else if (this.objectsArray[i].type === 'mushroom') {
                 if (this.objectsArray[i].object.isDead) {
+                    this.addToScore(4);
                     toDelete[i] = i;
                 }
             }
@@ -372,6 +388,7 @@
         }
         segCount = 0;
         spiderCount = 0;
+        // fleaCount = 0;
     }
 
     MyGame.objects.update = function (elapsedTime) {

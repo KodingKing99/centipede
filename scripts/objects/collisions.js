@@ -209,13 +209,17 @@ MyGame.objects.collisions = (function (objects) {
             // beam collisions
             /////////////
             if (obj.first.type === 'beam') {
-                if (obj.second.type === 'mushroom' || obj.second.type === 'centipedeSegment' || obj.second.type === 'spider') {
+                if (obj.second.type === 'mushroom' || 
+                    obj.second.type === 'centipedeSegment' || 
+                    obj.second.type === 'spider' || 
+                    obj.second.type === 'flea') {
                     obj.second.object.subLife();
                     obj.first.object.setHasCollided();
                 }
             }
             else if (obj.second.type === 'beam') {
-                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment' || obj.first.type === 'spider') {
+                if (obj.first.type === 'mushroom' || obj.first.type === 'centipedeSegment' 
+                || obj.first.type === 'spider' || obj.first.type === 'flea') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
                 }
@@ -264,6 +268,16 @@ MyGame.objects.collisions = (function (objects) {
                     obj.second.object.cleanMushroom();
                 }
                 if(obj.second.type === 'ship'){
+                    objects.reInitializeFlag = true;
+                }
+            }
+            if(obj.first.type === 'flea'){
+                if(obj.second.type === 'ship'){
+                    objects.reInitializeFlag = true;
+                }
+            }
+            else if(obj.second.type === 'flea'){
+                if(obj.first.type === 'ship'){
                     objects.reInitializeFlag = true;
                 }
             }
