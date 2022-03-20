@@ -73,7 +73,7 @@ MyGame.render.renderers = (function (objects, graphics, renderer) {
         level: level,
         // halfSize: /,
         extraOffset: { x: 0, y: 0 },
-        // hasFlip: true,
+        hasFlip: true,
         spriteTime: [100, 100, 100, 100]
     }
     let spiderAnimeSpec = {
