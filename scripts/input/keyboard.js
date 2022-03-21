@@ -55,6 +55,24 @@ MyGame.input.Keyboard = (function () {
 MyGame.input.initialize = function (spec) {
     // TODO: get registered keys from persisted local storage
     // console.log(spec)
+    // let previousControls = localStorage['MyGame.keyboard.controls'];
+    // if(previousControls != null){
+    //     MyGame.input.Keyboard.register(
+    //         previousControls['MoveUp'], spec.moveUp, 'MoveUp'
+    //     );
+    //     MyGame.input.Keyboard.register(
+    //         previousControls['MoveRight'], spec.moveRight, 'MoveRight'
+    //     );
+    //     MyGame.input.Keyboard.register(
+    //         previousControls['MoveDown'], spec.moveDown, 'MoveDown'
+    //     );
+    //     MyGame.input.Keyboard.register(
+    //         previousControls['MoveLeft'], spec.moveLeft, 'MoveLeft'
+    //     );
+    //     MyGame.input.Keyboard.register(
+    //         previousControls['Shoot'], spec.shoot, 'Shoot'
+    //     ); 
+    // }
     MyGame.input.Keyboard.register(
         'ArrowUp', spec.moveUp, 'MoveUp'
     );
