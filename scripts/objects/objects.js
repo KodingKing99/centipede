@@ -29,6 +29,7 @@
         let explosion = MyGame.objects.Explosion(spec);
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'explosion', object: explosion })
+        // console.log('spawning explosion')
     }
     function spawnShipLife(spec) {
         let shipLife = MyGame.objects.shipLife(spec);
@@ -215,7 +216,8 @@
             rotation: 0,
         }
         fleaCount = 0;
-        console.log(MyGame.objects.objectsArray)
+        scorpionCount = 0;
+        // console.log(MyGame.objects.objectsArray)
     }
     let toDelete = {};
     let segCount = 0;
@@ -277,6 +279,8 @@
                     toDelete[i] = i;
                     this.addToScore(200);
                     fleaCount--;
+                    let spec = { center: { ...flea.object.center }, size: { ...flea.object.size }, rotation: 0 };
+                    spawnExplosion(spec);
                 }
                 // if the object went too low
                 if (flea.object.center.y > this.board.height) {
@@ -288,11 +292,15 @@
                 let scorpion = this.objectsArray[i];
                 scorpion.object.moveRight(elapsedTime);
                 // // if the flea was shot
-                // if (flea.object.isDead){
-                //     toDelete[i] = i;
-                //     this.addToScore(200);
-                //     fleaCount--;
-                // }
+                if (scorpion.object.isDead){
+                    toDelete[i] = i;
+                    this.addToScore(1000);
+                    scorpionCount--;
+                    let spec = { center: { ...scorpion.object.center }, size: { ...scorpion.object.size }, rotation: 0 };
+                    spawnExplosion(spec);
+                    console.log(spec);
+                    console.log(this.objectsArray)
+                }
                 // if the object went too low
                 if (scorpion.object.center.x > this.board.width) {
                     toDelete[i] = i;
@@ -411,11 +419,11 @@
         // Spawning Scorpion
         ///////////
         if(scorpionCount <= 0){
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.001) {
                 scorpionCount++;
                 // spawn left of screen, somewhere between the top and 7/10ths of the screen
                 let spec = {
-                    center: { x: -10, y: (Math.random() * (this.board.width * 0.7)) },
+                    center: { x: -10, y: (Math.random() * (this.board.width * 0.6)) },
                     size: {...spiderSpec.size},
                     rotation: 0,
                     moveRate: 0.2

@@ -81,7 +81,7 @@ MyGame.objects.Spider = function (spec) {
         get center() { return spec.center; },
         get size() { return spec.size; },
         get rotation() { return spec.rotation; },
-        get isDead() { return lives === 0; },
+        get isDead() { return lives <= 0; },
         get sendSpiderRight() { return sendSpiderRight; },
 
         // setIsDead: setIsDead,

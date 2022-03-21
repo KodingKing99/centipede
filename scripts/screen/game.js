@@ -75,9 +75,12 @@ MyGame.game = (function (screens, input, objects, renderer) {
         if(newGame){
             objects.resetScore();
             renderer.renderers.resetLevel();
+            initializeShip(false, true)
+        }
+        else{
+            initializeShip();
         }
         // objectsArrayCopy = objects.objectsArray;
-        initializeShip();
         renderer.renderers.initializeRenderers();
     }
     function reInitalizeGame() {

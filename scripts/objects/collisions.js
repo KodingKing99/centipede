@@ -213,14 +213,15 @@ MyGame.objects.collisions = (function (objects) {
                     obj.second.type === 'poisonMushroom' || 
                     obj.second.type === 'centipedeSegment' || 
                     obj.second.type === 'spider' || 
-                    obj.second.type === 'flea') {
+                    obj.second.type === 'flea' ||
+                    obj.second.type === 'scorpion') {
                     obj.second.object.subLife();
                     obj.first.object.setHasCollided();
                 }
             }
             else if (obj.second.type === 'beam') {
                 if (obj.first.type === 'mushroom' || obj.first.type === 'poisonMushroom' ||obj.first.type === 'centipedeSegment' 
-                || obj.first.type === 'spider' || obj.first.type === 'flea') {
+                || obj.first.type === 'spider' || obj.first.type === 'flea' || obj.first.type === 'scorpion') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
                 }

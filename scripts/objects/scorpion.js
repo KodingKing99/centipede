@@ -19,7 +19,7 @@ MyGame.objects.Scorpion = function(spec){
         get size() { return spec.size; },
         get rotation() {return spec.rotation; },
         get lives() { return lives},
-        get isDead() { return lives === 0},
+        get isDead() { return lives <= 0},
         moveRight: moveRight,
         subLife: subLife,
         setAsDead: setAsDead,
