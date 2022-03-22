@@ -245,6 +245,7 @@ MyGame.objects.collisions = (function (objects) {
                 else if (obj.second.type === 'ship') {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
+                    MyGame.audio.playSound('oof');
                 }
                 else if (obj.second.type === 'poisonMushroom'){
                     obj.first.object.setDirection('straightDown');
@@ -266,6 +267,7 @@ MyGame.objects.collisions = (function (objects) {
                 else if (obj.first.type === 'ship') {
                     // obj.second.object.subLife();
                     objects.reInitializeFlag = true;
+                    MyGame.audio.playSound('oof');
                 }
                 else if (obj.first.type === 'poisonMushroom'){
                     obj.second.object.setDirection('straightDown');
@@ -277,16 +279,19 @@ MyGame.objects.collisions = (function (objects) {
                 }
                 if(obj.second.type === 'ship'){
                     objects.reInitializeFlag = true;
+                    MyGame.audio.playSound('oof');
                 }
             }
             if(obj.first.type === 'flea'){
                 if(obj.second.type === 'ship'){
                     objects.reInitializeFlag = true;
+                    MyGame.audio.playSound('oof');
                 }
             }
             else if(obj.second.type === 'flea'){
                 if(obj.first.type === 'ship'){
                     objects.reInitializeFlag = true;
+                    MyGame.audio.playSound('oof');
                 }
             }
             if(obj.first.type === 'scorpion'){

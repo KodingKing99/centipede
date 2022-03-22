@@ -38,16 +38,27 @@ MyGame.audio = (function(){
         function loadAudio() {
             // Reference: https://freesound.org/people/bubaproducer/sounds/151022/
             sounds['ship_laser'] = loadSound('assets/ship_laser.wav', 'Ship-Laser');
-            // Reference: https://freesound.org//data/previews/109/109662_945474-lq.mp3
-            // MyGame.sounds['audio/sound-2'] = loadSound('audio/sound-2.mp3', 'Sound 2', 'id-play2');
-            // // Reference: https://www.bensound.com/royalty-free-music/track/extreme-action
+            // Reference: https://freesound.org/people/SoundCollectah/sounds/109741/
+            sounds['explosion'] = loadSound('assets/explosion.wav', 'Explosion');
+            // Reference: https://freesound.org/people/CrimsonImaging/sounds/493743/
+            sounds['oof'] = loadSound('assets/oof.wav', 'Oof');
+            // Reference: https://freesound.org/people/thehorriblejoke/sounds/351499/
+            sounds['bonus'] = loadSound('assets/bonus.mp3', 'Bonus');
+            // Reference: https://freesound.org/people/bmusic92/sounds/232927/
+            sounds['level_start'] = loadSound('assets/mac_start_up.wav', 'level_start');
             // MyGame.sounds['audio/bensound-extremeaction'] = loadSound('audio/bensound-extremeaction.mp3', 'Music', 'id-play3');
         }
         loadAudio();
     }
     function playSound(whichSound) {
-        console.log('playing sound')
-        sounds[whichSound].play();
+        // console.log('playing sound')
+
+        if(sounds[whichSound].currentTime > 0){
+            sounds[whichSound].currentTime = 0;
+        }
+        else{
+            sounds[whichSound].play();
+        }
     }
     return {
         initialize: initialize,

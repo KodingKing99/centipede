@@ -1,4 +1,4 @@
-MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects) {
+MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, objects, audio) {
     let cancelNextRequest = true;
     // MyGame.screens['gamePlayScreen'].cancelNextRequest= cancelNextRequest;
     let lastTimeStamp = performance.now();
@@ -39,12 +39,14 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
             }
             game.initalizeGame();
             objects.reInitializeFlag = false;
+            
         }
     }
     function checkOutOfSegmentsFlag(){
         if(objects.outOfSegments){
             renderer.renderers.addLevel();
             game.initalizeGame();
+            audio.playSound('level_start');
         }
     }
     // let myText = objects.Text();
@@ -87,6 +89,7 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         newGame = true;
         cancelNextRequest = false;
         gameLoop(lastTimeStamp);
+
     }
     function update(elapsedTime) {
         // do nothing
@@ -128,4 +131,4 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         initialize: initialize,
         run: run
     }
-}(MyGame.game, MyGame.graphics, MyGame.render, MyGame.input, MyGame.objects));
+}(MyGame.game, MyGame.graphics, MyGame.render, MyGame.input, MyGame.objects, MyGame.audio));

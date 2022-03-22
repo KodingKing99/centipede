@@ -29,6 +29,7 @@
         let explosion = MyGame.objects.Explosion(spec);
         // mushie.sphere = getSphere((mushie.size.x / 2), mushie.center); // for collision detection
         MyGame.objects.objectsArray.push({ type: 'explosion', object: explosion })
+        MyGame.audio.playSound('explosion');
         // console.log('spawning explosion')
     }
     function spawnShipLife(spec) {
@@ -245,6 +246,7 @@
                         let beam = MyGame.objects.Beam(beamSpec); // for collision detection
                         beam.sphere = getSphere(beam.size.x / 2, beam.center);
                         this.objectsArray.push({ type: 'beam', object: beam });
+                        MyGame.audio.playSound('ship_laser');
                     }
                 }
 
@@ -281,6 +283,7 @@
                     fleaCount--;
                     let spec = { center: { ...flea.object.center }, size: { ...flea.object.size }, rotation: 0 };
                     spawnExplosion(spec);
+                    MyGame.audio.playSound('bonus');
                 }
                 // if the object went too low
                 if (flea.object.center.y > this.board.height) {
@@ -298,8 +301,7 @@
                     scorpionCount--;
                     let spec = { center: { ...scorpion.object.center }, size: { ...scorpion.object.size }, rotation: 0 };
                     spawnExplosion(spec);
-                    console.log(spec);
-                    console.log(this.objectsArray)
+                    MyGame.audio.playSound('bonus');
                 }
                 // if the object went too low
                 if (scorpion.object.center.x > this.board.width) {
@@ -382,6 +384,7 @@
                     toDelete[i] = i;
                     let spec = { center: { ...spider.center }, size: { ...spider.size }, rotation: 0 };
                     spawnExplosion(spec);
+                    MyGame.audio.playSound('bonus');
                 }
             }
         }

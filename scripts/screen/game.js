@@ -37,16 +37,16 @@ MyGame.game = (function (screens, input, objects, renderer, audio) {
                 ship = objects.objectsArray[i];
             }
         }
-        let shoot = function(){
-            ship.object.shoot();
-            audio.playSound('ship_laser');
-        }
+        // let shoot = function(){
+        //     ship.object.shoot();
+        //     audio.playSound('ship_laser');
+        // }
         let spec = {
             moveLeft: ship.object.moveLeft,
             moveRight: ship.object.moveRight,
             moveUp: ship.object.moveUp,
             moveDown: ship.object.moveDown,
-            shoot: shoot,
+            shoot: ship.object.shoot,
             setIsPressedFalse: ship.object.setIsPressedFalse,
             setDirectionFalse: ship.object.setDirectionFalse,
         }
@@ -131,6 +131,8 @@ MyGame.game = (function (screens, input, objects, renderer, audio) {
 
             }
         );
+        // for logging
+        input.Keyboard.register('p', () => {console.log(objects.objectsArray)}, 'log');
     }
 
     return {
