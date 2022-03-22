@@ -34,7 +34,6 @@ MyGame.input.Keyboard = (function () {
         if (key === ' ') {
             that.currentControls[gameControl] = 'Space';
         }
-        console.log(that.persistedControls)
         localStorage['MyGame.keyboard.controls'] = JSON.stringify(that.persistedControls);
     };
     that.unregister = function (key) {
@@ -99,7 +98,6 @@ MyGame.input.initialize = function (spec) {
 };
 MyGame.input.reInitialize = function (spec) {
     let previousControls = localStorage['MyGame.keyboard.controls'];
-    // console.log(previousControls);
 
     if(previousControls != null){
         previousControls = JSON.parse(previousControls);

@@ -217,6 +217,9 @@ MyGame.objects.collisions = (function (objects) {
                     obj.second.type === 'scorpion') {
                     obj.second.object.subLife();
                     obj.first.object.setHasCollided();
+                    if(obj.second.type === 'mushroom' || obj.second.type === 'poisonMushroom'){
+                        MyGame.audio.playSound('splat')
+                    }
                 }
             }
             else if (obj.second.type === 'beam') {
@@ -224,6 +227,9 @@ MyGame.objects.collisions = (function (objects) {
                 || obj.first.type === 'spider' || obj.first.type === 'flea' || obj.first.type === 'scorpion') {
                     obj.first.object.subLife();
                     obj.second.object.setHasCollided();
+                    if(obj.first.type === 'mushroom' || obj.first.type === 'poisonMushroom'){
+                        MyGame.audio.playSound('splat')
+                    }
                 }
             }
             /////////////

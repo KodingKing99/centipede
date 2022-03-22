@@ -124,7 +124,7 @@
             get index() { return mSpec.index; },
             get segCount() { return mSpec.segCount; },
             get direction() { return direction },
-            get isDead() { return lives === 0; },
+            get isDead() { return lives <= 0; },
             get isHead() { return isHead; },
             get isConnected() { return isConnected; },
             subLife: subLife,

@@ -138,6 +138,7 @@
     let fleaCount = 0;
     let scorpionCount = 0;
     MyGame.objects.initialize = function (width, height, numCells) {
+        MyGame.audio.playBackground();
         MyGame.objects.objectsArray = [];
         let cellSize = Math.floor(width / numCells);
         // console.log(`cell size is ${cellSize}`)
@@ -327,6 +328,7 @@
                     let spec = { center: { ...centObject.center }, size: { ...centObject.size }, rotation: 0 }
                     spawnMushroom(spec);
                     spawnExplosion(spec);
+                    MyGame.audio.playSound('splat2');
                     //// change segment into head
                     ////// increment score
                     if (centObject.isHead) {

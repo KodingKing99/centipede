@@ -132,7 +132,8 @@ MyGame.game = (function (screens, input, objects, renderer, audio) {
             }
         );
         // for logging
-        input.Keyboard.register('p', () => {console.log(objects.objectsArray)}, 'log');
+        // input.Keyboard.register('p', () => {console.log(objects.objectsArray)}, 'log');
+        // audio.playSound('background_music')
     }
 
     return {

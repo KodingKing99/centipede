@@ -10,27 +10,6 @@ MyGame.audio = (function(){
         console.log('initializing...')
         function loadSound(source, label, idButton) {
             let sound = new Audio();
-            console.log()
-            sound.addEventListener('canplay', function() {
-                console.log(`${source} is ready to play`);
-            });
-            // sound.addEventListener('play', function() {
-            //     // let elementButton = document.getElementById(idButton);
-            //     // elementButton.innerHTML = label + ' - Pause!'
-            //     // console.log(`${source} started playing`);
-            // });
-            // sound.addEventListener('pause', function() {
-            //     console.log(`${source} paused`);
-            // });
-            // sound.addEventListener('canplaythrough', function() {
-            //     console.log(`${source} can play through`);
-            // });
-            // sound.addEventListener('progress', function() {
-            //     console.log(`${source} progress in loading`);
-            // });
-            // sound.addEventListener('timeupdate', function() {
-            //     console.log(`${source} time update: ${this.currentTime}`);
-            // });
             sound.src = source;
             return sound;
         }
@@ -46,7 +25,12 @@ MyGame.audio = (function(){
             sounds['bonus'] = loadSound('assets/bonus.mp3', 'Bonus');
             // Reference: https://freesound.org/people/bmusic92/sounds/232927/
             sounds['level_start'] = loadSound('assets/mac_start_up.wav', 'level_start');
-            // MyGame.sounds['audio/bensound-extremeaction'] = loadSound('audio/bensound-extremeaction.mp3', 'Music', 'id-play3');
+            // Reference: https://freesound.org/people/mrickey13/sounds/515620/
+            sounds['splat'] = loadSound('assets/tick.wav');
+            // Reference: https://freesound.org/people/mrickey13/sounds/515620/
+            sounds['splat2'] = loadSound('assets/splat2.wav');
+            // Reference: https://ia601303.us.archive.org/18/items/LavenderTownOriginalJapaneseVersionFromPokemonRedAndGreen/Lavender_Town_%28Original_Japanese_Version_from_Pokemon_Red_and_Green%29.mp3
+            sounds['background_music'] = loadSound('assets/lavender_town.mp3', 'background');
         }
         loadAudio();
     }
@@ -60,9 +44,20 @@ MyGame.audio = (function(){
             sounds[whichSound].play();
         }
     }
+    let started = false;
+    function playBackground(){
+        if(!started){
+            if(sounds['background_music'].canPlay){
+                sounds['background_music'].play();
+                started = true;
+            }
+        }
+    }
+    // audio.playSound('backgroundMusic');
     return {
         initialize: initialize,
-        playSound: playSound
+        playSound: playSound,
+        playBackground: playBackground
     }
 }());
 // MyGame.audio.initialize() = function(){
