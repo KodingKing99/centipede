@@ -24,10 +24,11 @@
             up: false,
             down: false
         }
-        let duration = 500;
+        let duration = 150;
+        let ammount = 150;
         let cellDuration = duration;
         let downRate = mSpec.size.y / 10;
-        let ammount = mSpec.size.y;
+        // let ammount = mSpec.size.y;
         function setAsHead() { isHead = true; }
         function setIsConnected() { isConnected = true; }
         function setNotConnected() { isConnected = false; }
@@ -46,17 +47,39 @@
                 ammount = mSpec.size.y;
             }
         }
-        function moveDownDir() {
+        // function moveDownDir() {
+        //     // setDirection('down');
+        //     // moveDown();
+        //     if(downRate < 0){
+        //         ammount -= Math.abs(downRate);
+        //     }
+        //     else{
+
+        //         ammount -= downRate;
+        //     }
+        //     if (ammount <= 0) {
+        //         if (prevDirection.left) {
+        //             setDirection('right')
+        //         }
+        //         else if (prevDirection.right) {
+
+        //             setDirection('left')
+        //         }
+        //         ammount = mSpec.size.y;
+        //     }
+        // }
+        function moveDownDir(elapsedTime) {
             // setDirection('down');
             // moveDown();
-            if(downRate < 0){
-                ammount -= Math.abs(downRate);
-            }
-            else{
+            // if(downRate < 0){
+            //     ammount -= Math.abs(downRate);
+            // }
+            // else{
 
-                ammount -= downRate;
-            }
-            if (ammount <= 0) {
+            //     ammount -= downRate;
+            // }
+            duration -= elapsedTime;
+            if (duration <= 0) {
                 if (prevDirection.left) {
                     setDirection('right')
                 }
@@ -64,31 +87,30 @@
 
                     setDirection('left')
                 }
-                ammount = mSpec.size.y;
+                duration += ammount;
             }
         }
-
         function moveDirection(elapsedTime) {
             // if(direction.up){
             //     mSpec.center.y -= (elapsedTime * mSpec.moveRate);
             // }
             if (direction.down) {
-                moveDownDir();
-                mSpec.center.y += downRate;
-                // mSpec.center.y += (elapsedTime * mSpec.moveRate);
+                moveDownDir(elapsedTime);
+                // mSpec.center.y += downRate;
+                mSpec.center.y += (elapsedTime * mSpec.moveRate);
             }
             if (direction.straightDown) {
                 // moveDownDir();
-                mSpec.center.y += downRate;
-                // mSpec.center.y += (elapsedTime * mSpec.moveRate);
+                // mSpec.center.y += downRate;
+                mSpec.center.y += (elapsedTime * mSpec.moveRate);
             }
             if (direction.left) {
-                // mSpec.center.x -= (elapsedTime * mSpec.moveRate);
-                mSpec.center.x -= mSpec.size.y / 10;
+                mSpec.center.x -= (elapsedTime * mSpec.moveRate);
+                // mSpec.center.x -= mSpec.size.y / 10;
             }
             if (direction.right) {
-                // mSpec.center.x += (elapsedTime * mSpec.moveRate);
-                mSpec.center.x += mSpec.size.y / 10;
+                mSpec.center.x += (elapsedTime * mSpec.moveRate);
+                // mSpec.center.x += mSpec.size.y / 10;
             }
         }
         function setDirection(dir) {
@@ -124,6 +146,7 @@
             get index() { return mSpec.index; },
             get segCount() { return mSpec.segCount; },
             get direction() { return direction },
+            get prevDirection() { return prevDirection;},
             get isDead() { return lives === 0; },
             get isHead() { return isHead; },
             get isConnected() { return isConnected; },

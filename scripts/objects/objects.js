@@ -179,7 +179,7 @@
             let segmentSpec = {
                 size: { x: cellSize * sizeOffset.x, y: cellSize },
                 rotation: 0,
-                moveRate: 0.25,
+                moveRate: 0.2,
                 cellSize: 33,
                 index: i,
                 segCount: segCount
@@ -224,6 +224,30 @@
     let spiderCount = 0;
     // tells the game to move to a new level if there are no more centipede segments
     MyGame.objects.outOfSegments = false;
+    let duration = 150;
+    let ammount = 150;
+    function moveDownDir(elapsedTime, segment) {
+        // setDirection('down');
+        // moveDown();
+        // if(downRate < 0){
+        //     ammount -= Math.abs(downRate);
+        // }
+        // else{
+
+        //     ammount -= downRate;
+        // }
+        duration -= elapsedTime;
+        if (duration <= 0) {
+            if (segment.prevDirection.left) {
+                segment.setDirection('right')
+            }
+            else if (segment.prevDirection.right) {
+
+                segment.setDirection('left')
+            }
+            duration += ammount;
+        }
+    }
     MyGame.objects.handleUpdate = function (elapsedTime) {
         this.handleDisconnectedSegments(this.objectsArray);
         for (let i = 0; i < this.objectsArray.length; i++) {
@@ -317,7 +341,14 @@
                 segCount++;
                 let seg = this.objectsArray[i];
                 this.collisions.handleEdges(seg);
-                seg.object.moveDirection(elapsedTime);
+                if(seg.object.direction.down){
+                    seg.object.moveDirection(elapsedTime);
+                    moveDownDir(elapsedTime, seg.object);
+                }
+                else{
+                    seg.object.moveDirection(elapsedTime);
+                }
+
                 if (this.objectsArray[i].object.isDead) {
                     let centObject = this.objectsArray[i].object;
                     toDelete[i] = i;

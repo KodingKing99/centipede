@@ -3,6 +3,9 @@ MyGame.objects.collisions = (function (objects) {
     function getDistance(center1, center2) {
         return (center1.x - center2.x) ** 2 + (center1.y - center2.y) ** 2;
     }
+    let ammount = 150;
+    let duration = 150;
+
     function theyCollide(sphere1, sphere2) {
         let radi1 = sphere1.radius ** 2;
         let radi2 = sphere2.radius ** 2;
