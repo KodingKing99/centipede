@@ -5,7 +5,7 @@
 //
 // ------------------------------------------------------------------
 
-MyGame.game = (function (screens, input, objects, renderer) {
+MyGame.game = (function (screens, input, objects, renderer, audio) {
     'use strict';
 
     //------------------------------------------------------------------
@@ -37,12 +37,16 @@ MyGame.game = (function (screens, input, objects, renderer) {
                 ship = objects.objectsArray[i];
             }
         }
+        let shoot = function(){
+            ship.object.shoot();
+            audio.playSound('ship_laser');
+        }
         let spec = {
             moveLeft: ship.object.moveLeft,
             moveRight: ship.object.moveRight,
             moveUp: ship.object.moveUp,
             moveDown: ship.object.moveDown,
-            shoot: ship.object.shoot,
+            shoot: shoot,
             setIsPressedFalse: ship.object.setIsPressedFalse,
             setDirectionFalse: ship.object.setDirectionFalse,
         }
@@ -108,7 +112,7 @@ MyGame.game = (function (screens, input, objects, renderer) {
         //
         // Make the main-menu screen the active one
         showScreen('mainMenu');
-
+        audio.initialize();
         // width, height, numcells
         // pass in the ship to intialize controls, TODO - get a better way to access this
         let width = document.getElementById('canvas').width;
@@ -117,6 +121,7 @@ MyGame.game = (function (screens, input, objects, renderer) {
         objects.initialize(width, height, 30);
         initializeShip(true);
         // console.log(MyGame)
+
         window.addEventListener(
             'keydown', function goBack(e) {
                 if (e.key === 'Escape') {
@@ -137,4 +142,4 @@ MyGame.game = (function (screens, input, objects, renderer) {
         get shipLives() { return shipLives; },
         subShipLife() { shipLives-- },
     };
-}(MyGame.screens, MyGame.input, MyGame.objects, MyGame.render));
+}(MyGame.screens, MyGame.input, MyGame.objects, MyGame.render, MyGame.audio));
