@@ -112,9 +112,9 @@ MyGame.screens['gamePlayScreen'] = (function (game, graphics, renderer, input, o
         ///////
         // Fps locking so the centipede isn't crazy
         //////
-        if(elapsedTime < 30){
-            setTimeout(30);
-        }
+        // if(elapsedTime < 200){
+        //     setTimeout(200);
+        // }
         processInput(elapsedTime);
         update(elapsedTime);
         render();
